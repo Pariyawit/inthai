@@ -2,12 +2,12 @@
 @section('content')
 
 <div class="banner text-center">
-	<img src="storage/uploads/banner.jpg" alt="">
+	<img src="img/banner.jpg" alt="">
 </div>
 
 <div class="container">
 	<div class="heading pt-3">
-		<h1><img src="storage/uploads/inthai-logo.gif" class="rounded-circle"> In Thai Style Restaurant</h1>
+		<h1><img src="img/inthai-logo.gif" class="rounded-circle"> In Thai Style Restaurant</h1>
 	</div>
 	<div class="row pt-3 no-gutters">
 
