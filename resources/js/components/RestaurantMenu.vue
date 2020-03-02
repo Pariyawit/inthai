@@ -47,24 +47,24 @@
                                     <button @click="removeItem(order.item_id)"class="btn btn-outline-success">-</button>
                                 </div>
                                 <div class="mr-1">{{ order.quantity }} x</div>
-                                <div class="mr-1 flex-shrink-1"><em>{{ items[order.item_id].title }}</em></div>
-                                <div class="ml-auto">$ {{ items[order.item_id].price*order.quantity }}</div>
+                                <div class="mr-1 flex-shrink-1"><em>{{ getItemById(order.item_id).title }}</em></div>
+                                <div class="ml-auto price">$ {{ getItemById(order.item_id).price*order.quantity }}</div>
                             </div>
                         </div>
                     </div>
                     <hr>
                     <div class="calculation">
                         <div>
-                            Subtotal <span class="float-right">$21.80</span>
+                            <!-- Subtotal <span class="float-right">$21.80</span> -->
                         </div>
                         <div>
-                            Discount applied <span class="float-right">$21.80</span>
+                            <!-- Discount applied <span class="float-right">$21.80</span> -->
                         </div>
                         <div>
-                            Delivery fee <span class="float-right">$21.80</span>
+                            <!-- Delivery fee <span class="float-right">$21.80</span> -->
                         </div>
                         <div>
-                            <strong>Total <span class="float-right">$21.80</span></strong>
+                            <strong>Total <span class="float-right">${{ total }}</span></strong>
                         </div>
                     </div>
                     <hr>
@@ -122,18 +122,27 @@
                         if(orders[i].quantity==0){
                             orders = orders.splice(i,1);
                         }
+                        this.calculateTotal()
                         return;
                     }
                 }
             },
             calculateTotal(){
                 let orders = this.orders;
-                let items = this.items;
                 let total = 0;
                 for (let i = 0; i < orders.length; i++) {
-                    total += items[orders[i].item_id].price * orders[i].quantity;
+                    total += this.getItemById(orders[i].item_id).price * orders[i].quantity;
                 }
                 this.total = total;
+            },
+            getItemById(id) {
+                let items = this.items;
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].id === id) {
+                        return items[i];
+                    }
+                }
+                return null;
             }
     	},
         mounted() {
@@ -143,3 +152,9 @@
     }
 </script>
 
+<style>
+    .order-item-list .price{
+        min-width: 50px;
+        text-align: right;
+    }
+</style>
