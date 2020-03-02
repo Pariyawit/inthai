@@ -23,21 +23,18 @@ class ItemsTableSeeder extends Seeder
    //          $table->boolean('sold_out')->default(false);
 
         DB::table('items')->insert([
-            'restaurant_id' => 1,
             'category_id' => 1,
             'title' => "Vegetable Spring Roll (4 Pieces)",
             'price' => 8.5,
             'vegetarian' => true
         ]);
         DB::table('items')->insert([
-            'restaurant_id' => 1,
             'category_id' => 1,
             'title' => "Vegetable Curry Puff (4 Pieces)",
             'price' => 8.5,
             'vegetarian' => true
         ]);
         DB::table('items')->insert([
-            'restaurant_id' => 1,
             'category_id' => 1,
             'title' => "Money Bag",
             'description' => "Chicken, crab meat, peas and coconut wrapped in pastry served with sweet chilli sauce.",
@@ -45,14 +42,12 @@ class ItemsTableSeeder extends Seeder
         ]);
 
         DB::table('items')->insert([
-            'restaurant_id' => 1,
             'category_id' => 2,
             'title' => "Bangkok Omelette (GF)",
             'description' => "Thai omelette with diced bacon, mix vegetable and shallot.",
             'price' => 15.5,
         ]);
         DB::table('items')->insert([
-            'restaurant_id' => 1,
             'category_id' => 2,
             'title' => "Pra Ram Long Song (GF)",
             'description' => "Steamed mixed vegetable, tofu and peanut sauce.",
@@ -60,7 +55,6 @@ class ItemsTableSeeder extends Seeder
             'vegetarian' => true
         ]);
         DB::table('items')->insert([
-            'restaurant_id' => 1,
             'category_id' => 2,
             'title' => "Asian Green",
             'description' => "Stir fried mix green vegetable with oyster sauce.",

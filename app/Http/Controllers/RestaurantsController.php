@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
-use App\Restaurant;
+use App\Item;
 
 class RestaurantsController extends Controller
 {
@@ -15,12 +15,11 @@ class RestaurantsController extends Controller
      */
     public function index()
     {
-        $restaurant = Restaurant::findOrFail(1);
-        $categories = $restaurant->categories;
+        $categories = Category::All();
         foreach ($categories as $category) {
             $category["items"] = $category->items;
         }
-        $items = $restaurant->items;
+        $items = Item::All();
         // dd($categories);
         // dd($categories);
         // dd($restaurant);
