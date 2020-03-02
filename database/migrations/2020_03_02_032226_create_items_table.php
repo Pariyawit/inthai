@@ -15,7 +15,6 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('category_id');
 
             $table->string('title');
@@ -25,7 +24,6 @@ class CreateItemsTable extends Migration
             $table->boolean('sold_out')->default(false);
 
             $table->index('category_id');
-            $table->index('restaurant_id');
 
             $table->timestamps();
         });
