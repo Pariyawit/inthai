@@ -8,11 +8,11 @@ class Restaurant extends Model
 {
    	protected $guarded = [];
 
-   	public function item(){
+   	public function items(){
    		return $this->hasMany(Item::class)->orderBy('created_at');
    	}
 
-   	public function category(){
+   	public function categories(){
    		return $this->hasMany(Category::class)->orderBy('created_at');
    	}
 }
