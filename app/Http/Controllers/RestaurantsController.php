@@ -20,9 +20,6 @@ class RestaurantsController extends Controller
             $category["items"] = $category->items;
         }
         $items = Item::All();
-        // dd($categories);
-        // dd($categories);
-        // dd($restaurant);
         return view('restaurant.index', compact('categories','items'));
     }
 
