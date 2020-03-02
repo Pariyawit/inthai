@@ -4,6 +4,7 @@
 <div class="banner text-center">
 	<img src="img/banner.jpg" alt="">
 </div>
+<restaurant-menu :categories="{{  json_encode($categories) }}" :items="{{  json_encode($items) }}"></restaurant-menu>
 
 <div class="container">
 	<div class="heading pt-3">
@@ -13,40 +14,26 @@
 
 		<div class="col-2 pr-2 d-none d-lg-block">
 			<h3>Categories</h3>
-
 			<div class="card pt-3">
-			<div class="card-body categories">
-				@foreach ($categories as $category)
-					<div class="category-item pb-3">
-						<a href="#"><span class="text-dark">{{ $category->title }}</span></a>
-					</div>
-				@endforeach
+				<div class="card-body categories">
+					@foreach ($categories as $category)
+						@if ($category->items->count() > 0)
+							<div class="category-item pb-3">
+								<a href="#"><span class="text-dark">{{ $category->title }}</span></a>
+							</div>
+						@endif
+					@endforeach
+				</div>
 			</div>
 		</div>
-		</div>
-
 		<div class="col-lg-7 col-12 pr-2">
 			<h3>Menu</h3>
 			<div class="card pt-3">
 				<div class="card-body menu">
 					@foreach ($categories as $category)
-						<div class="category pb-5">
-							<h3>{{ $category->title }}</h3>
+						@if ($category->items->count() > 0)
 
-							@foreach ($category->items as $item)
-								<div class="row menu-item py-3">
-									<div class="col-12">
-										<div class="title">{{ $item->title }}</div>
-									</div>
-									<div class="col-md-9 col-12">
-										<div class="description">{{ $item->description }}</div>
-									</div>
-									<div class="col-md-3 col-12 text-right">
-										<div class="price">${{ $item->price }}<button class="btn btn-add btn-success ml-1">+</button></div>
-									</div>
-								</div>
-							@endforeach
-						</div>
+						@endif
 					@endforeach
 				</div>
 			</div>
