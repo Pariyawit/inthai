@@ -15,5 +15,5 @@
 
 Auth::routes();
 
-Route::get('/', 'MenuController@index');
+Route::get('/', 'RestaurantsController@index');
 
