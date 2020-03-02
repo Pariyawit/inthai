@@ -16,10 +16,15 @@ class RestaurantsController extends Controller
     public function index()
     {
         $restaurant = Restaurant::findOrFail(1);
-        $categories = $restaurant->category;
+        $categories = $restaurant->categories;
+        foreach ($categories as $category) {
+            $category["items"] = $category->items;
+        }
+        $items = $restaurant->items;
+        // dd($categories);
         // dd($categories);
         // dd($restaurant);
-        return view('restaurant.index', compact('categories'));
+        return view('restaurant.index', compact('categories','items'));
     }
 
     /**

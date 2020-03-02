@@ -10922,6 +10922,10 @@ main {
   min-width: 100%;
 }
 
+.menu .vegetarian {
+  color: #38c172;
+}
+
 .menu .menu-item {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
