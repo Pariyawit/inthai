@@ -2072,7 +2072,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       orders: [],
-      total: 0
+      total: 0,
+      note: ''
     };
   },
   methods: {
@@ -2129,6 +2130,18 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return null;
+    },
+    createOrder: function createOrder() {
+      var orderRequest = {
+        'orders': this.orders,
+        'note': this.note
+      };
+      axios.post('/orders', orderRequest).then(function (response) {
+        console.log(response.data);
+        location.href = '/order/' + response.data + '/create';
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
     }
   },
   mounted: function mounted() {
@@ -38309,7 +38322,16 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "card basket-total" }, [
           _c("div", { staticClass: "card-body" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success w-100",
+                  on: { click: _vm.createOrder }
+                },
+                [_vm._v("Order Now")]
+              )
+            ]),
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
@@ -38380,7 +38402,35 @@ var render = function() {
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
-            _vm._m(2)
+            _c("div", { staticClass: "note" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.note,
+                    expression: "note"
+                  }
+                ],
+                staticClass: "w-100",
+                attrs: {
+                  type: "textarea",
+                  rows: "5",
+                  placeholder: "e.g. the doorbell doesn't work"
+                },
+                domProps: { value: _vm.note },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.note = $event.target.value
+                  }
+                }
+              })
+            ])
           ])
         ])
       ])
@@ -38406,32 +38456,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("button", { staticClass: "btn btn-success w-100" }, [
-        _vm._v("Order Now")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "note" }, [
-      _c("p", [
-        _c("strong", [_vm._v("Leave a note")]),
-        _vm._v(
-          " for the restaurant with anything they need to know. Do not include details about any allergies.\n                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("textarea", {
-        staticClass: "w-100",
-        attrs: {
-          type: "textarea",
-          rows: "5",
-          placeholder: "e.g. the doorbell doesn't work"
-        }
-      })
+    return _c("p", [
+      _c("strong", [_vm._v("Leave a note")]),
+      _vm._v(
+        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                        "
+      )
     ])
   }
 ]

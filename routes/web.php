@@ -17,3 +17,12 @@ Auth::routes();
 
 Route::get('/', 'RestaurantsController@index');
 
+Route::get('/orders', 'OrdersController@index');
+Route::post('/orders', 'OrdersController@store');
+Route::get('/orders/{order}', 'OrdersController@show');
+
+Route::get('/order/{order}/create', 'OrdersController@create');
+Route::get('/order/{order}/confirm', 'OrdersController@confirm');
+
+Route::post('/customer', 'CustomersController@store');
+
