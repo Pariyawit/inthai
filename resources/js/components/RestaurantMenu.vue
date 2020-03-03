@@ -37,7 +37,7 @@
             <div class="card basket-total">
                 <div class="card-body">
                     <div class="text-center">
-                        <button class="btn btn-success w-100">Order Now</button>
+                        <button @click="createOrder" class="btn btn-success w-100">Order Now</button>
                     </div>
                     <hr>
                     <div class="order-item-list">
@@ -73,7 +73,7 @@
                         <strong>Leave a note</strong> for the restaurant with anything they need to know. Do not include details about any allergies.
                         </p>
 
-                        <textarea type="textarea" rows="5" class="w-100" placeholder="e.g. the doorbell doesn't work">
+                        <textarea v-model="note" type="textarea" rows="5" class="w-100" placeholder="e.g. the doorbell doesn't work">
 
                         </textarea>
 
@@ -93,7 +93,8 @@
     	data(){
     		return {
                 orders:[],
-                total: 0
+                total: 0,
+                note: ''
     		}
     	},
 
@@ -143,6 +144,19 @@
                     }
                 }
                 return null;
+            },
+            createOrder() {
+                let orderRequest = {
+                    'orders' : this.orders,
+                    'note' : this.note
+                }
+              axios.post('/orders', orderRequest)
+                .then(response=>{
+                    console.log(response.data);
+                    location.href = '/order/'+response.data+'/create'
+                }).catch(errors => {
+                    console.log(errors);
+                });
             }
     	},
         mounted() {

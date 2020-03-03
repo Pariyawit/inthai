@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
-use App\Item;
+use App\Customer;
 
-class RestaurantsController extends Controller
+class CustomersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +14,7 @@ class RestaurantsController extends Controller
      */
     public function index()
     {
-        $categories = Category::All();
-        foreach ($categories as $category) {
-            $category["items"] = $category->items;
-        }
-        $items = Item::All();
-        return view('restaurant.index', compact('categories','items'));
+        //
     }
 
     /**
@@ -42,6 +36,22 @@ class RestaurantsController extends Controller
     public function store(Request $request)
     {
         //
+        $data = request()->validate([
+            'order_id' => 'required',
+            'name' => 'required|min:3',
+            'mobile' => 'numeric|min:10',
+            'address' => 'required',
+            'address2' => [],
+            'suburb' => 'required',
+            'state' => 'required',
+            'postcode' => 'numeric'
+        ]);
+
+        $customer = new Customer;
+        $customer->create($data);
+
+        return redirect('/order/'.$data['order_id'].'/confirm');
+
     }
 
     /**

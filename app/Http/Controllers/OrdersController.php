@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
-use App\Item;
+use App\Order;
+use App\OrderItem;
 
-class RestaurantsController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,9 @@ class RestaurantsController extends Controller
      */
     public function index()
     {
-        $categories = Category::All();
-        foreach ($categories as $category) {
-            $category["items"] = $category->items;
-        }
-        $items = Item::All();
-        return view('restaurant.index', compact('categories','items'));
+        $orders = Order::orderBy('created_at', 'desc')->get();
+
+        return view('order.index', compact('orders'));
     }
 
     /**
@@ -28,9 +25,9 @@ class RestaurantsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Order $order)
     {
-        //
+        return view('order.create', compact('order'));
     }
 
     /**
@@ -41,7 +38,31 @@ class RestaurantsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'orders' => 'required',
+            'note'  => ''
+        ]);
+        $order = new Order;
+        $order->note = $data['note'];
+        $order->status = 'ordering';
+        $order->save();
+
+        foreach ($data['orders'] as $o) {
+            $orderItem = new OrderItem;
+            $orderItem['item_id'] = $o['item_id'];
+            $orderItem['quantity'] = $o['quantity'];
+            $order->orderItems()->save($orderItem);
+        }
+
+        return $order->id;
+    }
+
+    public function confirm(Order $order){
+        $totalPrice = 0;
+        foreach ($order->orderItems as $item) {
+            $totalPrice += $item->quantity * $item->item->price;
+        }
+        return view('order.confirm', compact('order','totalPrice'));
     }
 
     /**
@@ -50,9 +71,13 @@ class RestaurantsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        $totalPrice = 0;
+        foreach ($order->orderItems as $item) {
+            $totalPrice += $item->quantity * $item->item->price;
+        }
+        return view('order.show', compact('order', 'totalPrice'));
     }
 
     /**
