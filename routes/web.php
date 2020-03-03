@@ -17,3 +17,7 @@ Auth::routes();
 
 Route::get('/', 'RestaurantsController@index');
 
+Route::get('/orders', 'OrdersController@index');
+Route::post('/orders', 'OrdersController@store');
+Route::get('/orders/{id}', 'OrdersController@show');
+

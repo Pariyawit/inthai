@@ -1,0 +1,32 @@
+@extends('layouts.app')
+@section('content')
+
+<div class="container">
+<h1>Admin: Orders</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Order Id</th>
+				<th>Status</th>
+				<th>Created At</th>
+				<th>Items Quantity</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($orders as $order)
+				<tr>
+					<th>{{ $order->id }}</th>
+					<td>{{ $order->status }}</td>
+					<td>{{ $order->created_at }}</td>
+					<td>{{ $order->orderItems()->count() }}</td>
+					<td><a href="/orders/{{ $order->id }}"><button class="btn btn-primary">View</button></a></td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
+	</div>
+</div>
+
+
+@endsection
