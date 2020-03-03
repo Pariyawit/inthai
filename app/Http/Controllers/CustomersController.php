@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Order;
-use App\OrderItem;
+use App\Customer;
 
-class OrdersController extends Controller
+class CustomersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'desc')->get();
-
-        return view('order.index', compact('orders'));
+        //
     }
 
     /**
@@ -25,13 +22,9 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
         //
-        $order = Order::where('id',$id)->first();
-        // dd($order);
-
-        return view('order.create', compact('order'));
     }
 
     /**
@@ -42,23 +35,22 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $data = request()->validate([
-            'orders' => 'required',
-            'note'  => ''
+            'order_id' => 'required',
+            'name' => 'required|min:3',
+            'mobile' => 'numeric|min:10',
+            'address' => 'required',
+            'address2' => [],
+            'suburb' => 'required',
+            'state' => 'required',
+            'postcode' => 'numeric'
         ]);
-        $order = new Order;
-        $order->note = $data['note'];
-        $order->status = 'ordering';
-        $order->save();
 
-        foreach ($data['orders'] as $o) {
-            $orderItem = new OrderItem;
-            $orderItem['item_id'] = $o['item_id'];
-            $orderItem['quantity'] = $o['quantity'];
-            $order->orderItems()->save($orderItem);
-        }
+        // $order = Order::where('id',$data['order_id'])->first();
+        $customer = new Customer;
+        $customer->create($data);
 
-        return $order->id;
     }
 
     /**
@@ -69,12 +61,7 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        $order = Order::findOrFail($id);
-        $totalPrice = 0;
-        foreach ($order->orderItems as $item) {
-            $totalPrice += $item->quantity * $item->item->price;
-        }
-        return view('order.show', compact('order', 'totalPrice'));
+        //
     }
 
     /**

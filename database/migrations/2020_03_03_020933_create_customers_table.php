@@ -19,7 +19,8 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('mobile');
             $table->text('address');
-            $table->string('city');
+            $table->text('address2')->nullable();
+            $table->string('suburb');
             $table->string('state');
             $table->string('postcode');
             $table->timestamps();

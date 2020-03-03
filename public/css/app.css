@@ -10952,3 +10952,8 @@ strong {
   text-align: center;
 }
 
+.create-order-form label {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+

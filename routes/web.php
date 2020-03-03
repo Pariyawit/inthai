@@ -23,3 +23,4 @@ Route::get('/orders/{id}', 'OrdersController@show');
 
 Route::get('/order/{id}/create', 'OrdersController@create');
 
+Route::post('/customer', 'CustomersController@store');
