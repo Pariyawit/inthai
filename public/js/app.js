@@ -2138,6 +2138,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post('/orders', orderRequest).then(function (response) {
         console.log(response.data);
+        location.href = '/order/' + response.data + '/create';
       })["catch"](function (errors) {
         console.log(errors);
       });

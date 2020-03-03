@@ -153,6 +153,7 @@
               axios.post('/orders', orderRequest)
                 .then(response=>{
                     console.log(response.data);
+                    location.href = '/order/'+response.data+'/create'
                 }).catch(errors => {
                     console.log(errors);
                 });

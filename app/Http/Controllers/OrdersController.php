@@ -15,7 +15,8 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Order::All();
+        $orders = Order::orderBy('created_at', 'desc')->get();
+
         return view('order.index', compact('orders'));
     }
 
@@ -24,12 +25,12 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         //
-
+        $order = Order::where('id',$id)->get();
         // dd(request());
-        return request();
+        return view('order.create', compact('order'));
     }
 
     /**
@@ -56,7 +57,7 @@ class OrdersController extends Controller
             $order->orderItems()->save($orderItem);
         }
 
-        return $order;
+        return $order->id;
     }
 
     /**
@@ -68,7 +69,11 @@ class OrdersController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
-        return view('order.show', compact('order'));
+        $totalPrice = 0;
+        foreach ($order->orderItems as $item) {
+            $totalPrice += $item->quantity * $item->item->price;
+        }
+        return view('order.show', compact('order', 'totalPrice'));
     }
 
     /**
