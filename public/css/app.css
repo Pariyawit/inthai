@@ -10957,3 +10957,8 @@ strong {
   padding-top: 0;
 }
 
+.order-show textarea {
+  resize: none;
+  background-color: #eee;
+}
+

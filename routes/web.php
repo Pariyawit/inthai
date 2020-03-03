@@ -19,8 +19,10 @@ Route::get('/', 'RestaurantsController@index');
 
 Route::get('/orders', 'OrdersController@index');
 Route::post('/orders', 'OrdersController@store');
-Route::get('/orders/{id}', 'OrdersController@show');
+Route::get('/orders/{order}', 'OrdersController@show');
 
-Route::get('/order/{id}/create', 'OrdersController@create');
+Route::get('/order/{order}/create', 'OrdersController@create');
+Route::get('/order/{order}/confirm', 'OrdersController@confirm');
 
 Route::post('/customer', 'CustomersController@store');
+

@@ -47,9 +47,10 @@ class CustomersController extends Controller
             'postcode' => 'numeric'
         ]);
 
-        // $order = Order::where('id',$data['order_id'])->first();
         $customer = new Customer;
         $customer->create($data);
+
+        return redirect('/order/'.$data['order_id'].'/confirm');
 
     }
 

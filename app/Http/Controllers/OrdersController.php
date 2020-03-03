@@ -25,12 +25,8 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create(Order $order)
     {
-        //
-        $order = Order::where('id',$id)->first();
-        // dd($order);
-
         return view('order.create', compact('order'));
     }
 
@@ -61,15 +57,22 @@ class OrdersController extends Controller
         return $order->id;
     }
 
+    public function confirm(Order $order){
+        $totalPrice = 0;
+        foreach ($order->orderItems as $item) {
+            $totalPrice += $item->quantity * $item->item->price;
+        }
+        return view('order.confirm', compact('order','totalPrice'));
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        $order = Order::findOrFail($id);
         $totalPrice = 0;
         foreach ($order->orderItems as $item) {
             $totalPrice += $item->quantity * $item->item->price;

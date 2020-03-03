@@ -2,8 +2,8 @@
 @section('content')
 
 <div class="container">
-	<div class="row  pt-5 justify-content-center">
-		<div class="card col-6">
+	<div class="row pt-5 justify-content-center m-0">
+		<div class="card col-12 col-sm-10 col-md-6">
 			<div class="card-body">
 				<h3 class="pb-3">Delivery Details</h3>
 				<form action="/customer" class="create-order-form" method="post">
@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         <label for="address2" class="col-md-12 col-form-label">Level or unit number (Optional)</label>
                         <div class="col-md-12">
-                            <input id="address2" type="text" class="form-control @error('address2') is-invalid @enderror" name="address2" value="{{ old('address2') }}" required autocomplete="address2">
+                            <input id="address2" type="text" class="form-control @error('address2') is-invalid @enderror" name="address2" value="{{ old('address2') }}" autocomplete="address2">
                             @error('address2')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

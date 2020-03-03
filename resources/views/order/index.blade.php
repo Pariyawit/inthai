@@ -9,7 +9,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Order Id</th>
+							<th>#</th>
 							<th>Status</th>
 							<th>Created At</th>
 							<th>Items Quantity</th>

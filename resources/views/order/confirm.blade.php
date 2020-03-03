@@ -2,12 +2,12 @@
 @section('content')
 
 <div class="container">
-	<h1 class="pt-5">Admin: Orders {{ $order->id }} | {{ $order->status }}</h1>
+	<h1 class="pt-5">Confirm You Order</h1>
 	<div class="row">
 		<div class="card col-12 col-md-8">
-			<div class="card-body order-show  justify-content-between flex-column">
+			<div class="card-body order-show d-flex justify-content-between flex-column">
 				<div>
-					<h3>Order Detail #{{ $order->id }}</h3>
+					<h3>Order Number #{{ $order->id }}</h3>
 					<table class="table table-sm">
 						<thead>
 							<tr>
@@ -58,6 +58,9 @@
 				<p>{{ $order->customer->suburb }}</p>
 				<strong>Postcode</strong>
 				<p>{{ $order->customer->postcode }}</p>
+				<div class="d-flex pt-3 justify-content-center">
+					<button class="btn btn-success w-100">Place my order</button>
+				</div>
 			</div>
 		</div>
 	</div>
