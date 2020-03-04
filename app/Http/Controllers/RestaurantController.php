@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Category;
+use App\Item;
 
-class CategoriesController extends Controller
+class RestaurantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,12 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::All();
+        foreach ($categories as $category) {
+            $category["items"] = $category->items;
+        }
+        $items = Item::All();
+        return view('restaurant.index', compact('categories','items'));
     }
 
     /**

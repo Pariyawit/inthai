@@ -15,14 +15,14 @@
 
 Auth::routes();
 
-Route::get('/', 'RestaurantsController@index');
+Route::get('/', 'RestaurantController@index');
 
-Route::get('/orders', 'OrdersController@index');
-Route::post('/orders', 'OrdersController@store');
-Route::get('/orders/{order}', 'OrdersController@show');
+Route::get('/orders', 'OrderController@index');
+Route::post('/orders', 'OrderController@store');
+Route::get('/orders/{order}', 'OrderController@show');
 
-Route::get('/order/{order}/create', 'OrdersController@create');
-Route::get('/order/{order}/confirm', 'OrdersController@confirm');
+Route::get('/order/{order}/create', 'OrderController@create');
+Route::get('/order/{order}/confirm', 'OrderController@confirm');
 
-Route::post('/customer', 'CustomersController@store');
+Route::post('/customer', 'CustomerController@store');
 
