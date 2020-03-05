@@ -5,7 +5,7 @@
 			<div class="card-body">
 				<h3 class="pb-3">Delivery Details</h3>
                 <ValidationObserver v-slot="{ invalid }">
-				<form action="" class="create-order-form" method="">
+				<form class="create-order-form" @submit.prevent="onSubmit">
 					<div class="form-group row">
                         <label for="name" class="col-md-12 col-form-label">Full Name</label>
                         <div class="col-md-12">
@@ -107,6 +107,19 @@
         },
 
         methods:{
+            onSubmit () {
+                let deliveryRequest = {
+                    'name' : this.name,
+                    'mobile' : this.mobile,
+                    'address' : this.address,
+                    'address2' : this.address2,
+                    'suburb' : this.suburb,
+                    'state' : this.state,
+                    'postcode' : this.postcode
+                };
+                sessionStorage.deliveryRequest = JSON.stringify(deliveryRequest);
+                alert("Form Subbmited!");
+            }
         },
         mounted() {
         },
