@@ -152,7 +152,7 @@
                     'orders' : this.orders,
                     'note' : this.note
                 }
-                localStorage.orderRequest = JSON.stringify(orderRequest);
+                sessionStorage.orderRequest = JSON.stringify(orderRequest);
                 this.$router.push('delivery');
               // axios.post('/orders', orderRequest)
               //   .then(response=>{

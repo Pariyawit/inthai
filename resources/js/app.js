@@ -5,6 +5,8 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import { ValidationProvider, extend } from 'vee-validate';
+// import { required } from 'vee-validate/dist/rules';
 
 import Home from './views/Home'
 import NewOrderDelivery from './views/NewOrderDelivery'
@@ -24,10 +26,13 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+// Vue.component('ValidationProvider', VeeValidate.ValidationProvider);
+
 Vue.component('restaurant-item', require('./components/RestaurantItem.vue').default);
 Vue.component('basket-total', require('./components/BasketTotal.vue').default);
 Vue.component('home', require('./views/Home.vue').default);
 Vue.component('NewOrderDelivery', require('./views/NewOrderDelivery.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
