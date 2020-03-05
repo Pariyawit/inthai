@@ -89,12 +89,14 @@
 
 <script>
     export default {
-    	props: ['categories','items'],
+    	// props: ['categories','items'],
     	data(){
     		return {
                 orders:[],
                 total: 0,
-                note: ''
+                note: '',
+                items: '',
+                categories: ''
     		}
     	},
 
@@ -150,18 +152,29 @@
                     'orders' : this.orders,
                     'note' : this.note
                 }
-              axios.post('/orders', orderRequest)
-                .then(response=>{
-                    console.log(response.data);
-                    location.href = '/order/'+response.data+'/create'
-                }).catch(errors => {
-                    console.log(errors);
-                });
+                localStorage.orderRequest = JSON.stringify(orderRequest);
+                this.$router.push('delivery');
+              // axios.post('/orders', orderRequest)
+              //   .then(response=>{
+              //       console.log(response.data);
+              //       location.href = '/order/'+response.data+'/create'
+              //   }).catch(errors => {
+              //       console.log(errors);
+              //   });
             }
     	},
         mounted() {
             console.log(this.categories);
             console.log(this.items);
+        },
+        created() {
+            axios.get('/items')
+              .then(res => this.items = res.data)
+              .catch(err => console.log(err));
+
+            axios.get('/categories')
+              .then(res => this.categories = res.data)
+              .catch(err => console.log(err));
         }
     }
 </script>

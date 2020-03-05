@@ -26,3 +26,8 @@ Route::get('/order/{order}/confirm', 'OrderController@confirm');
 
 Route::post('/customer', 'CustomerController@store');
 
+Route::get('/items', 'ItemController@index');
+
+Route::get('/categories', 'CategoryController@index');
+
+Route::get('/{any}', 'RestaurantController@index');
