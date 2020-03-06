@@ -2128,8 +2128,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.orders.push({
-        'item_id': id,
-        'quantity': 1
+        item_id: id,
+        title: this.getItemById(id).title,
+        price: this.getItemById(id).price,
+        vegetarian: this.getItemById(id).vegetarian,
+        quantity: 1
       });
       this.calculateTotal();
     },
@@ -2173,16 +2176,11 @@ __webpack_require__.r(__webpack_exports__);
     createOrder: function createOrder() {
       var orderRequest = {
         'orders': this.orders,
-        'note': this.note
+        'note': this.note,
+        'total': this.total
       };
       sessionStorage.orderRequest = JSON.stringify(orderRequest);
-      this.$router.push('delivery'); // axios.post('/orders', orderRequest)
-      //   .then(response=>{
-      //       console.log(response.data);
-      //       location.href = '/order/'+response.data+'/create'
-      //   }).catch(errors => {
-      //       console.log(errors);
-      //   });
+      this.$router.push('delivery');
     }
   },
   mounted: function mounted() {
@@ -2398,76 +2396,97 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       orderRequest: '',
       deliveryRequest: '',
-      note: '',
-      time: 0,
-      timeOptions: [],
-      now: ''
+      timeRequest: '',
+      orders: [],
+      items: [],
+      total: 0,
+      time_text: ''
     };
   },
   methods: {
+    getItemById: function getItemById(id) {
+      var items = this.items;
+
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+          return items[i];
+        }
+      }
+
+      return null;
+    },
+    calculateTotal: function calculateTotal() {
+      var orders = this.orders;
+      var total = 0;
+
+      for (var i = 0; i < orders.length; i++) {
+        total += this.getItemById(orders[i].item_id).price * orders[i].quantity;
+      }
+
+      this.total = total;
+    },
     onSubmit: function onSubmit() {
-      var timeRequest = {
-        time: this.time
-      };
-      this.orderRequest.note = this.note;
-      sessionStorage.orderRequest = JSON.stringify(this.orderRequest);
-      sessionStorage.timeRequest = JSON.stringify(timeRequest);
       this.$router.push('review');
     }
   },
   mounted: function mounted() {},
   created: function created() {
-    if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined) {
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined || sessionStorage.timeRequest === undefined) {
       this.$router.push('/');
     } else {
-      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       this.orderRequest = JSON.parse(sessionStorage.orderRequest);
-      this.note = this.orderRequest.note;
-      var start_hour = 16;
-      var end_hour = 22;
-      var id = 0;
-      this.now = new Date();
-      this.time = this.now.getTime();
-      var option = {
-        id: id++,
-        value: this.now.getTime(),
-        text: "As soon as posible"
-      };
-      this.timeOptions.push(option);
+      this.deliveryRequest = JSON.parse(sessionStorage.deliveryRequest);
+      this.timeRequest = JSON.parse(sessionStorage.timeRequest);
+      var date = new Date(this.timeRequest.time);
 
-      for (var h = start_hour; h < end_hour; h++) {
-        var a = new Date();
-        a.setHours(h);
-        a.setMinutes(0);
-        a.setSeconds(0);
-
-        if (a.getTime() > this.now.getTime()) {
-          var _option = {
-            id: id++,
-            value: a.getTime(),
-            text: days[a.getDay()] + " " + h + ":00"
-          };
-          this.timeOptions.push(_option);
-        }
-
-        var b = new Date();
-        b.setHours(h);
-        b.setMinutes(30);
-        b.setSeconds(0);
-
-        if (b.getTime() > this.now.getTime()) {
-          option = {
-            id: id++,
-            value: b.getTime(),
-            text: days[b.getDay()] + " " + h + ":30"
-          };
-          this.timeOptions.push(option);
-        }
+      if (date.getSeconds != 0) {
+        this.time_text = "As soon as posible";
+      } else {
+        this.time_text = days[date.getDay()] + " " + h + ":30";
       }
     }
   }
@@ -2569,6 +2588,7 @@ __webpack_require__.r(__webpack_exports__);
         a.setHours(h);
         a.setMinutes(0);
         a.setSeconds(0);
+        a.setMilliseconds(0);
 
         if (a.getTime() > this.now.getTime()) {
           var _option = {
@@ -2583,6 +2603,7 @@ __webpack_require__.r(__webpack_exports__);
         b.setHours(h);
         b.setMinutes(30);
         b.setSeconds(0);
+        b.setMilliseconds(0);
 
         if (b.getTime() > this.now.getTime()) {
           option = {
@@ -7161,7 +7182,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.order-item-list{\n    transition: height 0.5s;\n}\n.order-item-list .price{\n    min-width: 50px;\n    text-align: right;\n}\nbutton.order-now:disabled{\n    background: lightgray;\n    border: none;\n}\n.order-item{\n    font-size: 0.8rem;\n}\n.order-item .quantity{\n    min-width: 20px\n}\n", ""]);
+exports.push([module.i, "\n.order-item-list{\n    transition: height 0.5s;\n}\n.order-item-list .price{\n    min-width: 50px;\n    text-align: right;\n}\nbutton.order-now:disabled{\n    background: lightgray;\n    border: none;\n}\n.home .order-item{\n    font-size: 0.8rem;\n}\n.order-item .quantity{\n    min-width: 20px\n}\n", ""]);
 
 // exports
 
@@ -41462,7 +41483,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container home" }, [
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row pt-3 no-gutters" }, [
@@ -41617,21 +41638,11 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
-                            _c("em", [
-                              _vm._v(
-                                _vm._s(_vm.getItemById(order.item_id).title)
-                              )
-                            ])
+                            _c("em", [_vm._v(_vm._s(order.title))])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "ml-auto price" }, [
-                            _vm._v(
-                              "$ " +
-                                _vm._s(
-                                  _vm.getItemById(order.item_id).price *
-                                    order.quantity
-                                )
-                            )
+                            _vm._v("$ " + _vm._s(order.price * order.quantity))
                           ])
                         ])
                       ]
@@ -42323,114 +42334,138 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row pt-5 justify-content-center m-0" }, [
-      _c("div", { staticClass: "card col-12 col-sm-10 col-md-6" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("h3", { staticClass: "pb-3" }, [_vm._v("Delivery Time")]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "create-order-form",
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.onSubmit($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group row" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "col-md-12 col-form-label",
-                    attrs: { for: "time" }
-                  },
-                  [_vm._v("Delivery Time")]
-                ),
+    _c("div", { staticClass: "row pt-5 m-0" }, [
+      _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
+        _c("div", { staticClass: "card mt-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h4", [_vm._v("Delivery Detail")]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Name")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.name))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Mobile")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.mobile))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Address")]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(_vm._s(_vm.deliveryRequest.address) + " "),
+              _c("br"),
+              _vm._v(
+                "\n                    " + _vm._s(_vm.deliveryRequest.address2)
+              )
+            ]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Suburb")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.suburb))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("State")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.state))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Postcode")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.postcode))]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", [
+              _c("h4", [_vm._v("Delivery Time")]),
+              _vm._v(" "),
+              _c("div", [_vm._v(_vm._s(_vm.time_text))])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
+        _c("div", { staticClass: "card basket-total mt-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h3", [_vm._v("Your order")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "order-item-list" },
+              _vm._l(_vm.orderRequest.orders, function(order) {
+                return _c(
+                  "div",
+                  { key: order.item_id, staticClass: "order-item py-1" },
+                  [
+                    _c("div", { staticClass: "d-flex" }, [
+                      _c("div", { staticClass: "mr-1 quantity" }, [
+                        _vm._v(_vm._s(order.quantity) + "x")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
+                        _c("em", [_vm._v(_vm._s(order.title))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-auto price" }, [
+                        _vm._v("$ " + _vm._s(order.price * order.quantity))
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "bottom-div" }, [
+              _c("div", { staticClass: "calculation" }, [
+                _c("div"),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-12" }, [
-                  _c(
-                    "select",
+                _c("div"),
+                _vm._v(" "),
+                _c("div"),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [
+                    _vm._v("Total "),
+                    _c("span", { staticClass: "float-right" }, [
+                      _vm._v("$" + _vm._s(_vm.orderRequest.total))
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _c("div", { staticClass: "note" }, [
+                _c("strong", [_vm._v("Your Note to Restaurant")]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
                     {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.time,
-                          expression: "time"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "time",
-                        name: "time",
-                        autocomplete: "time",
-                        autofocus: ""
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.time = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    _vm._l(_vm.timeOptions, function(timeOption) {
-                      return _c(
-                        "option",
-                        {
-                          key: timeOption.id,
-                          domProps: { value: timeOption.value }
-                        },
-                        [_vm._v(_vm._s(timeOption.text))]
-                      )
-                    }),
-                    0
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-12" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.note,
-                        expression: "note"
-                      }
-                    ],
-                    staticClass: "w-100",
-                    attrs: { name: "note", id: "note", cols: "30", rows: "10" },
-                    domProps: { value: _vm.note },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.note = $event.target.value
-                      }
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderRequest.note,
+                      expression: "orderRequest.note"
                     }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(1)
-            ]
-          )
+                  ],
+                  staticClass: "w-100",
+                  attrs: { disabled: "disabled", type: "textarea" },
+                  domProps: { value: _vm.orderRequest.note },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.orderRequest, "note", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
         ])
       ])
     ])
@@ -42441,28 +42476,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("strong", [_vm._v("Leave a note")]),
-      _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                            "
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row mb-0" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-success w-100", attrs: { type: "submit" } },
-          [
-            _vm._v(
-              "\n                                Continue\n                            "
-            )
-          ]
-        )
+    return _c("div", [
+      _c("button", { staticClass: "btn btn-success w-100" }, [
+        _vm._v("Place my order")
       ])
     ])
   }

@@ -1,37 +1,74 @@
 <template>
 <div class="container">
-	<div class="row pt-5 justify-content-center m-0">
-		<div class="card col-12 col-sm-10 col-md-6">
-			<div class="card-body">
-				<h3 class="pb-3">Delivery Time</h3>
-				<form class="create-order-form" @submit.prevent="onSubmit">
-					<div class="form-group row">
-                        <label for="time" class="col-md-12 col-form-label">Delivery Time</label>
-                        <div class="col-md-12">
-                            <select id="time" class="form-control" v-model="time" name="time" autocomplete="time" autofocus>
-                                <option v-for="timeOption in timeOptions" :key="timeOption.id" :value="timeOption.value">{{ timeOption.text  }}</option>
-                            </select>
+	<div class="row pt-5 m-0">
+        <div class="col-12 col-sm-8 col-md-6">
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h4>Delivery Detail</h4>
+                    <strong>Name</strong>
+                    <p>{{ deliveryRequest.name }}</p>
+                    <strong>Mobile</strong>
+                    <p>{{ deliveryRequest.mobile }}</p>
+                    <strong>Address</strong>
+                    <p>{{ deliveryRequest.address }} <br>
+                    {{ deliveryRequest.address2 }}</p>
+                    <strong>Suburb</strong>
+                    <p>{{ deliveryRequest.suburb }}</p>
+                    <strong>State</strong>
+                    <p>{{ deliveryRequest.state }}</p>
+                    <strong>Postcode</strong>
+                    <p>{{ deliveryRequest.postcode }}</p>
+
+                    <hr>
+                    <div>
+                        <h4>Delivery Time</h4>
+                        <div>{{ time_text }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="col-12 col-sm-8 col-md-6">
+            <div class="card basket-total mt-3">
+                <div class="card-body">
+                    <h3>Your order</h3>
+                    <div class="order-item-list">
+                            <div v-for="order in orderRequest.orders" class="order-item py-1" v-bind:key="order.item_id">
+                                <div class="d-flex">
+                                    <div class="mr-1 quantity">{{ order.quantity }}x</div>
+                                    <div class="mr-1 flex-shrink-1"><em>{{ order.title }}</em></div>
+                                    <div class="ml-auto price">$ {{ order.price*order.quantity }}</div>
+                                </div>
+                            </div>
+                    </div>
+                    <hr>
+                    <div class="bottom-div">
+                        <div class="calculation">
+                            <div>
+                                <!-- Subtotal <span class="float-right">$21.80</span> -->
+                            </div>
+                            <div>
+                                <!-- Discount applied <span class="float-right">$21.80</span> -->
+                            </div>
+                            <div>
+                                <!-- Delivery fee <span class="float-right">$21.80</span> -->
+                            </div>
+                            <div>
+                                <strong>Total <span class="float-right">${{ orderRequest.total }}</span></strong>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="note">
+                            <strong>Your Note to Restaurant</strong>
+                            <textarea disabled="disabled" v-model="orderRequest.note" type="textarea" class="w-100">
+                            </textarea>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <p>
-                                <strong>Leave a note</strong> for the restaurant with anything they need to know. Do not include details about any allergies.
-                            </p>
-                            <textarea name="note" id="note" cols="30" rows="10" class="w-100" v-model="note"></textarea>
-                        </div>
+                    <hr>
+                    <div>
+                        <button class="btn btn-success w-100">Place my order</button>
                     </div>
-                    
-                    <div class="form-group row mb-0">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-success w-100">
-                                Continue
-                            </button>
-                        </div>
-                    </div>
-				</form>
-                
-			</div>
+                </div>
+            </div>
 		</div>
 	</div>
 </div>
@@ -43,77 +80,60 @@ export default {
         return {
             orderRequest : '',
             deliveryRequest : '',
-            note : '',
-            time : 0,
-            timeOptions : [],
-            now : ''
+            timeRequest : '',
+            orders : [],
+            items : [],
+            total : 0,
+            time_text : ''
         }
     },
     methods: {
+        getItemById(id) {
+            let items = this.items;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].id === id) {
+                    return items[i];
+                }
+            }
+            return null;
+        },
+        calculateTotal(){
+            let orders = this.orders;
+            let total = 0;
+            for (let i = 0; i < orders.length; i++) {
+                total += this.getItemById(orders[i].item_id).price * orders[i].quantity;
+            }
+            this.total = total;
+        },
         onSubmit(){
-            let timeRequest = {
-                time : this.time
-            };
-            this.orderRequest.note = this.note;
-            sessionStorage.orderRequest = JSON.stringify(this.orderRequest);
-            sessionStorage.timeRequest = JSON.stringify(timeRequest);
+            
             this.$router.push('review');
         }
     },
     mounted() {
     },
     created() {
-        if(sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined){
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+        if(sessionStorage.orderRequest === undefined || 
+            sessionStorage.deliveryRequest === undefined ||
+            sessionStorage.timeRequest === undefined
+            ){
             this.$router.push('/');
         }
-        else {
-            let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
+        else{
             this.orderRequest = JSON.parse(sessionStorage.orderRequest);
-            this.note = this.orderRequest.note;
+            this.deliveryRequest = JSON.parse(sessionStorage.deliveryRequest);
+            this.timeRequest = JSON.parse(sessionStorage.timeRequest);
 
-            let start_hour = 16;
-            let end_hour = 22;
-            let id=0;
-
-            this.now = new Date();
-            this.time = this.now.getTime();
-            let option = {
-                id : id++,
-                value : this.now.getTime(),
-                text : "As soon as posible"
-            };
-
-            this.timeOptions.push(option);
-            for(let h=start_hour ; h < end_hour; h++){
-                let a = new Date();
-                a.setHours(h);
-                a.setMinutes(0);
-                a.setSeconds(0);
-                if(a.getTime() > this.now.getTime()){
-                    let option = {
-                        id : id++,
-                        value : a.getTime(),
-                        text : days[a.getDay()]+" "+h+":00"
-                    };
-                    this.timeOptions.push(option);
-                }
-                
-                let b = new Date();
-                b.setHours(h);
-                b.setMinutes(30);
-                b.setSeconds(0);
-                if(b.getTime() > this.now.getTime()){
-                    option = {
-                        id : id++,
-                        value : b.getTime(),
-                        text : days[b.getDay()]+" "+h+":30"
-                    };
-                    this.timeOptions.push(option);
-                }
+            let date = new Date(this.timeRequest.time);
+            if(date.getSeconds != 0){
+                this.time_text = "As soon as posible";
+            }else{
+                this.time_text = days[date.getDay()]+" "+h+":30";
             }
-
         }
+        
     }
 }
 </script>

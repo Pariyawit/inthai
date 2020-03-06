@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container home">
     <div class="heading pt-3">
         <h1><img src="img/inthai-logo.gif" class="rounded-circle"> In Thai Style Restaurant</h1>
     </div>
@@ -51,8 +51,8 @@
                                         <button @click="removeItem(order.item_id)" class="btn btn-outline-success">-</button>
                                     </div>
                                     <div class="mr-1 quantity">{{ order.quantity }}x</div>
-                                    <div class="mr-1 flex-shrink-1"><em>{{ getItemById(order.item_id).title }}</em></div>
-                                    <div class="ml-auto price">$ {{ getItemById(order.item_id).price*order.quantity }}</div>
+                                    <div class="mr-1 flex-shrink-1"><em>{{ order.title }}</em></div>
+                                    <div class="ml-auto price">$ {{ order.price*order.quantity }}</div>
                                 </div>
                             </div>
                         </transition-group>
@@ -117,10 +117,12 @@
                         return;
                     }
                 }
-
                 this.orders.push({
-                    'item_id':id,
-                    'quantity':1
+                    item_id : id,
+                    title : this.getItemById(id).title,
+                    price : this.getItemById(id).price,
+                    vegetarian : this.getItemById(id).vegetarian,
+                    quantity :1
                 });
                 this.calculateTotal()
             },
@@ -157,17 +159,11 @@
             createOrder() {
                 let orderRequest = {
                     'orders' : this.orders,
-                    'note' : this.note
+                    'note' : this.note,
+                    'total' : this.total
                 }
                 sessionStorage.orderRequest = JSON.stringify(orderRequest);
                 this.$router.push('delivery');
-              // axios.post('/orders', orderRequest)
-              //   .then(response=>{
-              //       console.log(response.data);
-              //       location.href = '/order/'+response.data+'/create'
-              //   }).catch(errors => {
-              //       console.log(errors);
-              //   });
             }
     	},
         mounted() {
@@ -201,7 +197,7 @@
         background: lightgray;
         border: none;
     }
-    .order-item{
+    .home .order-item{
         font-size: 0.8rem;
     }
     .order-item .quantity{

@@ -90,6 +90,7 @@ export default {
                 a.setHours(h);
                 a.setMinutes(0);
                 a.setSeconds(0);
+                a.setMilliseconds(0);
                 if(a.getTime() > this.now.getTime()){
                     let option = {
                         id : id++,
@@ -103,6 +104,8 @@ export default {
                 b.setHours(h);
                 b.setMinutes(30);
                 b.setSeconds(0);
+                b.setMilliseconds(0);
+
                 if(b.getTime() > this.now.getTime()){
                     option = {
                         id : id++,
