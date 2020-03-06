@@ -15,7 +15,6 @@
                             </ValidationProvider>
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="mobile" class="col-md-12 col-form-label">Mobile phone</label>
                         <div class="col-md-12">

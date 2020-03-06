@@ -2305,7 +2305,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['categories', 'items'],
@@ -41224,13 +41223,17 @@ var render = function() {
             "div",
             { staticClass: "card-body categories" },
             _vm._l(_vm.categories, function(category) {
-              return _c("div", { staticClass: "category-item pb-3" }, [
-                _c("a", { attrs: { href: "#" } }, [
-                  _c("span", { staticClass: "text-dark" }, [
-                    _vm._v(_vm._s(category.title))
+              return _c(
+                "div",
+                { key: category.id, staticClass: "category-item pb-3" },
+                [
+                  _c("a", { attrs: { href: "#" } }, [
+                    _c("span", { staticClass: "text-dark" }, [
+                      _vm._v(_vm._s(category.title))
+                    ])
                   ])
-                ])
-              ])
+                ]
+              )
             }),
             0
           )
@@ -41247,13 +41250,14 @@ var render = function() {
             _vm._l(_vm.categories, function(category) {
               return _c(
                 "div",
-                { staticClass: "category pb-5" },
+                { key: category.id, staticClass: "category pb-5" },
                 [
                   _c("h3", [_vm._v(_vm._s(category.title))]),
                   _vm._v(" "),
                   _vm._l(category.items, function(item) {
                     return _c(
                       "div",
+                      { key: item.id },
                       [
                         _c("restaurant-item", {
                           attrs: { item: item },

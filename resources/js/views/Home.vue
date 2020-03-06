@@ -9,8 +9,8 @@
             <h3>Categories</h3>
             <div class="card pt-3">
                 <div class="card-body categories">
-                    <div v-for="category in categories" class="category-item pb-3" >
-                            <a href="#"><span class="text-dark">{{ category.title }}</span></a>
+                    <div v-for="category in categories" class="category-item pb-3" :key="category.id">
+                            <a href="#"><span class="text-dark" >{{ category.title }}</span></a>
                     </div>
                 </div>
             </div>
@@ -19,9 +19,9 @@
             <h3>Menu</h3>
             <div class="card pt-3">
                 <div class="card-body menu">
-                    <div class="category pb-5"v-for="category in categories" >
+                    <div class="category pb-5" v-for="category in categories" :key="category.id">
                         <h3>{{ category.title }}</h3>
-                        <div  v-for="item in category.items">
+                        <div  v-for="item in category.items" :key="item.id">
                              <restaurant-item :item="item" v-on:addItem="onItemAdd"></restaurant-item>
                         </div>
                     </div>
