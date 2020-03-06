@@ -18,9 +18,8 @@ body{
 	background-color: #f5f5f5;
 }
 
-main{
-	// background-color: #f5f5f5;
-	// background-color: #f5f5f5;
+.card{
+	border: none;
 }
 
 .banner{
@@ -45,15 +44,12 @@ main{
 	}
 }
 
-.heading{
-}
 
 .menu{
 	.vegetarian{
 		color:#38c172;
 	}
-	.description{
-	}
+	
 	.menu-item{
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	}
@@ -76,9 +72,6 @@ strong{
 }
 
 .basket-total{
-	.item-total-price{
-		// vertical-align:middle;
-	}
 	.btn-outline-success{
 		width: 20px;
 		height: 20px;
@@ -95,6 +88,10 @@ strong{
 		padding-bottom: 0;
 		padding-top: 0;
 	}
+}
+
+textarea{
+	resize:none;
 }
 
 .order-show{

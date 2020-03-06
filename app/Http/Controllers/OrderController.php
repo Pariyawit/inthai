@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Order;
+use App\OrderItem;
 
-class ItemsController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,9 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::orderBy('created_at', 'desc')->get();
+
+        return view('order.index', compact('orders'));
     }
 
     /**
@@ -21,9 +25,9 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Order $order)
     {
-        //
+        return view('order.create', compact('order'));
     }
 
     /**
@@ -34,7 +38,31 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'orders' => 'required',
+            'note'  => ''
+        ]);
+        $order = new Order;
+        $order->note = $data['note'];
+        $order->status = 'ordering';
+        $order->save();
+
+        foreach ($data['orders'] as $o) {
+            $orderItem = new OrderItem;
+            $orderItem['item_id'] = $o['item_id'];
+            $orderItem['quantity'] = $o['quantity'];
+            $order->orderItems()->save($orderItem);
+        }
+
+        return $order->id;
+    }
+
+    public function confirm(Order $order){
+        $totalPrice = 0;
+        foreach ($order->orderItems as $item) {
+            $totalPrice += $item->quantity * $item->item->price;
+        }
+        return view('order.confirm', compact('order','totalPrice'));
     }
 
     /**
@@ -43,9 +71,13 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        $totalPrice = 0;
+        foreach ($order->orderItems as $item) {
+            $totalPrice += $item->quantity * $item->item->price;
+        }
+        return view('order.show', compact('order', 'totalPrice'));
     }
 
     /**

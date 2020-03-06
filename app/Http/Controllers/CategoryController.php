@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
-use App\Item;
 
-class RestaurantsController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +18,7 @@ class RestaurantsController extends Controller
         foreach ($categories as $category) {
             $category["items"] = $category->items;
         }
-        $items = Item::All();
-        return view('restaurant.index', compact('categories','items'));
+        return $categories;
     }
 
     /**
