@@ -10,6 +10,7 @@ import 'animate.css/animate.min.css'
 import Home from './views/Home'
 import NewOrderDelivery from './views/NewOrderDelivery'
 import NewOrderTime from './views/NewOrderTime'
+import NewOrderReview from './views/NewOrderReview'
 
 require('./bootstrap');
 
@@ -31,6 +32,7 @@ Vue.component('basket-total', require('./components/BasketTotal.vue').default);
 Vue.component('home', require('./views/Home.vue').default);
 Vue.component('NewOrderDelivery', require('./views/NewOrderDelivery.vue').default);
 Vue.component('NewOrderTime', require('./views/NewOrderTime.vue').default);
+Vue.component('NewOrderReview', require('./views/NewOrderReview.vue').default);
 
 
 /**
@@ -60,11 +62,11 @@ const router = new VueRouter({
             name: 'time',
             component: NewOrderTime
         },
-        // {
-        //     path: '/review',
-        //     name: 'review',
-        //     component: NewOrderReview,
-        // },
+        {
+             path: '/review',
+             name: 'review',
+             component: NewOrderReview,
+         },
         // {
         //     path: '/complete',
         //     name: 'complete',
