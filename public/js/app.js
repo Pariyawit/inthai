@@ -2433,16 +2433,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      orderRequest: '',
-      deliveryRequest: '',
-      timeRequest: '',
+      orderRequest: "",
+      deliveryRequest: "",
+      timeRequest: "",
       orders: [],
       items: [],
       total: 0,
-      time_text: ''
+      time_text: ""
     };
   },
   methods: {
@@ -2468,7 +2492,7 @@ __webpack_require__.r(__webpack_exports__);
       this.total = total;
     },
     onSubmit: function onSubmit() {
-      this.$router.push('review');
+      this.$router.push("review");
     }
   },
   mounted: function mounted() {},
@@ -2476,7 +2500,7 @@ __webpack_require__.r(__webpack_exports__);
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined || sessionStorage.timeRequest === undefined) {
-      this.$router.push('/');
+      this.$router.push("/");
     } else {
       this.orderRequest = JSON.parse(sessionStorage.orderRequest);
       this.deliveryRequest = JSON.parse(sessionStorage.deliveryRequest);
@@ -2541,15 +2565,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      orderRequest: '',
-      deliveryRequest: '',
-      note: '',
+      orderRequest: "",
+      deliveryRequest: "",
+      note: "",
       time: 0,
       timeOptions: [],
-      now: ''
+      now: ""
     };
   },
   methods: {
@@ -2560,13 +2609,13 @@ __webpack_require__.r(__webpack_exports__);
       this.orderRequest.note = this.note;
       sessionStorage.orderRequest = JSON.stringify(this.orderRequest);
       sessionStorage.timeRequest = JSON.stringify(timeRequest);
-      this.$router.push('review');
+      this.$router.push("review");
     }
   },
   mounted: function mounted() {},
   created: function created() {
     if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined) {
-      this.$router.push('/');
+      this.$router.push("/");
     } else {
       var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       this.orderRequest = JSON.parse(sessionStorage.orderRequest);
@@ -42351,10 +42400,16 @@ var render = function() {
             _c("strong", [_vm._v("Address")]),
             _vm._v(" "),
             _c("p", [
-              _vm._v(_vm._s(_vm.deliveryRequest.address) + " "),
+              _vm._v(
+                "\n                        " +
+                  _vm._s(_vm.deliveryRequest.address) +
+                  " "
+              ),
               _c("br"),
               _vm._v(
-                "\n                    " + _vm._s(_vm.deliveryRequest.address2)
+                "\n                        " +
+                  _vm._s(_vm.deliveryRequest.address2) +
+                  "\n                    "
               )
             ]),
             _vm._v(" "),
@@ -42396,7 +42451,11 @@ var render = function() {
                   [
                     _c("div", { staticClass: "d-flex" }, [
                       _c("div", { staticClass: "mr-1 quantity" }, [
-                        _vm._v(_vm._s(order.quantity) + "x")
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(order.quantity) +
+                            "x\n                                "
+                        )
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
@@ -42404,7 +42463,11 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "ml-auto price" }, [
-                        _vm._v("$ " + _vm._s(order.price * order.quantity))
+                        _vm._v(
+                          "\n                                    $ " +
+                            _vm._s(order.price * order.quantity) +
+                            "\n                                "
+                        )
                       ])
                     ])
                   ]
@@ -42425,7 +42488,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _c("strong", [
-                    _vm._v("Total "),
+                    _vm._v("Total\n                                    "),
                     _c("span", { staticClass: "float-right" }, [
                       _vm._v("$" + _vm._s(_vm.orderRequest.total))
                     ])
@@ -42478,7 +42541,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", [
       _c("button", { staticClass: "btn btn-success w-100" }, [
-        _vm._v("Place my order")
+        _vm._v(
+          "\n                            Place my order\n                        "
+        )
       ])
     ])
   }
@@ -42626,7 +42691,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                            "
+        " for the\n                                restaurant with anything they need to know.\n                                Do not include details about any allergies.\n                            "
       )
     ])
   },
