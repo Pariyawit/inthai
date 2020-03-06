@@ -86,11 +86,11 @@
 </template>
 
 <script>
-
     import {
       ValidationProvider,
       ValidationObserver
     } from 'vee-validate/dist/vee-validate.full';
+    
     export default {
         props: ['categories','items'],
         data(){
@@ -117,7 +117,7 @@
                     'postcode' : this.postcode
                 };
                 sessionStorage.deliveryRequest = JSON.stringify(deliveryRequest);
-                alert("Form Subbmited!");
+                this.$router.push('time');
             }
         },
         mounted() {

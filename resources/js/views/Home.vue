@@ -48,7 +48,7 @@
                             <div v-for="order in orders" class="order-item py-1" v-bind:key="order.item_id">
                                 <div class="d-flex">
                                     <div>
-                                        <button @click="removeItem(order.item_id)"class="btn btn-outline-success">-</button>
+                                        <button @click="removeItem(order.item_id)" class="btn btn-outline-success">-</button>
                                     </div>
                                     <div class="mr-1 quantity">{{ order.quantity }}x</div>
                                     <div class="mr-1 flex-shrink-1"><em>{{ getItemById(order.item_id).title }}</em></div>
