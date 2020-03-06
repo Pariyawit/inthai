@@ -175,6 +175,9 @@
             console.log(this.items);
         },
         created() {
+            sessionStorage.orderRequest = undefined;
+            sessionStorage.deliveryRequest = undefined;
+            sessionStorage.timeRequest = undefined;
             axios.get('/items')
               .then(res => this.items = res.data)
               .catch(err => console.log(err));

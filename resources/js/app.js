@@ -40,8 +40,7 @@ Vue.component('NewOrderTime', require('./views/NewOrderTime.vue').default);
  */
 
 
-Vue.use(VueRouter)
-Vue.use(require("moment"));
+Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',

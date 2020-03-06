@@ -10961,6 +10961,10 @@ strong {
   padding-top: 0;
 }
 
+textarea {
+  resize: none;
+}
+
 .order-show textarea {
   resize: none;
   background-color: #eee;

@@ -4,17 +4,13 @@
 		<div class="card col-12 col-sm-10 col-md-6">
 			<div class="card-body">
 				<h3 class="pb-3">Delivery Time</h3>
-                <ValidationObserver v-slot="{ invalid }">
 				<form class="create-order-form" @submit.prevent="onSubmit">
 					<div class="form-group row">
                         <label for="time" class="col-md-12 col-form-label">Delivery Time</label>
                         <div class="col-md-12">
-                            <ValidationProvider rules="required" v-slot="{ errors }">
-                                <select id="time" class="form-control" v-model="time" name="time" autocomplete="time" autofocus>
-                                    <option v-for="timeOption in timeOptions" :key="timeOption.id" :value="timeOption.id">{{ timeOption.text  }}</option>
-                                </select>
-                                <span class="error">{{ errors[0] }}</span>
-                            </ValidationProvider>
+                            <select id="time" class="form-control" v-model="time" name="time" autocomplete="time" autofocus>
+                                <option v-for="timeOption in timeOptions" :key="timeOption.id" :value="timeOption.value">{{ timeOption.text  }}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -28,13 +24,12 @@
                     
                     <div class="form-group row mb-0">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-success w-100" :disabled="invalid">
+                            <button type="submit" class="btn btn-success w-100">
                                 Continue
                             </button>
                         </div>
                     </div>
 				</form>
-                </ValidationObserver>
                 
 			</div>
 		</div>
@@ -42,11 +37,6 @@
 </div>
 </template>
 <script>
-
-import {
-    ValidationProvider,
-    ValidationObserver
-} from 'vee-validate/dist/vee-validate.full';
 
 export default {
     data(){
@@ -56,6 +46,18 @@ export default {
             note : '',
             time : 0,
             timeOptions : [],
+            now : ''
+        }
+    },
+    methods: {
+        onSubmit(){
+            let timeRequest = {
+                time : this.time
+            };
+            this.orderRequest.note = this.note;
+            sessionStorage.orderRequest = JSON.stringify(this.orderRequest);
+            sessionStorage.timeRequest = JSON.stringify(timeRequest);
+            this.$router.push('review');
         }
     },
     mounted() {
@@ -68,27 +70,27 @@ export default {
             let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
             this.orderRequest = JSON.parse(sessionStorage.orderRequest);
-            this.deliveryRequest = JSON.parse(sessionStorage.deliveryRequest);
             this.note = this.orderRequest.note;
 
             let start_hour = 16;
             let end_hour = 22;
             let id=0;
 
+            this.now = new Date();
+            this.time = this.now.getTime();
             let option = {
                 id : id++,
-                value : (new Date()).getTime(),
+                value : this.now.getTime(),
                 text : "As soon as posible"
             };
 
             this.timeOptions.push(option);
-            let now = new Date();
             for(let h=start_hour ; h < end_hour; h++){
                 let a = new Date();
                 a.setHours(h);
                 a.setMinutes(0);
                 a.setSeconds(0);
-                if(a.getTime() > now.getTime()){
+                if(a.getTime() > this.now.getTime()){
                     let option = {
                         id : id++,
                         value : a.getTime(),
@@ -101,7 +103,7 @@ export default {
                 b.setHours(h);
                 b.setMinutes(30);
                 b.setSeconds(0);
-                if(b.getTime() > now.getTime()){
+                if(b.getTime() > this.now.getTime()){
                     option = {
                         id : id++,
                         value : b.getTime(),
@@ -112,10 +114,6 @@ export default {
             }
 
         }
-    },
-    components:{
-        ValidationProvider,
-        ValidationObserver
     }
 }
 </script>
