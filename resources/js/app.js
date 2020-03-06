@@ -3,6 +3,13 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import 'animate.css/animate.min.css'
+
+import Home from './views/Home'
+import NewOrderDelivery from './views/NewOrderDelivery'
+import NewOrderTime from './views/NewOrderTime'
 
 require('./bootstrap');
 
@@ -21,7 +28,10 @@ window.Vue = require('vue');
 
 Vue.component('restaurant-item', require('./components/RestaurantItem.vue').default);
 Vue.component('basket-total', require('./components/BasketTotal.vue').default);
-Vue.component('restaurant-menu', require('./components/RestaurantMenu.vue').default);
+Vue.component('home', require('./views/Home.vue').default);
+Vue.component('NewOrderDelivery', require('./views/NewOrderDelivery.vue').default);
+Vue.component('NewOrderTime', require('./views/NewOrderTime.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,6 +39,42 @@ Vue.component('restaurant-menu', require('./components/RestaurantMenu.vue').defa
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        },
+        {
+            path: '/delivery',
+            name: 'delivery',
+            component: NewOrderDelivery
+        },
+        {
+            path: '/time',
+            name: 'time',
+            component: NewOrderTime
+        },
+        // {
+        //     path: '/review',
+        //     name: 'review',
+        //     component: NewOrderReview,
+        // },
+        // {
+        //     path: '/complete',
+        //     name: 'complete',
+        //     component: NewOrderComplete,
+        // },
+    ]
+});
+
 const app = new Vue({
     el: '#app',
+    component: { Home },
+    router
 });
