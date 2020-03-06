@@ -5,6 +5,7 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import 'animate.css/animate.min.css'
 // import { ValidationProvider, extend } from 'vee-validate';
 // import { required } from 'vee-validate/dist/rules';
 

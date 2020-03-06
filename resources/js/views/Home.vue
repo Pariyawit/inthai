@@ -36,47 +36,54 @@
             </div>
             <div class="card basket-total">
                 <div class="card-body">
-                    <div class="text-center">
-                        <button @click="createOrder" class="btn btn-success w-100">Order Now</button>
+                    <div class="text-center py-3">
+                        <transition enter-active-class="animated fadeIn fast" leave-active-class="animated fadeOut fast" tag="div">
+                            <div class="pb-1" v-if="35-total>0">Spend ${{ 35-total }} more for delivery</div>
+                        </transition>
+                        <button @click="createOrder" class="btn btn-success w-100 order-now" :disabled="total >= 35 ? false : true">Order Now</button>
+                    </div>
+                    <!-- <hr> -->
+                    <div class="order-item-list">
+                        <transition-group enter-active-class="animated fadeInUp fast" leave-active-class="animated fadeOut faster" tag="div">
+                            <div v-for="order in orders" class="order-item py-1" v-bind:key="order.item_id">
+                                <div class="d-flex">
+                                    <div>
+                                        <button @click="removeItem(order.item_id)"class="btn btn-outline-success">-</button>
+                                    </div>
+                                    <div class="mr-1 quantity">{{ order.quantity }}x</div>
+                                    <div class="mr-1 flex-shrink-1"><em>{{ getItemById(order.item_id).title }}</em></div>
+                                    <div class="ml-auto price">$ {{ getItemById(order.item_id).price*order.quantity }}</div>
+                                </div>
+                            </div>
+                        </transition-group>
                     </div>
                     <hr>
-                    <div class="order-item-list">
-                        <div v-for="order in orders" class="order-item py-1">
-                            <div class="d-flex">
-                                <div>
-                                    <button @click="removeItem(order.item_id)"class="btn btn-outline-success">-</button>
-                                </div>
-                                <div class="mr-1">{{ order.quantity }} x</div>
-                                <div class="mr-1 flex-shrink-1"><em>{{ getItemById(order.item_id).title }}</em></div>
-                                <div class="ml-auto price">$ {{ getItemById(order.item_id).price*order.quantity }}</div>
+                    <div class="bottom-div">
+                        <div class="calculation">
+                            <div>
+                                <!-- Subtotal <span class="float-right">$21.80</span> -->
+                            </div>
+                            <div>
+                                <!-- Discount applied <span class="float-right">$21.80</span> -->
+                            </div>
+                            <div>
+                                <!-- Delivery fee <span class="float-right">$21.80</span> -->
+                            </div>
+                            <div>
+                                <strong>Total <span class="float-right">${{ total }}</span></strong>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="calculation">
-                        <div>
-                            <!-- Subtotal <span class="float-right">$21.80</span> -->
-                        </div>
-                        <div>
-                            <!-- Discount applied <span class="float-right">$21.80</span> -->
-                        </div>
-                        <div>
-                            <!-- Delivery fee <span class="float-right">$21.80</span> -->
-                        </div>
-                        <div>
-                            <strong>Total <span class="float-right">${{ total }}</span></strong>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="note">
-                        <p>
-                        <strong>Leave a note</strong> for the restaurant with anything they need to know. Do not include details about any allergies.
-                        </p>
+                        <hr>
+                        <div class="note">
+                            <p>
+                            <strong>Leave a note</strong> for the restaurant with anything they need to know. Do not include details about any allergies.
+                            </p>
 
-                        <textarea v-model="note" type="textarea" rows="5" class="w-100" placeholder="e.g. the doorbell doesn't work">
+                            <textarea v-model="note" type="textarea" rows="5" class="w-100" placeholder="e.g. the doorbell doesn't work">
 
-                        </textarea>
+                            </textarea>
 
+                        </div>
                     </div>
 
                 </div>
@@ -180,8 +187,21 @@
 </script>
 
 <style>
+    .order-item-list{
+        transition: height 0.5s;
+    }
     .order-item-list .price{
         min-width: 50px;
         text-align: right;
+    }
+    button.order-now:disabled{
+        background: lightgray;
+        border: none;
+    }
+    .order-item{
+        font-size: 0.8rem;
+    }
+    .order-item .quantity{
+        min-width: 20px
     }
 </style>
