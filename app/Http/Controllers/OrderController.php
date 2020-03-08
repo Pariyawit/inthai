@@ -51,9 +51,8 @@ class OrderController extends Controller
           'deliveryRequest.suburb' => 'required',
           'deliveryRequest.state' => 'required',
           'deliveryRequest.postcode' => 'required',
-          'timeRequest.time' => 'required',
+          'timeRequest.time' => '',
         ]);
-        // return $data;
         
         $orderRequest = $data['orderRequest'];
         $timeRequest = $data['timeRequest'];
@@ -62,8 +61,13 @@ class OrderController extends Controller
         $order = new Order;
         $order['total'] = $orderRequest['total'];
         $order['note'] = $orderRequest['note'];
-        $order['delivery_time'] = Carbon::createFromTimestamp($timeRequest['time']);
         $order['status'] = 'new';
+
+        if($timeRequest['time'] == null){
+          $order['delivery_time'] = Carbon::now();
+        }else{
+          $order['delivery_time'] = Carbon::createFromTimestamp($timeRequest['time']);
+        }
 
         $order->save();
         foreach ($orderRequest['orders'] as $o) {
