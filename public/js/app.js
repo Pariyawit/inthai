@@ -2104,15 +2104,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
     return {
       orders: [],
       total: 0,
-      note: '',
-      items: '',
-      categories: ''
+      note: "",
+      items: "",
+      categories: ""
     };
   },
   methods: {
@@ -2128,8 +2150,10 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.orders.push({
-        'item_id': id,
-        'quantity': 1
+        item_id: id,
+        title: this.getItemById(id).title,
+        price: this.getItemById(id).price,
+        quantity: 1
       });
       this.calculateTotal();
     },
@@ -2172,17 +2196,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     createOrder: function createOrder() {
       var orderRequest = {
-        'orders': this.orders,
-        'note': this.note
+        orders: this.orders,
+        note: this.note,
+        total: this.total
       };
       sessionStorage.orderRequest = JSON.stringify(orderRequest);
-      this.$router.push('delivery'); // axios.post('/orders', orderRequest)
-      //   .then(response=>{
-      //       console.log(response.data);
-      //       location.href = '/order/'+response.data+'/create'
-      //   }).catch(errors => {
-      //       console.log(errors);
-      //   });
+      this.$router.push("delivery");
     }
   },
   mounted: function mounted() {
@@ -2195,16 +2214,159 @@ __webpack_require__.r(__webpack_exports__);
     sessionStorage.orderRequest = undefined;
     sessionStorage.deliveryRequest = undefined;
     sessionStorage.timeRequest = undefined;
-    axios.get('/items').then(function (res) {
+    axios.get("/items").then(function (res) {
       return _this.items = res.data;
     })["catch"](function (err) {
       return console.log(err);
     });
-    axios.get('/categories').then(function (res) {
+    axios.get("/categories").then(function (res) {
       return _this.categories = res.data;
     })["catch"](function (err) {
       return console.log(err);
     });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/NewOrderComplete.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/NewOrderComplete.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      orderRequest: "",
+      deliveryRequest: "",
+      timeRequest: "",
+      orders: [],
+      items: [],
+      total: 0,
+      time_text: "",
+      order_id: ""
+    };
+  },
+  methods: {},
+  mounted: function mounted() {},
+  created: function created() {
+    this.order_id = sessionStorage.order_id;
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined || sessionStorage.timeRequest === undefined) {
+      this.$router.push("/");
+    } else {
+      this.orderRequest = JSON.parse(sessionStorage.orderRequest);
+      this.deliveryRequest = JSON.parse(sessionStorage.deliveryRequest);
+      this.timeRequest = JSON.parse(sessionStorage.timeRequest);
+
+      if (this.timeRequest.time == null) {
+        this.time_text = "As soon as posible";
+      } else {
+        var date = new Date(this.timeRequest.time);
+        var hh = date.getHours();
+        hh = hh < 10 ? "0" + hh : hh;
+        var mm = date.getMinutes();
+        mm = mm < 10 ? "0" + mm : mm;
+        this.time_text = days[date.getDay()] + " " + hh + ":" + mm;
+      }
+    }
   }
 });
 
@@ -2308,39 +2470,121 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['categories', 'items'],
+  props: ["categories", "items"],
   data: function data() {
     return {
-      name: '',
-      mobile: '',
-      address: '',
-      address2: '',
-      suburb: '',
-      state: '',
-      postcode: ''
+      name: "",
+      mobile: "",
+      address: "",
+      address2: "",
+      suburb: "",
+      state: "",
+      postcode: ""
     };
   },
   methods: {
     onSubmit: function onSubmit() {
       var deliveryRequest = {
-        'name': this.name,
-        'mobile': this.mobile,
-        'address': this.address,
-        'address2': this.address2,
-        'suburb': this.suburb,
-        'state': this.state,
-        'postcode': this.postcode
+        name: this.name,
+        mobile: this.mobile,
+        address: this.address,
+        address2: this.address2,
+        suburb: this.suburb,
+        state: this.state,
+        postcode: this.postcode
       };
       sessionStorage.deliveryRequest = JSON.stringify(deliveryRequest);
-      this.$router.push('time');
+      this.$router.push("time");
     }
   },
   mounted: function mounted() {},
   created: function created() {
     if (sessionStorage.orderRequest == undefined) {
-      this.$router.push('/');
+      this.$router.push("/");
     }
   },
   components: {
@@ -2398,76 +2642,111 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      orderRequest: '',
-      deliveryRequest: '',
-      note: '',
-      time: 0,
-      timeOptions: [],
-      now: ''
+      orderRequest: "",
+      deliveryRequest: "",
+      timeRequest: "",
+      orders: [],
+      items: [],
+      total: 0,
+      time_text: ""
     };
   },
   methods: {
     onSubmit: function onSubmit() {
-      var timeRequest = {
-        time: this.time
-      };
-      this.orderRequest.note = this.note;
-      sessionStorage.orderRequest = JSON.stringify(this.orderRequest);
-      sessionStorage.timeRequest = JSON.stringify(timeRequest);
-      this.$router.push('review');
+      var vm = this;
+      console.log("submit");
+      axios.post("/orders", {
+        orderRequest: this.orderRequest,
+        deliveryRequest: this.deliveryRequest,
+        timeRequest: this.timeRequest
+      }).then(function (response) {
+        console.log(response);
+        sessionStorage.order_id = response.data;
+        vm.$router.push("complete");
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {},
   created: function created() {
-    if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined) {
-      this.$router.push('/');
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined || sessionStorage.timeRequest === undefined) {
+      this.$router.push("/");
     } else {
-      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       this.orderRequest = JSON.parse(sessionStorage.orderRequest);
-      this.note = this.orderRequest.note;
-      var start_hour = 16;
-      var end_hour = 22;
-      var id = 0;
-      this.now = new Date();
-      this.time = this.now.getTime();
-      var option = {
-        id: id++,
-        value: this.now.getTime(),
-        text: "As soon as posible"
-      };
-      this.timeOptions.push(option);
+      this.deliveryRequest = JSON.parse(sessionStorage.deliveryRequest);
+      this.timeRequest = JSON.parse(sessionStorage.timeRequest);
 
-      for (var h = start_hour; h < end_hour; h++) {
-        var a = new Date();
-        a.setHours(h);
-        a.setMinutes(0);
-        a.setSeconds(0);
-
-        if (a.getTime() > this.now.getTime()) {
-          var _option = {
-            id: id++,
-            value: a.getTime(),
-            text: days[a.getDay()] + " " + h + ":00"
-          };
-          this.timeOptions.push(_option);
-        }
-
-        var b = new Date();
-        b.setHours(h);
-        b.setMinutes(30);
-        b.setSeconds(0);
-
-        if (b.getTime() > this.now.getTime()) {
-          option = {
-            id: id++,
-            value: b.getTime(),
-            text: days[b.getDay()] + " " + h + ":30"
-          };
-          this.timeOptions.push(option);
-        }
+      if (this.timeRequest.time == null) {
+        this.time_text = "As soon as posible";
+      } else {
+        var date = new Date(this.timeRequest.time);
+        var hh = date.getHours();
+        hh = hh < 10 ? "0" + hh : hh;
+        var mm = date.getMinutes();
+        mm = mm < 10 ? "0" + mm : mm;
+        this.time_text = days[date.getDay()] + " " + hh + ":" + mm;
       }
     }
   }
@@ -2522,15 +2801,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      orderRequest: '',
-      deliveryRequest: '',
-      note: '',
-      time: 0,
+      orderRequest: "",
+      deliveryRequest: "",
+      note: "",
+      time: null,
       timeOptions: [],
-      now: ''
+      now: ""
     };
   },
   methods: {
@@ -2541,13 +2830,13 @@ __webpack_require__.r(__webpack_exports__);
       this.orderRequest.note = this.note;
       sessionStorage.orderRequest = JSON.stringify(this.orderRequest);
       sessionStorage.timeRequest = JSON.stringify(timeRequest);
-      this.$router.push('review');
+      this.$router.push("review");
     }
   },
   mounted: function mounted() {},
   created: function created() {
     if (sessionStorage.orderRequest === undefined || sessionStorage.deliveryRequest === undefined) {
-      this.$router.push('/');
+      this.$router.push("/");
     } else {
       var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       this.orderRequest = JSON.parse(sessionStorage.orderRequest);
@@ -2556,10 +2845,10 @@ __webpack_require__.r(__webpack_exports__);
       var end_hour = 22;
       var id = 0;
       this.now = new Date();
-      this.time = this.now.getTime();
+      this.time = null;
       var option = {
         id: id++,
-        value: this.now.getTime(),
+        value: null,
         text: "As soon as posible"
       };
       this.timeOptions.push(option);
@@ -2569,6 +2858,7 @@ __webpack_require__.r(__webpack_exports__);
         a.setHours(h);
         a.setMinutes(0);
         a.setSeconds(0);
+        a.setMilliseconds(0);
 
         if (a.getTime() > this.now.getTime()) {
           var _option = {
@@ -2583,6 +2873,7 @@ __webpack_require__.r(__webpack_exports__);
         b.setHours(h);
         b.setMinutes(30);
         b.setSeconds(0);
+        b.setMilliseconds(0);
 
         if (b.getTime() > this.now.getTime()) {
           option = {
@@ -7161,7 +7452,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.order-item-list{\n    transition: height 0.5s;\n}\n.order-item-list .price{\n    min-width: 50px;\n    text-align: right;\n}\nbutton.order-now:disabled{\n    background: lightgray;\n    border: none;\n}\n.order-item{\n    font-size: 0.8rem;\n}\n.order-item .quantity{\n    min-width: 20px\n}\n", ""]);
+exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n", ""]);
 
 // exports
 
@@ -7180,7 +7471,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nspan.error{\n    color: #c13838;\n    font-weight: bolder;\n    font-size: 0.8rem;\n    /*position: absolute;*/\n}\n", ""]);
+exports.push([module.i, "\nspan.error {\n\tcolor: #c13838;\n\tfont-weight: bolder;\n\tfont-size: 0.8rem;\n\t/*position: absolute;*/\n}\n", ""]);
 
 // exports
 
@@ -41462,7 +41753,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container home" }, [
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row pt-3 no-gutters" }, [
@@ -41530,7 +41821,7 @@ var render = function() {
       _c("div", { staticClass: "col-lg-3 col-12" }, [
         _c("div", { staticClass: "pt-3 pt-lg-0" }, [
           _c("h3", [
-            _vm._v("Basket total\n                    "),
+            _vm._v("\n\t\t\t\t\tBasket total\n\t\t\t\t\t"),
             _c("span", { staticClass: "float-right" }, [
               _vm._v("$" + _vm._s(_vm.total))
             ])
@@ -41617,21 +41908,11 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
-                            _c("em", [
-                              _vm._v(
-                                _vm._s(_vm.getItemById(order.item_id).title)
-                              )
-                            ])
+                            _c("em", [_vm._v(_vm._s(order.title))])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "ml-auto price" }, [
-                            _vm._v(
-                              "$ " +
-                                _vm._s(
-                                  _vm.getItemById(order.item_id).price *
-                                    order.quantity
-                                )
-                            )
+                            _vm._v("$ " + _vm._s(order.price * order.quantity))
                           ])
                         ])
                       ]
@@ -41655,7 +41936,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _c("strong", [
-                    _vm._v("Total "),
+                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
                     _c("span", { staticClass: "float-right" }, [
                       _vm._v("$" + _vm._s(_vm.total))
                     ])
@@ -41712,7 +41993,7 @@ var staticRenderFns = [
           staticClass: "rounded-circle",
           attrs: { src: "img/inthai-logo.gif" }
         }),
-        _vm._v(" In Thai Style Restaurant")
+        _vm._v(" In Thai Style Restaurant\n\t\t")
       ])
     ])
   },
@@ -41723,11 +42004,183 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                            "
+        " for the restaurant with anything they need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
       )
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/NewOrderComplete.vue?vue&type=template&id=abaa4af4&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/NewOrderComplete.vue?vue&type=template&id=abaa4af4& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row pt-5 m-0" }, [
+      _c("div", { staticClass: "col-12" }, [
+        _c("h1", [_vm._v("Thank you for your order")]),
+        _vm._v(" "),
+        _c("h3", [_vm._v("Order number is: " + _vm._s(_vm.order_id))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
+        _c("div", { staticClass: "card mt-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h4", [_vm._v("Order Detail")]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Name")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.name))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Mobile")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.mobile))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Address")]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "\n\t\t\t\t\t\t" +
+                  _vm._s(_vm.deliveryRequest.address) +
+                  "\n\t\t\t\t\t\t"
+              ),
+              _c("br"),
+              _vm._v(
+                "\n\t\t\t\t\t\t" +
+                  _vm._s(_vm.deliveryRequest.address2) +
+                  "\n\t\t\t\t\t"
+              )
+            ]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Suburb")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.suburb))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("State")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.state))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Postcode")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.postcode))]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", [
+              _c("h4", [_vm._v("Delivery Time")]),
+              _vm._v(" "),
+              _c("div", [_vm._v(_vm._s(_vm.time_text))])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
+        _c("div", { staticClass: "card basket-total mt-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h3", [_vm._v("Your order")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "order-item-list" },
+              _vm._l(_vm.orderRequest.orders, function(order) {
+                return _c(
+                  "div",
+                  { key: order.item_id, staticClass: "order-item py-1" },
+                  [
+                    _c("div", { staticClass: "d-flex" }, [
+                      _c("div", { staticClass: "mr-1 quantity" }, [
+                        _vm._v(_vm._s(order.quantity) + "x")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
+                        _c("em", [_vm._v(_vm._s(order.title))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-auto price" }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t\t$ " +
+                            _vm._s(order.price * order.quantity) +
+                            "\n\t\t\t\t\t\t\t\t"
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "bottom-div" }, [
+              _c("div", { staticClass: "calculation" }, [
+                _c("div"),
+                _vm._v(" "),
+                _c("div"),
+                _vm._v(" "),
+                _c("div"),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [
+                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
+                    _c("span", { staticClass: "float-right" }, [
+                      _vm._v("$" + _vm._s(_vm.orderRequest.total))
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _c("div", { staticClass: "note" }, [
+                _c("strong", [_vm._v("Your Note to Restaurant")]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderRequest.note,
+                      expression: "orderRequest.note"
+                    }
+                  ],
+                  staticClass: "w-100",
+                  attrs: { disabled: "disabled", type: "textarea" },
+                  domProps: { value: _vm.orderRequest.note },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.orderRequest, "note", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42280,7 +42733,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                Continue\n                            "
+                                    "\n\t\t\t\t\t\t\t\t\tContinue\n\t\t\t\t\t\t\t\t"
                                   )
                                 ]
                               )
@@ -42323,150 +42776,168 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row pt-5 justify-content-center m-0" }, [
-      _c("div", { staticClass: "card col-12 col-sm-10 col-md-6" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("h3", { staticClass: "pb-3" }, [_vm._v("Delivery Time")]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "create-order-form",
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.onSubmit($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group row" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "col-md-12 col-form-label",
-                    attrs: { for: "time" }
-                  },
-                  [_vm._v("Delivery Time")]
-                ),
+    _c("div", { staticClass: "row pt-5 m-0" }, [
+      _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
+        _c("div", { staticClass: "card mt-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h4", [_vm._v("Delivery Detail")]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Name")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.name))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Mobile")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.mobile))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Address")]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "\n\t\t\t\t\t\t" +
+                  _vm._s(_vm.deliveryRequest.address) +
+                  "\n\t\t\t\t\t\t"
+              ),
+              _c("br"),
+              _vm._v(
+                "\n\t\t\t\t\t\t" +
+                  _vm._s(_vm.deliveryRequest.address2) +
+                  "\n\t\t\t\t\t"
+              )
+            ]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Suburb")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.suburb))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("State")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.state))]),
+            _vm._v(" "),
+            _c("strong", [_vm._v("Postcode")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.deliveryRequest.postcode))]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", [
+              _c("h4", [_vm._v("Delivery Time")]),
+              _vm._v(" "),
+              _c("div", [_vm._v(_vm._s(_vm.time_text))])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
+        _c("div", { staticClass: "card basket-total mt-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h3", [_vm._v("Your order")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "order-item-list" },
+              _vm._l(_vm.orderRequest.orders, function(order) {
+                return _c(
+                  "div",
+                  { key: order.item_id, staticClass: "order-item py-1" },
+                  [
+                    _c("div", { staticClass: "d-flex" }, [
+                      _c("div", { staticClass: "mr-1 quantity" }, [
+                        _vm._v(_vm._s(order.quantity) + "x")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
+                        _c("em", [_vm._v(_vm._s(order.title))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-auto price" }, [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t\t\t$ " +
+                            _vm._s(order.price * order.quantity) +
+                            "\n\t\t\t\t\t\t\t\t"
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "bottom-div" }, [
+              _c("div", { staticClass: "calculation" }, [
+                _c("div"),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-12" }, [
-                  _c(
-                    "select",
+                _c("div"),
+                _vm._v(" "),
+                _c("div"),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [
+                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
+                    _c("span", { staticClass: "float-right" }, [
+                      _vm._v("$" + _vm._s(_vm.orderRequest.total))
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _c("div", { staticClass: "note" }, [
+                _c("strong", [_vm._v("Your Note to Restaurant")]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
                     {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.time,
-                          expression: "time"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "time",
-                        name: "time",
-                        autocomplete: "time",
-                        autofocus: ""
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.time = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    _vm._l(_vm.timeOptions, function(timeOption) {
-                      return _c(
-                        "option",
-                        {
-                          key: timeOption.id,
-                          domProps: { value: timeOption.value }
-                        },
-                        [_vm._v(_vm._s(timeOption.text))]
-                      )
-                    }),
-                    0
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group row" }, [
-                _c("div", { staticClass: "col-md-12" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.note,
-                        expression: "note"
-                      }
-                    ],
-                    staticClass: "w-100",
-                    attrs: { name: "note", id: "note", cols: "30", rows: "10" },
-                    domProps: { value: _vm.note },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.note = $event.target.value
-                      }
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.orderRequest.note,
+                      expression: "orderRequest.note"
                     }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(1)
-            ]
-          )
+                  ],
+                  staticClass: "w-100",
+                  attrs: { disabled: "disabled", type: "textarea" },
+                  domProps: { value: _vm.orderRequest.note },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.orderRequest, "note", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success w-100",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.onSubmit($event)
+                    }
+                  }
+                },
+                [_vm._v("\n\t\t\t\t\t\t\tPlace my order\n\t\t\t\t\t\t")]
+              )
+            ])
+          ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("strong", [_vm._v("Leave a note")]),
-      _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                            "
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row mb-0" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-success w-100", attrs: { type: "submit" } },
-          [
-            _vm._v(
-              "\n                                Continue\n                            "
-            )
-          ]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42610,7 +43081,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                            "
+        " for the\n\t\t\t\t\t\t\t\trestaurant with anything they need to know.\n\t\t\t\t\t\t\t\tDo not include details about any allergies.\n\t\t\t\t\t\t\t"
       )
     ])
   },
@@ -42623,11 +43094,7 @@ var staticRenderFns = [
         _c(
           "button",
           { staticClass: "btn btn-success w-100", attrs: { type: "submit" } },
-          [
-            _vm._v(
-              "\n                                Continue\n                            "
-            )
-          ]
+          [_vm._v("Continue")]
         )
       ])
     ])
@@ -57745,11 +58212,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_NewOrderDelivery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/NewOrderDelivery */ "./resources/js/views/NewOrderDelivery.vue");
 /* harmony import */ var _views_NewOrderTime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/NewOrderTime */ "./resources/js/views/NewOrderTime.vue");
 /* harmony import */ var _views_NewOrderReview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/NewOrderReview */ "./resources/js/views/NewOrderReview.vue");
+/* harmony import */ var _views_NewOrderComplete__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/NewOrderComplete */ "./resources/js/views/NewOrderComplete.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
 
 
 
@@ -57771,12 +58240,13 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('restaurant-item', __webpack_require__(/*! ./components/RestaurantItem.vue */ "./resources/js/components/RestaurantItem.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('basket-total', __webpack_require__(/*! ./components/BasketTotal.vue */ "./resources/js/components/BasketTotal.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('home', __webpack_require__(/*! ./views/Home.vue */ "./resources/js/views/Home.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('NewOrderDelivery', __webpack_require__(/*! ./views/NewOrderDelivery.vue */ "./resources/js/views/NewOrderDelivery.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('NewOrderTime', __webpack_require__(/*! ./views/NewOrderTime.vue */ "./resources/js/views/NewOrderTime.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('NewOrderReview', __webpack_require__(/*! ./views/NewOrderReview.vue */ "./resources/js/views/NewOrderReview.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("restaurant-item", __webpack_require__(/*! ./components/RestaurantItem.vue */ "./resources/js/components/RestaurantItem.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("basket-total", __webpack_require__(/*! ./components/BasketTotal.vue */ "./resources/js/components/BasketTotal.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("home", __webpack_require__(/*! ./views/Home.vue */ "./resources/js/views/Home.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("NewOrderDelivery", __webpack_require__(/*! ./views/NewOrderDelivery.vue */ "./resources/js/views/NewOrderDelivery.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("NewOrderTime", __webpack_require__(/*! ./views/NewOrderTime.vue */ "./resources/js/views/NewOrderTime.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("NewOrderReview", __webpack_require__(/*! ./views/NewOrderReview.vue */ "./resources/js/views/NewOrderReview.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("NewOrderComplete", __webpack_require__(/*! ./views/NewOrderComplete.vue */ "./resources/js/views/NewOrderComplete.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -57785,32 +58255,31 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('NewOrderReview', __webpack
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  mode: 'history',
+  mode: "history",
   routes: [{
-    path: '/',
-    name: 'home',
+    path: "/",
+    name: "home",
     component: _views_Home__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
-    path: '/delivery',
-    name: 'delivery',
+    path: "/delivery",
+    name: "delivery",
     component: _views_NewOrderDelivery__WEBPACK_IMPORTED_MODULE_4__["default"]
   }, {
-    path: '/time',
-    name: 'time',
+    path: "/time",
+    name: "time",
     component: _views_NewOrderTime__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, {
-    path: '/review',
-    name: 'review',
+    path: "/review",
+    name: "review",
     component: _views_NewOrderReview__WEBPACK_IMPORTED_MODULE_6__["default"]
-  } // {
-  //     path: '/complete',
-  //     name: 'complete',
-  //     component: NewOrderComplete,
-  // },
-  ]
+  }, {
+    path: "/complete",
+    name: "complete",
+    component: _views_NewOrderComplete__WEBPACK_IMPORTED_MODULE_7__["default"]
+  }]
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#app',
+  el: "#app",
   component: {
     Home: _views_Home__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
@@ -58084,6 +58553,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_63cd6604___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_template_id_63cd6604___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/NewOrderComplete.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/views/NewOrderComplete.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _NewOrderComplete_vue_vue_type_template_id_abaa4af4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewOrderComplete.vue?vue&type=template&id=abaa4af4& */ "./resources/js/views/NewOrderComplete.vue?vue&type=template&id=abaa4af4&");
+/* harmony import */ var _NewOrderComplete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewOrderComplete.vue?vue&type=script&lang=js& */ "./resources/js/views/NewOrderComplete.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _NewOrderComplete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _NewOrderComplete_vue_vue_type_template_id_abaa4af4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _NewOrderComplete_vue_vue_type_template_id_abaa4af4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/NewOrderComplete.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/NewOrderComplete.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/views/NewOrderComplete.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewOrderComplete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./NewOrderComplete.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/NewOrderComplete.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewOrderComplete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/NewOrderComplete.vue?vue&type=template&id=abaa4af4&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/views/NewOrderComplete.vue?vue&type=template&id=abaa4af4& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewOrderComplete_vue_vue_type_template_id_abaa4af4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./NewOrderComplete.vue?vue&type=template&id=abaa4af4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/NewOrderComplete.vue?vue&type=template&id=abaa4af4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewOrderComplete_vue_vue_type_template_id_abaa4af4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewOrderComplete_vue_vue_type_template_id_abaa4af4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
