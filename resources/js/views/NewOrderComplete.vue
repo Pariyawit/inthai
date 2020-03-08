@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="row pt-5 m-0">
-			<div class="col-12 text-center">
+			<div class="col-12 text-center animated fadeInUp fast">
 				<h1>Thank you for your order</h1>
 				<h3>Order number is: {{ order_id }}</h3>
 			</div>
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			<div class="col-12 col-sm-8 col-md-6">
-				<div class="card basket-total mt-3">
+				<div class="card mt-3">
 					<div class="card-body">
 						<h4>Your order</h4>
 						<div class="order-item-list">

@@ -1,16 +1,16 @@
 <template>
 	<div class="container home">
 		<div class="heading pt-3">
-			<h1>
+			<h1 class="font-weight-bold">
 				<img src="img/inthai-logo.gif" class="rounded-circle" /> In Thai Style
 				Restaurant
 			</h1>
 		</div>
-		<div class="row pt-3 no-gutters">
-			<div class="col-2 pr-2 d-none d-lg-block">
-				<h3>Categories</h3>
-				<div class="card pt-3">
+		<div class="row pt-3">
+			<div class="col-2 pr-2 d-none d-xl-block">
+				<div class="card pt-1">
 					<div class="card-body categories">
+						<h5 class="card-title">Categories</h5>
 						<div
 							v-for="category in categories"
 							class="category-item pb-3"
@@ -23,10 +23,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-7 col-12 pr-2">
-				<h3>Menu</h3>
-				<div class="card pt-3">
+			<div class="col-lg-8 col-xl-7 col-12 pr-2">
+				<div class="card pt-1">
 					<div class="card-body menu">
+						<h5 class="card-title">Menu</h5>
 						<div
 							class="category pb-5"
 							v-for="category in categories"
@@ -43,15 +43,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-12">
-				<div class="pt-3 pt-lg-0">
-					<h3>
-						Basket total
-						<span class="float-right">${{ total }}</span>
-					</h3>
-				</div>
-				<div class="card basket-total">
+			<div class="col-lg-4 col-xl-3 col-12">
+				<div class="card basket-total pt-1">
 					<div class="card-body">
+						<h5 class="card-title">
+							Total <span class="float-right">${{ total }}</span>
+						</h5>
 						<div class="text-center py-3">
 							<transition
 								enter-active-class="animated fadeIn fast"
@@ -64,7 +61,7 @@
 							</transition>
 							<button
 								@click="createOrder"
-								class="btn btn-success w-100 order-now"
+								class="btn btn-accent w-100 order-now"
 								:disabled="total >= 35 ? false : true"
 							>
 								Order Now
@@ -86,9 +83,9 @@
 										<div>
 											<button
 												@click="removeItem(order.item_id)"
-												class="btn btn-outline-success"
+												class="btn btn-outline-success btn-remove-item"
 											>
-												-
+												<i class="fas fa-minus"></i>
 											</button>
 										</div>
 										<div class="mr-1 quantity">{{ order.quantity }}x</div>
@@ -251,5 +248,10 @@ button.order-now:disabled {
 }
 .order-item .quantity {
 	min-width: 20px;
+}
+.basket-total {
+	position: sticky;
+	top: 25px;
+	color: white;
 }
 </style>
