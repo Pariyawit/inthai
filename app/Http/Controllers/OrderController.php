@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Order;
 use App\OrderItem;
+use App\Customer;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -39,20 +41,36 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'orders' => 'required',
-            'note'  => ''
+          'orderRequest.orders' => 'required',
+          'orderRequest.note' => '',
+          'orderRequest.total'  => 'required',
+          'deliveryRequest.name' => 'required',
+          'deliveryRequest.mobile' => 'required',
+          'deliveryRequest.address' => 'required',
+          'deliveryRequest.address2' => '',
+          'deliveryRequest.suburb' => 'required',
+          'deliveryRequest.state' => 'required',
+          'deliveryRequest.postcode' => 'required',
+          'timeRequest.time' => 'required',
         ]);
-        $order = new Order;
-        $order->note = $data['note'];
-        $order->status = 'ordering';
-        $order->save();
+        // return $data;
+        
+        $orderRequest = $data['orderRequest'];
+        $timeRequest = $data['timeRequest'];
+        $deliveryRequest = $data['deliveryRequest'];
 
-        foreach ($data['orders'] as $o) {
-            $orderItem = new OrderItem;
-            $orderItem['item_id'] = $o['item_id'];
-            $orderItem['quantity'] = $o['quantity'];
-            $order->orderItems()->save($orderItem);
+        $order = new Order;
+        $order['total'] = $orderRequest['total'];
+        $order['note'] = $orderRequest['note'];
+        $order['delivery_time'] = Carbon::createFromTimestamp($timeRequest['time']);
+        $order['status'] = 'new';
+
+        $order->save();
+        foreach ($orderRequest['orders'] as $o) {
+            $order->orderItems()->save(new OrderItem($o));
         }
+
+        $order->customer()->save(new Customer($deliveryRequest));
 
         return $order->id;
     }

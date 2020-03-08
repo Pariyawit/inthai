@@ -2104,15 +2104,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
     return {
       orders: [],
       total: 0,
-      note: '',
-      items: '',
-      categories: ''
+      note: "",
+      items: "",
+      categories: ""
     };
   },
   methods: {
@@ -2131,7 +2153,6 @@ __webpack_require__.r(__webpack_exports__);
         item_id: id,
         title: this.getItemById(id).title,
         price: this.getItemById(id).price,
-        vegetarian: this.getItemById(id).vegetarian,
         quantity: 1
       });
       this.calculateTotal();
@@ -2175,12 +2196,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     createOrder: function createOrder() {
       var orderRequest = {
-        'orders': this.orders,
-        'note': this.note,
-        'total': this.total
+        orders: this.orders,
+        note: this.note,
+        total: this.total
       };
       sessionStorage.orderRequest = JSON.stringify(orderRequest);
-      this.$router.push('delivery');
+      this.$router.push("delivery");
     }
   },
   mounted: function mounted() {
@@ -2193,12 +2214,12 @@ __webpack_require__.r(__webpack_exports__);
     sessionStorage.orderRequest = undefined;
     sessionStorage.deliveryRequest = undefined;
     sessionStorage.timeRequest = undefined;
-    axios.get('/items').then(function (res) {
+    axios.get("/items").then(function (res) {
       return _this.items = res.data;
     })["catch"](function (err) {
       return console.log(err);
     });
-    axios.get('/categories').then(function (res) {
+    axios.get("/categories").then(function (res) {
       return _this.categories = res.data;
     })["catch"](function (err) {
       return console.log(err);
@@ -2439,24 +2460,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2470,29 +2473,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getItemById: function getItemById(id) {
-      var items = this.items;
-
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
-          return items[i];
-        }
-      }
-
-      return null;
-    },
-    calculateTotal: function calculateTotal() {
-      var orders = this.orders;
-      var total = 0;
-
-      for (var i = 0; i < orders.length; i++) {
-        total += this.getItemById(orders[i].item_id).price * orders[i].quantity;
-      }
-
-      this.total = total;
-    },
     onSubmit: function onSubmit() {
-      this.$router.push("review");
+      console.log("submit");
+      axios.post("/orders", {
+        orderRequest: this.orderRequest,
+        deliveryRequest: this.deliveryRequest,
+        timeRequest: this.timeRequest
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      }); // this.$router.push("review");
     }
   },
   mounted: function mounted() {},
@@ -7231,7 +7222,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.order-item-list{\n    transition: height 0.5s;\n}\n.order-item-list .price{\n    min-width: 50px;\n    text-align: right;\n}\nbutton.order-now:disabled{\n    background: lightgray;\n    border: none;\n}\n.home .order-item{\n    font-size: 0.8rem;\n}\n.order-item .quantity{\n    min-width: 20px\n}\n", ""]);
+exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n", ""]);
 
 // exports
 
@@ -41600,7 +41591,7 @@ var render = function() {
       _c("div", { staticClass: "col-lg-3 col-12" }, [
         _c("div", { staticClass: "pt-3 pt-lg-0" }, [
           _c("h3", [
-            _vm._v("Basket total\n                    "),
+            _vm._v("\n\t\t\t\t\tBasket total\n\t\t\t\t\t"),
             _c("span", { staticClass: "float-right" }, [
               _vm._v("$" + _vm._s(_vm.total))
             ])
@@ -41715,7 +41706,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _c("strong", [
-                    _vm._v("Total "),
+                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
                     _c("span", { staticClass: "float-right" }, [
                       _vm._v("$" + _vm._s(_vm.total))
                     ])
@@ -41772,7 +41763,7 @@ var staticRenderFns = [
           staticClass: "rounded-circle",
           attrs: { src: "img/inthai-logo.gif" }
         }),
-        _vm._v(" In Thai Style Restaurant")
+        _vm._v(" In Thai Style Restaurant\n\t\t")
       ])
     ])
   },
@@ -41783,7 +41774,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n                            "
+        " for the restaurant with anything they need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
       )
     ])
   }
@@ -42401,15 +42392,15 @@ var render = function() {
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                "\n                        " +
+                "\n\t\t\t\t\t\t" +
                   _vm._s(_vm.deliveryRequest.address) +
-                  " "
+                  "\n\t\t\t\t\t\t"
               ),
               _c("br"),
               _vm._v(
-                "\n                        " +
+                "\n\t\t\t\t\t\t" +
                   _vm._s(_vm.deliveryRequest.address2) +
-                  "\n                    "
+                  "\n\t\t\t\t\t"
               )
             ]),
             _vm._v(" "),
@@ -42451,11 +42442,7 @@ var render = function() {
                   [
                     _c("div", { staticClass: "d-flex" }, [
                       _c("div", { staticClass: "mr-1 quantity" }, [
-                        _vm._v(
-                          "\n                                    " +
-                            _vm._s(order.quantity) +
-                            "x\n                                "
-                        )
+                        _vm._v(_vm._s(order.quantity) + "x")
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
@@ -42463,11 +42450,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "ml-auto price" }, [
-                        _vm._v(
-                          "\n                                    $ " +
-                            _vm._s(order.price * order.quantity) +
-                            "\n                                "
-                        )
+                        _vm._v("$ " + _vm._s(order.price * order.quantity))
                       ])
                     ])
                   ]
@@ -42488,7 +42471,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _c("strong", [
-                    _vm._v("Total\n                                    "),
+                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
                     _c("span", { staticClass: "float-right" }, [
                       _vm._v("$" + _vm._s(_vm.orderRequest.total))
                     ])
@@ -42527,27 +42510,28 @@ var render = function() {
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
-            _vm._m(0)
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success w-100",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.onSubmit($event)
+                    }
+                  }
+                },
+                [_vm._v("Place my order")]
+              )
+            ])
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("button", { staticClass: "btn btn-success w-100" }, [
-        _vm._v(
-          "\n                            Place my order\n                        "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
