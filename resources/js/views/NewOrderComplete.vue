@@ -1,14 +1,14 @@
 <template>
 	<div class="container">
 		<div class="row pt-5 m-0">
-			<div class="col-12">
+			<div class="col-12 text-center">
 				<h1>Thank you for your order</h1>
 				<h3>Order number is: {{ order_id }}</h3>
 			</div>
 			<div class="col-12 col-sm-8 col-md-6">
 				<div class="card mt-3">
 					<div class="card-body">
-						<h4>Order Detail</h4>
+						<h4>Delivery Detail</h4>
 						<strong>Name</strong>
 						<p>{{ deliveryRequest.name }}</p>
 						<strong>Mobile</strong>
@@ -36,7 +36,7 @@
 			<div class="col-12 col-sm-8 col-md-6">
 				<div class="card basket-total mt-3">
 					<div class="card-body">
-						<h3>Your order</h3>
+						<h4>Your order</h4>
 						<div class="order-item-list">
 							<div
 								v-for="order in orderRequest.orders"
@@ -75,7 +75,7 @@
 							</div>
 							<hr />
 							<div class="note">
-								<strong>Your Note to Restaurant</strong>
+								<strong>Note to Restaurant</strong>
 								<textarea
 									disabled="disabled"
 									v-model="orderRequest.note"
@@ -139,6 +139,7 @@ export default {
 				mm = mm < 10 ? "0" + mm : mm;
 				this.time_text = days[date.getDay()] + " " + hh + ":" + mm;
 			}
+			sessionStorage.clear();
 		}
 	}
 };
