@@ -32,7 +32,7 @@
 			<div class="col-12 col-sm-8 col-md-6">
 				<div class="card basket-total mt-3">
 					<div class="card-body">
-						<h3>Your order</h3>
+						<h4>Your order</h4>
 						<div class="order-item-list">
 							<div
 								v-for="order in orderRequest.orders"
@@ -82,8 +82,17 @@
 						</div>
 						<hr />
 						<div>
-							<button class="btn btn-success w-100" @click.prevent="onSubmit">
+							<button
+								class="btn btn-success w-100"
+								@click.prevent="onSubmit"
+								v-if="!submitting"
+							>
 								Place my order
+							</button>
+							<button class="btn btn-success w-100" disabled="disabled" v-else>
+								<div class="animated flash infinite slow">
+									Submitting Your Order
+								</div>
 							</button>
 						</div>
 					</div>
@@ -102,11 +111,13 @@ export default {
 			orders: [],
 			items: [],
 			total: 0,
-			time_text: ""
+			time_text: "",
+			submitting: false
 		};
 	},
 	methods: {
 		onSubmit() {
+			this.submitting = true;
 			const vm = this;
 			console.log("submit");
 			axios

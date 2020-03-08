@@ -2,7 +2,8 @@
 	<div class="container home">
 		<div class="heading pt-3">
 			<h1>
-				<img src="img/inthai-logo.gif" class="rounded-circle" /> In Thai Style Restaurant
+				<img src="img/inthai-logo.gif" class="rounded-circle" /> In Thai Style
+				Restaurant
 			</h1>
 		</div>
 		<div class="row pt-3 no-gutters">
@@ -10,7 +11,11 @@
 				<h3>Categories</h3>
 				<div class="card pt-3">
 					<div class="card-body categories">
-						<div v-for="category in categories" class="category-item pb-3" :key="category.id">
+						<div
+							v-for="category in categories"
+							class="category-item pb-3"
+							:key="category.id"
+						>
 							<a href="#">
 								<span class="text-dark">{{ category.title }}</span>
 							</a>
@@ -22,10 +27,17 @@
 				<h3>Menu</h3>
 				<div class="card pt-3">
 					<div class="card-body menu">
-						<div class="category pb-5" v-for="category in categories" :key="category.id">
+						<div
+							class="category pb-5"
+							v-for="category in categories"
+							:key="category.id"
+						>
 							<h3>{{ category.title }}</h3>
 							<div v-for="item in category.items" :key="item.id">
-								<restaurant-item :item="item" v-on:addItem="onItemAdd"></restaurant-item>
+								<restaurant-item
+									:item="item"
+									v-on:addItem="onItemAdd"
+								></restaurant-item>
 							</div>
 						</div>
 					</div>
@@ -46,13 +58,17 @@
 								leave-active-class="animated fadeOut fast"
 								tag="div"
 							>
-								<div class="pb-1" v-if="35-total>0">Spend ${{ 35-total }} more for delivery</div>
+								<div class="pb-1" v-if="35 - total > 0">
+									Spend ${{ 35 - total }} more for delivery
+								</div>
 							</transition>
 							<button
 								@click="createOrder"
 								class="btn btn-success w-100 order-now"
 								:disabled="total >= 35 ? false : true"
-							>Order Now</button>
+							>
+								Order Now
+							</button>
 						</div>
 						<!-- <hr> -->
 						<div class="order-item-list">
@@ -61,16 +77,27 @@
 								leave-active-class="animated fadeOut faster"
 								tag="div"
 							>
-								<div v-for="order in orders" class="order-item py-1" v-bind:key="order.item_id">
+								<div
+									v-for="order in orders"
+									class="order-item py-1"
+									v-bind:key="order.item_id"
+								>
 									<div class="d-flex">
 										<div>
-											<button @click="removeItem(order.item_id)" class="btn btn-outline-success">-</button>
+											<button
+												@click="removeItem(order.item_id)"
+												class="btn btn-outline-success"
+											>
+												-
+											</button>
 										</div>
 										<div class="mr-1 quantity">{{ order.quantity }}x</div>
 										<div class="mr-1 flex-shrink-1">
 											<em>{{ order.title }}</em>
 										</div>
-										<div class="ml-auto price">$ {{ order.price*order.quantity }}</div>
+										<div class="ml-auto price">
+											$ {{ order.price * order.quantity }}
+										</div>
 									</div>
 								</div>
 							</transition-group>
@@ -97,7 +124,8 @@
 							<hr />
 							<div class="note">
 								<p>
-									<strong>Leave a note</strong> for the restaurant with anything they need to know. Do not include details about any allergies.
+									<strong>Leave a note</strong> for the restaurant with anything
+									they need to know. Do not include details about any allergies.
 								</p>
 
 								<textarea
@@ -192,9 +220,7 @@ export default {
 		console.log(this.items);
 	},
 	created() {
-		sessionStorage.orderRequest = undefined;
-		sessionStorage.deliveryRequest = undefined;
-		sessionStorage.timeRequest = undefined;
+		sessionStorage.clear();
 		axios
 			.get("/items")
 			.then(res => (this.items = res.data))

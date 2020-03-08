@@ -2126,6 +2126,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
@@ -2211,9 +2239,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    sessionStorage.orderRequest = undefined;
-    sessionStorage.deliveryRequest = undefined;
-    sessionStorage.timeRequest = undefined;
+    sessionStorage.clear();
     axios.get("/items").then(function (res) {
       return _this.items = res.data;
     })["catch"](function (err) {
@@ -2366,6 +2392,8 @@ __webpack_require__.r(__webpack_exports__);
         mm = mm < 10 ? "0" + mm : mm;
         this.time_text = days[date.getDay()] + " " + hh + ":" + mm;
       }
+
+      sessionStorage.clear();
     }
   }
 });
@@ -2698,6 +2726,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2707,11 +2744,13 @@ __webpack_require__.r(__webpack_exports__);
       orders: [],
       items: [],
       total: 0,
-      time_text: ""
+      time_text: "",
+      submitting: false
     };
   },
   methods: {
     onSubmit: function onSubmit() {
+      this.submitting = true;
       var vm = this;
       console.log("submit");
       axios.post("/orders", {
@@ -41847,9 +41886,9 @@ var render = function() {
                     35 - _vm.total > 0
                       ? _c("div", { staticClass: "pb-1" }, [
                           _vm._v(
-                            "Spend $" +
+                            "\n\t\t\t\t\t\t\t\tSpend $" +
                               _vm._s(35 - _vm.total) +
-                              " more for delivery"
+                              " more for delivery\n\t\t\t\t\t\t\t"
                           )
                         ])
                       : _vm._e()
@@ -41863,7 +41902,7 @@ var render = function() {
                     attrs: { disabled: _vm.total >= 35 ? false : true },
                     on: { click: _vm.createOrder }
                   },
-                  [_vm._v("Order Now")]
+                  [_vm._v("\n\t\t\t\t\t\t\tOrder Now\n\t\t\t\t\t\t")]
                 )
               ],
               1
@@ -41899,7 +41938,11 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("-")]
+                              [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\t\t\t"
+                                )
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -41912,7 +41955,11 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "ml-auto price" }, [
-                            _vm._v("$ " + _vm._s(order.price * order.quantity))
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t\t\t$ " +
+                                _vm._s(order.price * order.quantity) +
+                                "\n\t\t\t\t\t\t\t\t\t"
+                            )
                           ])
                         ])
                       ]
@@ -41993,7 +42040,7 @@ var staticRenderFns = [
           staticClass: "rounded-circle",
           attrs: { src: "img/inthai-logo.gif" }
         }),
-        _vm._v(" In Thai Style Restaurant\n\t\t")
+        _vm._v(" In Thai Style\n\t\t\tRestaurant\n\t\t")
       ])
     ])
   },
@@ -42004,7 +42051,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything they need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
+        " for the restaurant with anything\n\t\t\t\t\t\t\t\tthey need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
       )
     ])
   }
@@ -42032,7 +42079,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row pt-5 m-0" }, [
-      _c("div", { staticClass: "col-12" }, [
+      _c("div", { staticClass: "col-12 text-center" }, [
         _c("h1", [_vm._v("Thank you for your order")]),
         _vm._v(" "),
         _c("h3", [_vm._v("Order number is: " + _vm._s(_vm.order_id))])
@@ -42041,7 +42088,7 @@ var render = function() {
       _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
         _c("div", { staticClass: "card mt-3" }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("h4", [_vm._v("Order Detail")]),
+            _c("h4", [_vm._v("Delivery Detail")]),
             _vm._v(" "),
             _c("strong", [_vm._v("Name")]),
             _vm._v(" "),
@@ -42093,7 +42140,7 @@ var render = function() {
       _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
         _c("div", { staticClass: "card basket-total mt-3" }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("h3", [_vm._v("Your order")]),
+            _c("h4", [_vm._v("Your order")]),
             _vm._v(" "),
             _c(
               "div",
@@ -42149,7 +42196,7 @@ var render = function() {
               _c("hr"),
               _vm._v(" "),
               _c("div", { staticClass: "note" }, [
-                _c("strong", [_vm._v("Your Note to Restaurant")]),
+                _c("strong", [_vm._v("Note to Restaurant")]),
                 _vm._v(" "),
                 _c("textarea", {
                   directives: [
@@ -42832,7 +42879,7 @@ var render = function() {
       _c("div", { staticClass: "col-12 col-sm-8 col-md-6" }, [
         _c("div", { staticClass: "card basket-total mt-3" }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("h3", [_vm._v("Your order")]),
+            _c("h4", [_vm._v("Your order")]),
             _vm._v(" "),
             _c(
               "div",
@@ -42917,19 +42964,38 @@ var render = function() {
             _c("hr"),
             _vm._v(" "),
             _c("div", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success w-100",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.onSubmit($event)
-                    }
-                  }
-                },
-                [_vm._v("\n\t\t\t\t\t\t\tPlace my order\n\t\t\t\t\t\t")]
-              )
+              !_vm.submitting
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success w-100",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.onSubmit($event)
+                        }
+                      }
+                    },
+                    [_vm._v("\n\t\t\t\t\t\t\tPlace my order\n\t\t\t\t\t\t")]
+                  )
+                : _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success w-100",
+                      attrs: { disabled: "disabled" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "animated flash infinite slow" },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tSubmitting Your Order\n\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ]
+                  )
             ])
           ])
         ])
