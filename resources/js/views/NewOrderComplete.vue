@@ -1,10 +1,14 @@
 <template>
 	<div class="container">
 		<div class="row pt-5 m-0">
+			<div class="col-12">
+				<h1>Thank you for your order</h1>
+				<h3>Order number is: {{ order_id }}</h3>
+			</div>
 			<div class="col-12 col-sm-8 col-md-6">
 				<div class="card mt-3">
 					<div class="card-body">
-						<h4>Delivery Detail</h4>
+						<h4>Order Detail</h4>
 						<strong>Name</strong>
 						<p>{{ deliveryRequest.name }}</p>
 						<strong>Mobile</strong>
@@ -80,12 +84,6 @@
 								></textarea>
 							</div>
 						</div>
-						<hr />
-						<div>
-							<button class="btn btn-success w-100" @click.prevent="onSubmit">
-								Place my order
-							</button>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -102,31 +100,14 @@ export default {
 			orders: [],
 			items: [],
 			total: 0,
-			time_text: ""
+			time_text: "",
+			order_id: ""
 		};
 	},
-	methods: {
-		onSubmit() {
-			const vm = this;
-			console.log("submit");
-			axios
-				.post("/orders", {
-					orderRequest: this.orderRequest,
-					deliveryRequest: this.deliveryRequest,
-					timeRequest: this.timeRequest
-				})
-				.then(function(response) {
-					console.log(response);
-					sessionStorage.order_id = response.data;
-					vm.$router.push("complete");
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
-		}
-	},
+	methods: {},
 	mounted() {},
 	created() {
+		this.order_id = sessionStorage.order_id;
 		let days = [
 			"Sunday",
 			"Monday",
