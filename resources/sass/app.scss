@@ -1,102 +1,169 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,700&display=swap");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
-nav{
-	position: fixed;
+nav {
+    position: fixed;
     width: 100%;
 }
 
-body{
-	font-weight: 300;
-	// background-color: #fff;
-	background-color: #f5f5f5;
+.navbar-light .navbar-brand {
+    color: $primary;
+    font-weight: 800;
 }
 
-.card{
-	border: none;
+body {
+    font-weight: 300;
+    background-color: #fff;
+    // background-color: #f5f5f5;
 }
 
-.banner{
-	width: 100%;
+.card {
+    border: none;
+    border-radius: 25px;
+    background: #ffffff;
+    box-shadow: 12px 12px 21px #cccccc, -12px -12px 21px #ffffff;
+    border-radius: 25px;
+    @media (max-width: $sm) {
+        margin-bottom: 20px;
+    }
+}
+
+.banner {
+    width: 100%;
     height: 150px;
     overflow: hidden;
     position: relative;
+    box-shadow: 12px 12px 21px #cccccc;
 
-	@media (max-width: $sm) {
-		height: 75px;
-	}
+    @media (max-width: $sm) {
+        height: 75px;
+    }
 
-	img{
-		position: absolute;
-	    left: -1000%;
-	    right: -1000%;
-	    top: -1000%;
-	    bottom: -1000%;
-	    margin: auto;
-	    min-height: 100%;
-	    min-width: 100%;
-	}
+    img {
+        position: absolute;
+        left: -1000%;
+        right: -1000%;
+        top: -1000%;
+        bottom: -1000%;
+        margin: auto;
+        min-height: 100%;
+        min-width: 100%;
+        max-height: 75px;
+    }
 }
 
-
-.menu{
-	.vegetarian{
-		color:#38c172;
-	}
-	
-	.menu-item{
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	}
+.heading {
+    @media (max-width: $sm) {
+        h1 {
+            font-size: 1.75rem;
+        }
+        img {
+            max-width: 50px !important;
+        }
+    }
 }
 
-.title, .price{
-	font-weight: 500;
+.menu {
+    .vegetarian {
+        color: $primary;
+    }
+
+    .menu-item {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
 }
 
-.description{
-	font-weight: 200;
+.title,
+.price {
+    font-weight: 500;
 }
 
-h3{
-	font-weight: 700;
+.description {
+    font-weight: 200;
 }
 
-strong{
-	font-weight: 700;
+h3 {
+    font-weight: 700;
 }
 
-.basket-total{
-	.btn-outline-success{
-		width: 20px;
-		height: 20px;
-		margin-right: 5px;
-
-		padding: 0;
-		line-height: 20px;
-		text-align: center;
-	}
+strong {
+    font-weight: 700;
 }
 
-.create-order-form{
-	label{
-		padding-bottom: 0;
-		padding-top: 0;
-	}
+.btn {
+    border-radius: 20px;
+}
+.btn.btn-add {
+    border-radius: 12px !important;
 }
 
-textarea{
-	resize:none;
+.btn-success {
+    background-color: $primary;
+    border-color: $primary;
 }
 
-.order-show{
-	textarea{
-		resize: none;
-		background-color: #eee;
-	}
+.btn-outline-success {
+    border-color: $primary;
+    color: $primary;
+}
+
+.basket-total {
+    background: #189b69;
+    background: -moz-linear-gradient(-45deg, #189b69 0%, #0f6142 100%);
+    background: -webkit-linear-gradient(-45deg, #189b69 0%, #0f6142 100%);
+    background: linear-gradient(135deg, #189b69 0%, #0f6142 100%);
+    .btn-outline-success {
+        background-color: white;
+    }
+    .btn.btn-remove-item {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        padding: 0;
+        line-height: 20px;
+        text-align: center;
+        border-radius: 5px !important;
+    }
+}
+
+.btn-accent {
+    // background: #f3f609;
+    background: -moz-linear-gradient(left, #f3f609 0%, #d0cd23 100%);
+    background: -webkit-linear-gradient(left, #f3f609 0%, #d0cd23 100%);
+    background: linear-gradient(to right, #f3f609 0%, #d0cd23 100%);
+    color: black;
+    border: none;
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 25px;
+    font-weight: bold;
+    &:disabled {
+        color: white;
+    }
+}
+
+.create-order-form {
+    label {
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+}
+
+textarea {
+    resize: none;
+    border-radius: 10px;
+    padding: 1em;
+    border: 1px solid #ced4da;
+}
+
+.order-show {
+    textarea {
+        resize: none;
+        background-color: #eee;
+    }
 }
