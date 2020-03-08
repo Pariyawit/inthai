@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="col-12 col-sm-8 col-md-6">
-				<div class="card basket-total mt-3">
+				<div class="card mt-3">
 					<div class="card-body">
 						<h4>Your order</h4>
 						<div class="order-item-list">
@@ -81,17 +81,21 @@
 							</div>
 						</div>
 						<hr />
-						<div>
+						<div class="place-order">
 							<button
-								class="btn btn-success w-100"
+								class="btn btn-accent w-100"
 								@click.prevent="onSubmit"
 								v-if="!submitting"
 							>
-								Place my order
+								PLACE MY ORDER
 							</button>
-							<button class="btn btn-success w-100" disabled="disabled" v-else>
+							<button
+								class="btn btn-accent w-100 submitting"
+								disabled="disabled"
+								v-else
+							>
 								<div class="animated flash infinite slow">
-									Submitting Your Order
+									...Submitting your order...
 								</div>
 							</button>
 						</div>
@@ -173,4 +177,15 @@ export default {
 	}
 };
 </script>
-<style></style>
+<style>
+.place-order .btn-accent {
+	font-size: 1.35rem;
+	height: 50px;
+}
+
+.place-order .submitting {
+	font-weight: 400;
+	font-size: 0.9rem;
+	color: black;
+}
+</style>
