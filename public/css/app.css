@@ -11015,7 +11015,6 @@ strong {
   background: linear-gradient(to right, #f3f609 0%, #d0cd23 100%);
   color: black;
   border: none;
-  box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.3);
   border-radius: 25px;
   font-weight: bold;
 }

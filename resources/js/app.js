@@ -81,7 +81,10 @@ const router = new VueRouter({
             name: "complete",
             component: NewOrderComplete
         }
-    ]
+    ],
+    scrollBehavior() {
+        return { x: 0, y: 0 };
+    }
 });
 
 const app = new Vue({
