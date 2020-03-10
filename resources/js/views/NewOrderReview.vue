@@ -179,8 +179,8 @@ export default {
 </script>
 <style>
 .place-order .btn-accent {
-	font-size: 1.35rem;
-	height: 50px;
+	height: 3rem;
+	font-size: 1.25rem;
 }
 
 .place-order .submitting {
