@@ -7,7 +7,7 @@
 			</h1>
 		</div>
 		<div class="row pt-3">
-			<div class="col-2 pr-2 d-none d-xl-block">
+			<div class="col-2 d-none d-xl-block">
 				<div class="card pt-1">
 					<div class="card-body categories">
 						<h5 class="card-title">Categories</h5>
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-8 col-xl-7 col-12 pr-2">
+			<div class="col-lg-8 col-xl-7 col-12">
 				<div class="card pt-1">
 					<div class="card-body menu">
 						<h5 class="card-title">Menu</h5>
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-xl-3 col-12">
+			<div class="col-lg-4 col-xl-3 col-12 ">
 				<div class="card basket-total pt-1">
 					<div class="card-body">
 						<h5 class="card-title">
@@ -100,7 +100,7 @@
 							</transition-group>
 						</div>
 						<hr />
-						<div class="bottom-div">
+						<div class="">
 							<div class="calculation">
 								<div>
 									<!-- Subtotal <span class="float-right">$21.80</span> -->
@@ -137,6 +137,15 @@
 					</div>
 				</div>
 			</div>
+			<!-- <div class="col-12 d-lg-none bottom-div">
+				<div class="card basket-total pt-1">
+					<div class="card-body">
+						<h5 class="card-title">
+							Total <span class="float-right">${{ total }}</span>
+						</h5>
+					</div>
+				</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -243,6 +252,10 @@ button.order-now:disabled {
 	background: lightgray;
 	border: none;
 }
+button.order-now {
+	font-size: 1.25rem;
+	height: 3rem;
+}
 .home .order-item {
 	font-size: 0.8rem;
 }
@@ -253,5 +266,10 @@ button.order-now:disabled {
 	position: sticky;
 	top: 25px;
 	color: white;
+}
+.bottom-div {
+	z-index: 100;
+	position: sticky;
+	bottom: 0px;
 }
 </style>

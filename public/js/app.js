@@ -2151,6 +2151,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
@@ -7492,7 +7501,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n.basket-total {\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\ttop: 25px;\n\tcolor: white;\n}\n", ""]);
+exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\nbutton.order-now {\n\tfont-size: 1.25rem;\n\theight: 3rem;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n.basket-total {\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\ttop: 25px;\n\tcolor: white;\n}\n.bottom-div {\n\tz-index: 100;\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\tbottom: 0px;\n}\n", ""]);
 
 // exports
 
@@ -7530,7 +7539,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.place-order .btn-accent {\n\tfont-size: 1.35rem;\n\theight: 50px;\n}\n.place-order .submitting {\n\tfont-weight: 400;\n\tfont-size: 0.9rem;\n\tcolor: black;\n}\n", ""]);
+exports.push([module.i, "\n.place-order .btn-accent {\n\theight: 3rem;\n\tfont-size: 1.25rem;\n}\n.place-order .submitting {\n\tfont-weight: 400;\n\tfont-size: 0.9rem;\n\tcolor: black;\n}\n", ""]);
 
 // exports
 
@@ -41846,7 +41855,7 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row pt-3" }, [
-      _c("div", { staticClass: "col-2 pr-2 d-none d-xl-block" }, [
+      _c("div", { staticClass: "col-2 d-none d-xl-block" }, [
         _c("div", { staticClass: "card pt-1" }, [
           _c(
             "div",
@@ -41873,7 +41882,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-lg-8 col-xl-7 col-12 pr-2" }, [
+      _c("div", { staticClass: "col-lg-8 col-xl-7 col-12" }, [
         _c("div", { staticClass: "card pt-1" }, [
           _c(
             "div",
@@ -41911,7 +41920,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-lg-4 col-xl-3 col-12" }, [
+      _c("div", { staticClass: "col-lg-4 col-xl-3 col-12 " }, [
         _c("div", { staticClass: "card basket-total pt-1" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("h5", { staticClass: "card-title" }, [
@@ -42022,7 +42031,7 @@ var render = function() {
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
-            _c("div", { staticClass: "bottom-div" }, [
+            _c("div", {}, [
               _c("div", { staticClass: "calculation" }, [
                 _c("div"),
                 _vm._v(" "),
@@ -58391,7 +58400,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/complete",
     name: "complete",
     component: _views_NewOrderComplete__WEBPACK_IMPORTED_MODULE_7__["default"]
-  }]
+  }],
+  scrollBehavior: function scrollBehavior() {
+    return {
+      x: 0,
+      y: 0
+    };
+  }
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: "#app",
