@@ -10903,7 +10903,7 @@ body {
   border: none;
   border-radius: 25px;
   background: #ffffff;
-  box-shadow: 12px 12px 21px #cccccc, -12px -12px 21px #ffffff;
+  box-shadow: 12px 12px 21px #cccccc;
   border-radius: 25px;
 }
 
@@ -10992,8 +10992,14 @@ strong {
   color: #189b69;
 }
 
+.float-total-price {
+  z-index: 1;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+}
+
 .basket-total {
-  background: #189b69;
   background: linear-gradient(135deg, #189b69 0%, #0f6142 100%);
 }
 
@@ -11009,6 +11015,25 @@ strong {
   line-height: 20px;
   text-align: center;
   border-radius: 5px !important;
+}
+
+.basket-total--float {
+  background: #189b69 !important;
+  height: 50px;
+}
+
+.basket-total--float .card-body {
+  padding: 0 1.25rem;
+}
+
+.basket-total--float h5 {
+  line-height: 50px;
+}
+
+@media (max-width: 768px) {
+  .col--top {
+    margin-top: -75px;
+  }
 }
 
 .btn-accent {

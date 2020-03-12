@@ -27,7 +27,7 @@ body {
     border: none;
     border-radius: 25px;
     background: #ffffff;
-    box-shadow: 12px 12px 21px #cccccc, -12px -12px 21px #ffffff;
+    box-shadow: 12px 12px 21px #cccccc;
     border-radius: 25px;
     @media (max-width: $sm) {
         margin-bottom: 20px;
@@ -113,8 +113,13 @@ strong {
     color: $primary;
 }
 
+.float-total-price {
+    z-index: 1;
+    position: sticky;
+    bottom: 0;
+}
+
 .basket-total {
-    background: #189b69;
     background: -moz-linear-gradient(-45deg, #189b69 0%, #0f6142 100%);
     background: -webkit-linear-gradient(-45deg, #189b69 0%, #0f6142 100%);
     background: linear-gradient(135deg, #189b69 0%, #0f6142 100%);
@@ -129,6 +134,22 @@ strong {
         line-height: 20px;
         text-align: center;
         border-radius: 5px !important;
+    }
+
+    &--float {
+        background: #189b69 !important;
+        height: 50px;
+        .card-body {
+            padding: 0 1.25rem;
+        }
+        h5 {
+            line-height: 50px;
+        }
+    }
+}
+.col--top {
+    @media (max-width: $md) {
+        margin-top: -75px;
     }
 }
 

@@ -43,8 +43,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-xl-3 col-12 ">
-				<div class="card basket-total pt-1">
+			<div class="col-12 d-lg-none float-total-price">
+				<div class="card basket-total basket-total--float">
+					<div class="card-body">
+						<h5 class="card-title">
+							Total <span class="float-right">${{ total }}</span>
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-xl-3 col-12 col--top">
+				<div class="card basket-total basket-total--top pt-1">
 					<div class="card-body">
 						<h5 class="card-title">
 							Total <span class="float-right">${{ total }}</span>
@@ -137,15 +146,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col-12 d-lg-none bottom-div">
-				<div class="card basket-total pt-1">
-					<div class="card-body">
-						<h5 class="card-title">
-							Total <span class="float-right">${{ total }}</span>
-						</h5>
-					</div>
-				</div>
-			</div> -->
 		</div>
 	</div>
 </template>
@@ -266,10 +266,6 @@ button.order-now {
 	position: sticky;
 	top: 25px;
 	color: white;
-}
-.bottom-div {
-	z-index: 100;
-	position: sticky;
-	bottom: 0px;
+	z-index: 2;
 }
 </style>

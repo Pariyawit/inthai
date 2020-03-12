@@ -7501,7 +7501,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\nbutton.order-now {\n\tfont-size: 1.25rem;\n\theight: 3rem;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n.basket-total {\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\ttop: 25px;\n\tcolor: white;\n}\n.bottom-div {\n\tz-index: 100;\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\tbottom: 0px;\n}\n", ""]);
+exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\nbutton.order-now {\n\tfont-size: 1.25rem;\n\theight: 3rem;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n.basket-total {\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\ttop: 25px;\n\tcolor: white;\n\tz-index: 2;\n}\n", ""]);
 
 // exports
 
@@ -41920,8 +41920,21 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-lg-4 col-xl-3 col-12 " }, [
-        _c("div", { staticClass: "card basket-total pt-1" }, [
+      _c("div", { staticClass: "col-12 d-lg-none float-total-price" }, [
+        _c("div", { staticClass: "card basket-total basket-total--float" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h5", { staticClass: "card-title" }, [
+              _vm._v("\n\t\t\t\t\t\tTotal "),
+              _c("span", { staticClass: "float-right" }, [
+                _vm._v("$" + _vm._s(_vm.total))
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-lg-4 col-xl-3 col-12 col--top" }, [
+        _c("div", { staticClass: "card basket-total basket-total--top pt-1" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("h5", { staticClass: "card-title" }, [
               _vm._v("\n\t\t\t\t\t\tTotal "),
