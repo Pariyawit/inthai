@@ -10901,6 +10901,16 @@ nav {
 body {
   font-weight: 300;
   background-color: #fff;
+  height: 100vh;
+}
+
+.admin-body {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.admin-body .card {
+  box-shadow: none;
 }
 
 .card {
@@ -11075,5 +11085,90 @@ textarea {
 
 .spend-more {
   transition: height 0.5s ease-out;
+}
+
+.adminmenu {
+  font-size: 1.25rem;
+  padding: 0;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.adminmenu__item {
+  display: inline;
+  margin: 0;
+}
+
+.adminmenu__item--active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.order {
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.order a {
+  text-decoration: none;
+  color: black;
+}
+
+.order__item {
+  background-color: #fff;
+  border-radius: 5px;
+  min-height: 2rem;
+  line-height: 2rem;
+  padding: 0 1rem;
+  margin: 0.5rem 0;
+  display: block;
+}
+
+.order__item:hover {
+  background-color: #dffff3;
+}
+
+.order__item--head {
+  font-weight: bold;
+}
+
+.order__item--head:hover {
+  background-color: #fff;
+}
+
+.order__field {
+  padding: 0.25rem;
+}
+
+.order__field:first-of-type {
+  padding-left: 0.5rem;
+}
+
+.order__field:last-of-type {
+  padding-right: 0.5rem;
+}
+
+.status {
+  border-radius: 5px;
+  padding: 0.25rem 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.status--new {
+  background-color: #f3f609;
+}
+
+.status--cooking {
+  background-color: #76be63;
+}
+
+.status--done {
+  background-color: gray;
 }
 

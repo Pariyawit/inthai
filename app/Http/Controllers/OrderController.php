@@ -64,9 +64,9 @@ class OrderController extends Controller
         $order['status'] = 'new';
 
         if($timeRequest['time'] == null){
-          $order['delivery_time'] = Carbon::now();
+          $order['delivery_time'] = Carbon::now('Australia/Sydney');
         }else{
-          $order['delivery_time'] = Carbon::createFromTimestamp($timeRequest['time']);
+          $order['delivery_time'] = Carbon::createFromTimestampMs($timeRequest['time'],'Australia/Sydney');
         }
 
         $order->save();
@@ -95,11 +95,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $totalPrice = 0;
-        foreach ($order->orderItems as $item) {
-            $totalPrice += $item->quantity * $item->item->price;
-        }
-        return view('order.show', compact('order', 'totalPrice'));
+        $items = $order->items;
+        return view('admin.ordershow', compact('order','items'));
     }
 
     /**
