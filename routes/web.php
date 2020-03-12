@@ -30,4 +30,6 @@ Route::get('/items', 'ItemController@index');
 
 Route::get('/categories', 'CategoryController@index');
 
+Route::get('/admin', 'AdminController@main');
+
 Route::get('/{any}', 'RestaurantController@index');
