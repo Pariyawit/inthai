@@ -10953,6 +10953,10 @@ body {
   max-height: 75px;
 }
 
+.heading img {
+  max-width: 100px;
+}
+
 @media (max-width: 576px) {
   .heading h1 {
     font-size: 1.75rem;

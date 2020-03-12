@@ -42401,8 +42401,8 @@ var staticRenderFns = [
     return _c("div", { staticClass: "heading pt-3" }, [
       _c("h1", { staticClass: "font-weight-bold" }, [
         _c("img", {
-          staticClass: "rounded-circle",
-          attrs: { src: "img/inthai-logo.gif" }
+          staticClass: "rounded-circle logo",
+          attrs: { src: "img/inthai-logo.svg" }
         }),
         _vm._v(" In Thai Style\n\t\t\tRestaurant\n\t\t")
       ])
