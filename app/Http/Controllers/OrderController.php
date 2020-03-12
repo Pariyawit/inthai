@@ -95,8 +95,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $page = 'ordershow';
         $items = $order->items;
-        return view('admin.ordershow', compact('order','items'));
+        return view('admin.ordershow', compact('order','items','page'));
     }
 
     /**
@@ -119,7 +120,13 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = Order::findOrFail($id);
+        if(!empty($request->status)){
+          $order->status = $request->status;
+        }
+
+        $order->save();
+        return $order;
     }
 
     /**
