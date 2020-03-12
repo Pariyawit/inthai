@@ -7,6 +7,10 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+html {
+    scroll-behavior: smooth;
+}
+
 nav {
     position: fixed;
     width: 100%;
@@ -111,6 +115,9 @@ strong {
 .btn-outline-success {
     border-color: $primary;
     color: $primary;
+    &:hover {
+        color: $primary;
+    }
 }
 
 .float-total-price {
@@ -142,7 +149,7 @@ strong {
         .card-body {
             padding: 0 1.25rem;
         }
-        h5 {
+        .card-title {
             line-height: 50px;
         }
     }
@@ -187,4 +194,8 @@ textarea {
         resize: none;
         background-color: #eee;
     }
+}
+
+.spend-more {
+    transition: height 0.5s ease-out;
 }

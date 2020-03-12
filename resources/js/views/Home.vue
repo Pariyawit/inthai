@@ -16,7 +16,7 @@
 							class="category-item pb-3"
 							:key="category.id"
 						>
-							<a href="#">
+							<a :href="'#category' + category.id">
 								<span class="text-dark">{{ category.title }}</span>
 							</a>
 						</div>
@@ -32,7 +32,7 @@
 							v-for="category in categories"
 							:key="category.id"
 						>
-							<h3>{{ category.title }}</h3>
+							<h3 :id="'category' + category.id">{{ category.title }}</h3>
 							<div v-for="item in category.items" :key="item.id">
 								<restaurant-item
 									:item="item"
@@ -44,23 +44,31 @@
 				</div>
 			</div>
 			<div class="col-12 d-lg-none float-total-price">
-				<div class="card basket-total basket-total--float">
-					<div class="card-body">
-						<h5 class="card-title">
-							Total <span class="float-right">${{ total }}</span>
-						</h5>
+				<a href="#total" style="text-decoration: none">
+					<div class="card basket-total basket-total--float">
+						<div class="card-body">
+							<h5 class="card-title">
+								Total
+								<transition enter-active-class="animated pulse" mode="out-in">
+									<span class="float-right" :key="total"> ${{ total }}</span>
+								</transition>
+							</h5>
+						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 			<div class="col-lg-4 col-xl-3 col-12 col--top">
-				<div class="card basket-total basket-total--top pt-1">
+				<div id="total" class="card basket-total basket-total--top pt-1">
 					<div class="card-body">
 						<h5 class="card-title">
-							Total <span class="float-right">${{ total }}</span>
+							Total
+							<transition enter-active-class="animated pulse" mode="out-in">
+								<span class="float-right" :key="total">${{ total }}</span>
+							</transition>
 						</h5>
-						<div class="text-center py-3">
+						<div class="text-center py-3 spend-more">
 							<transition
-								enter-active-class="animated fadeIn fast"
+								enter-active-class="animated fadeIn"
 								leave-active-class="animated fadeOut fast"
 								tag="div"
 							>
@@ -102,7 +110,14 @@
 											<em>{{ order.title }}</em>
 										</div>
 										<div class="ml-auto price">
-											$ {{ order.price * order.quantity }}
+											<transition
+												enter-active-class="animated pulse"
+												mode="out-in"
+											>
+												<span :key="order.quantity">
+													$ {{ order.price * order.quantity }}
+												</span>
+											</transition>
 										</div>
 									</div>
 								</div>

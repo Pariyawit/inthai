@@ -10884,6 +10884,10 @@ a.text-dark:focus {
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 nav {
   position: fixed;
   width: 100%;
@@ -10992,6 +10996,10 @@ strong {
   color: #189b69;
 }
 
+.btn-outline-success:hover {
+  color: #189b69;
+}
+
 .float-total-price {
   z-index: 1;
   position: -webkit-sticky;
@@ -11026,7 +11034,7 @@ strong {
   padding: 0 1.25rem;
 }
 
-.basket-total--float h5 {
+.basket-total--float .card-title {
   line-height: 50px;
 }
 
@@ -11063,5 +11071,9 @@ textarea {
 .order-show textarea {
   resize: none;
   background-color: #eee;
+}
+
+.spend-more {
+  transition: height 0.5s ease-out;
 }
 

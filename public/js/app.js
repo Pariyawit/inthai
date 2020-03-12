@@ -2160,6 +2160,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
@@ -41868,7 +41883,7 @@ var render = function() {
                   "div",
                   { key: category.id, staticClass: "category-item pb-3" },
                   [
-                    _c("a", { attrs: { href: "#" } }, [
+                    _c("a", { attrs: { href: "#category" + category.id } }, [
                       _c("span", { staticClass: "text-dark" }, [
                         _vm._v(_vm._s(category.title))
                       ])
@@ -41895,7 +41910,9 @@ var render = function() {
                   "div",
                   { key: category.id, staticClass: "category pb-5" },
                   [
-                    _c("h3", [_vm._v(_vm._s(category.title))]),
+                    _c("h3", { attrs: { id: "category" + category.id } }, [
+                      _vm._v(_vm._s(category.title))
+                    ]),
                     _vm._v(" "),
                     _vm._l(category.items, function(item) {
                       return _c(
@@ -41921,181 +41938,255 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-12 d-lg-none float-total-price" }, [
-        _c("div", { staticClass: "card basket-total basket-total--float" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [
-              _vm._v("\n\t\t\t\t\t\tTotal "),
-              _c("span", { staticClass: "float-right" }, [
-                _vm._v("$" + _vm._s(_vm.total))
-              ])
-            ])
-          ])
-        ])
+        _c(
+          "a",
+          {
+            staticStyle: { "text-decoration": "none" },
+            attrs: { href: "#total" }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "card basket-total basket-total--float" },
+              [
+                _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "h5",
+                    { staticClass: "card-title" },
+                    [
+                      _vm._v("\n\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t"),
+                      _c(
+                        "transition",
+                        {
+                          attrs: {
+                            "enter-active-class": "animated pulse",
+                            mode: "out-in"
+                          }
+                        },
+                        [
+                          _c(
+                            "span",
+                            { key: _vm.total, staticClass: "float-right" },
+                            [_vm._v(" $" + _vm._s(_vm.total))]
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ]
+            )
+          ]
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-lg-4 col-xl-3 col-12 col--top" }, [
-        _c("div", { staticClass: "card basket-total basket-total--top pt-1" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [
-              _vm._v("\n\t\t\t\t\t\tTotal "),
-              _c("span", { staticClass: "float-right" }, [
-                _vm._v("$" + _vm._s(_vm.total))
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "text-center py-3" },
-              [
-                _c(
-                  "transition",
-                  {
-                    attrs: {
-                      "enter-active-class": "animated fadeIn fast",
-                      "leave-active-class": "animated fadeOut fast",
-                      tag: "div"
-                    }
-                  },
-                  [
-                    35 - _vm.total > 0
-                      ? _c("div", { staticClass: "pb-1" }, [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t\tSpend $" +
-                              _vm._s(35 - _vm.total) +
-                              " more for delivery\n\t\t\t\t\t\t\t"
-                          )
-                        ])
-                      : _vm._e()
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-accent w-100 order-now",
-                    attrs: { disabled: _vm.total >= 35 ? false : true },
-                    on: { click: _vm.createOrder }
-                  },
-                  [_vm._v("\n\t\t\t\t\t\t\tOrder Now\n\t\t\t\t\t\t")]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "order-item-list" },
-              [
-                _c(
-                  "transition-group",
-                  {
-                    attrs: {
-                      "enter-active-class": "animated fadeInUp fast",
-                      "leave-active-class": "animated fadeOut faster",
-                      tag: "div"
-                    }
-                  },
-                  _vm._l(_vm.orders, function(order) {
-                    return _c(
-                      "div",
-                      { key: order.item_id, staticClass: "order-item py-1" },
-                      [
-                        _c("div", { staticClass: "d-flex" }, [
-                          _c("div", [
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-outline-success btn-remove-item",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeItem(order.item_id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fas fa-minus" })]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "mr-1 quantity" }, [
-                            _vm._v(_vm._s(order.quantity) + "x")
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
-                            _c("em", [_vm._v(_vm._s(order.title))])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "ml-auto price" }, [
+        _c(
+          "div",
+          {
+            staticClass: "card basket-total basket-total--top pt-1",
+            attrs: { id: "total" }
+          },
+          [
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "h5",
+                { staticClass: "card-title" },
+                [
+                  _vm._v("\n\t\t\t\t\t\tTotal\n\t\t\t\t\t\t"),
+                  _c(
+                    "transition",
+                    {
+                      attrs: {
+                        "enter-active-class": "animated pulse",
+                        mode: "out-in"
+                      }
+                    },
+                    [
+                      _c(
+                        "span",
+                        { key: _vm.total, staticClass: "float-right" },
+                        [_vm._v("$" + _vm._s(_vm.total))]
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-center py-3 spend-more" },
+                [
+                  _c(
+                    "transition",
+                    {
+                      attrs: {
+                        "enter-active-class": "animated fadeIn",
+                        "leave-active-class": "animated fadeOut fast",
+                        tag: "div"
+                      }
+                    },
+                    [
+                      35 - _vm.total > 0
+                        ? _c("div", { staticClass: "pb-1" }, [
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t\t\t\t$ " +
-                                _vm._s(order.price * order.quantity) +
-                                "\n\t\t\t\t\t\t\t\t\t"
+                              "\n\t\t\t\t\t\t\t\tSpend $" +
+                                _vm._s(35 - _vm.total) +
+                                " more for delivery\n\t\t\t\t\t\t\t"
                             )
                           ])
-                        ])
-                      ]
-                    )
-                  }),
-                  0
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("div", {}, [
-              _c("div", { staticClass: "calculation" }, [
-                _c("div"),
-                _vm._v(" "),
-                _c("div"),
-                _vm._v(" "),
-                _c("div"),
-                _vm._v(" "),
-                _c("div", [
-                  _c("strong", [
-                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
-                    _c("span", { staticClass: "float-right" }, [
-                      _vm._v("$" + _vm._s(_vm.total))
-                    ])
-                  ])
-                ])
-              ]),
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-accent w-100 order-now",
+                      attrs: { disabled: _vm.total >= 35 ? false : true },
+                      on: { click: _vm.createOrder }
+                    },
+                    [_vm._v("\n\t\t\t\t\t\t\tOrder Now\n\t\t\t\t\t\t")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "order-item-list" },
+                [
+                  _c(
+                    "transition-group",
+                    {
+                      attrs: {
+                        "enter-active-class": "animated fadeInUp fast",
+                        "leave-active-class": "animated fadeOut faster",
+                        tag: "div"
+                      }
+                    },
+                    _vm._l(_vm.orders, function(order) {
+                      return _c(
+                        "div",
+                        { key: order.item_id, staticClass: "order-item py-1" },
+                        [
+                          _c("div", { staticClass: "d-flex" }, [
+                            _c("div", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-success btn-remove-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.removeItem(order.item_id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-minus" })]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "mr-1 quantity" }, [
+                              _vm._v(_vm._s(order.quantity) + "x")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
+                              _c("em", [_vm._v(_vm._s(order.title))])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "ml-auto price" },
+                              [
+                                _c(
+                                  "transition",
+                                  {
+                                    attrs: {
+                                      "enter-active-class": "animated pulse",
+                                      mode: "out-in"
+                                    }
+                                  },
+                                  [
+                                    _c("span", { key: order.quantity }, [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t$ " +
+                                          _vm._s(order.price * order.quantity) +
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("hr"),
               _vm._v(" "),
-              _c("div", { staticClass: "note" }, [
-                _vm._m(1),
+              _c("div", {}, [
+                _c("div", { staticClass: "calculation" }, [
+                  _c("div"),
+                  _vm._v(" "),
+                  _c("div"),
+                  _vm._v(" "),
+                  _c("div"),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("strong", [
+                      _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
+                      _c("span", { staticClass: "float-right" }, [
+                        _vm._v("$" + _vm._s(_vm.total))
+                      ])
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.note,
-                      expression: "note"
-                    }
-                  ],
-                  staticClass: "w-100",
-                  attrs: {
-                    type: "textarea",
-                    rows: "5",
-                    placeholder: "e.g. the doorbell doesn't work"
-                  },
-                  domProps: { value: _vm.note },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                _c("hr"),
+                _vm._v(" "),
+                _c("div", { staticClass: "note" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.note,
+                        expression: "note"
                       }
-                      _vm.note = $event.target.value
+                    ],
+                    staticClass: "w-100",
+                    attrs: {
+                      type: "textarea",
+                      rows: "5",
+                      placeholder: "e.g. the doorbell doesn't work"
+                    },
+                    domProps: { value: _vm.note },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.note = $event.target.value
+                      }
                     }
-                  }
-                })
+                  })
+                ])
               ])
             ])
-          ])
-        ])
+          ]
+        )
       ])
     ])
   ])
