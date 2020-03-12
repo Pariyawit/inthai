@@ -64,9 +64,9 @@ class OrderController extends Controller
         $order['status'] = 'new';
 
         if($timeRequest['time'] == null){
-          $order['delivery_time'] = Carbon::now();
+          $order['delivery_time'] = Carbon::now('Australia/Sydney');
         }else{
-          $order['delivery_time'] = Carbon::createFromTimestamp($timeRequest['time']);
+          $order['delivery_time'] = Carbon::createFromTimestampMs($timeRequest['time'],'Australia/Sydney');
         }
 
         $order->save();

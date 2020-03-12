@@ -16,37 +16,52 @@
         <div class="order__field d-none d-md-block col-2 text-right">Ordered Time</div>
       </div>
     </li>
+    
+    @foreach ($orders as $order)
+      <li class="order__item">
+        <div class="row">
+        <div class="order__field col-2 col-md-1"><strong>{{$order->id}}</strong></div>
+          <div class="order__field col-3 col-md-2 text-center"><span class="order__field status status--new">{{ $order->status}}</span></div>
+          <div class="order__field d-none d-md-block col-3">{{$order->customer->name}}</div>
+        <div class="order__field d-none d-md-block col-2">{{$order->customer->suburb}}, {{$order->customer->state}}</div>
+          <div class="order__field col-3 col-md-1 text-center">{{ date('h:i A', strtotime($order->delivery_time)) }}</div>
+          <div class="order__field col-4 col-md-1 text-right">${{$order->total}}</div>
+          <div class="order__field d-none d-md-block col-2 text-right">{{ date('d/m/y h:i A', strtotime($order->created_at)) }}</div>
+        </div>
+      </li>
+    @endforeach
+
     <li class="order__item">
       <div class="row">
-        <div class="order__field col-2 col-md-1"><strong>1</strong></div>
+        <div class="order__field col-2 col-md-1"><strong>0</strong></div>
         <div class="order__field col-3 col-md-2 text-center"><span class="order__field status status--new">New</span></div>
-        <div class="order__field d-none d-md-block col-3">Tim Jatukannyaprateep</div>
+        <div class="order__field d-none d-md-block col-3">Example 1</div>
         <div class="order__field d-none d-md-block col-2">Sydney, NSW</div>
-        <div class="order__field col-3 col-md-1 text-center">ASAP</div>
+        <div class="order__field col-3 col-md-1 text-center">10:30 PM</div>
         <div class="order__field col-4 col-md-1 text-right">$30.00</div>
-        <div class="order__field d-none d-md-block col-2 text-right">07/03/20 16:28</div>
+        <div class="order__field d-none d-md-block col-2 text-right">07/03/20 04:28 PM</div>
       </div>
     </li>
     <li class="order__item">
       <div class="row">
-        <div class="order__field col-2 col-md-1"><strong>13</strong></div>
+        <div class="order__field col-2 col-md-1"><strong>0</strong></div>
         <div class="order__field col-3 col-md-2 text-center"><span class="order__field status status--cooking">Cooking</span></div>
-        <div class="order__field d-none d-md-block col-3">Tim Jatukannyaprateep</div>
+        <div class="order__field d-none d-md-block col-3">Example 2</div>
         <div class="order__field d-none d-md-block col-2">Sydney, NSW</div>
         <div class="order__field col-3 col-md-1 text-center">10:00 PM</div>
         <div class="order__field col-4 col-md-1 text-right">$30.00</div>
-        <div class="order__field d-none d-md-block col-2 text-right">07/03/20 16:28</div>
+        <div class="order__field d-none d-md-block col-2 text-right">07/03/20 04:28 PM</div>
       </div>
     </li>
     <li class="order__item">
       <div class="row">
-        <div class="order__field col-2 col-md-1"><strong>123</strong></div>
+        <div class="order__field col-2 col-md-1"><strong>0</strong></div>
         <div class="order__field col-3 col-md-2 text-center"><span class="order__field status status--done">Done</span></div>
-        <div class="order__field d-none d-md-block col-3">Tim Jatukannyaprateep</div>
+        <div class="order__field d-none d-md-block col-3">Example 3</div>
         <div class="order__field d-none d-md-block col-2">Sydney, NSW</div>
-        <div class="order__field col-3 col-md-1 text-center">7:30 PM</div>
+        <div class="order__field col-3 col-md-1 text-center">07:30 PM</div>
         <div class="order__field col-4 col-md-1 text-right">$30.00</div>
-        <div class="order__field d-none d-md-block col-2 text-right">07/03/20 16:28</div>
+        <div class="order__field d-none d-md-block col-2 text-right">07/03/20 04:28 PM</div>
       </div>
     </li>
   </ul>

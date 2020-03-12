@@ -6,10 +6,16 @@
         <div class="col-md-8">
             <div class="card mt-5">
                 <div class="card-header">{{ __('Login') }}</div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
+                        <div class="row">
+                          <div class="col-12">
+                          <div class="text-center">For demonstration purpose</div>
+                          <div class="text-center">E-mail: admin@admin.com</div>
+                          <div class="text-center">Password: 1234</div>
+                          </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
@@ -57,11 +63,11 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
+                                <!-- @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif
+                                @endif -->
                             </div>
                         </div>
                     </form>
