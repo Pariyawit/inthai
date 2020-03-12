@@ -33,6 +33,11 @@ Vue.component(
     require("./components/RestaurantItem.vue").default
 );
 Vue.component("basket-total", require("./components/BasketTotal.vue").default);
+Vue.component(
+    "order-status-change",
+    require("./components/OrderStatusChange.vue").default
+);
+
 Vue.component("home", require("./views/Home.vue").default);
 Vue.component(
     "NewOrderDelivery",

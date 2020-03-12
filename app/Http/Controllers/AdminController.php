@@ -8,7 +8,8 @@ use App\Order;
 class AdminController extends Controller
 {
     public function main(){
+      $page = 'main';
       $orders = Order::orderBy('delivery_time','asc')->orderBy('created_at','desc')->get();
-      return view('admin.main', compact('orders'));
+      return view('admin.main', compact('orders','page'));
     }
 }
