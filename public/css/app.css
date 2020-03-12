@@ -10906,7 +10906,11 @@ body {
 
 .admin-body {
   background-color: #f9f9f9;
-  height: 100vh;
+  min-height: 100vh;
+}
+
+.admin-body .card {
+  box-shadow: none;
 }
 
 .card {
@@ -11108,6 +11112,11 @@ textarea {
   text-overflow: ellipsis;
 }
 
+.order a {
+  text-decoration: none;
+  color: black;
+}
+
 .order__item {
   background-color: #fff;
   border-radius: 5px;
@@ -11118,8 +11127,16 @@ textarea {
   display: block;
 }
 
+.order__item:hover {
+  background-color: #dffff3;
+}
+
 .order__item--head {
   font-weight: bold;
+}
+
+.order__item--head:hover {
+  background-color: #fff;
 }
 
 .order__field {
@@ -11137,8 +11154,10 @@ textarea {
 .status {
   border-radius: 5px;
   padding: 0.25rem 1rem;
-  width: 100%;
+  text-transform: uppercase;
   font-weight: bold;
+  text-align: center;
+  font-size: 0.75rem;
 }
 
 .status--new {

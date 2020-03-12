@@ -28,7 +28,10 @@ body {
 }
 .admin-body {
     background-color: #f9f9f9;
-    height: 100vh;
+    min-height: 100vh;
+    .card {
+        box-shadow: none;
+    }
 }
 
 .card {
@@ -225,6 +228,12 @@ textarea {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
     &__item {
         background-color: #fff;
         border-radius: 5px;
@@ -234,9 +243,15 @@ textarea {
         padding: 0 1rem;
         margin: 0.5rem 0;
         display: block;
+        &:hover {
+            background-color: #dffff3;
+        }
 
         &--head {
             font-weight: bold;
+            &:hover {
+                background-color: #fff;
+            }
         }
     }
     &__field {
@@ -253,9 +268,12 @@ textarea {
 .status {
     border-radius: 5px;
     padding: 0.25rem 1rem;
-    width: 100%;
-    // max-width: 150px;
+    // width: 100%;
+    // max-width: 50px;
+    text-transform: uppercase;
     font-weight: bold;
+    text-align: center;
+    font-size: 0.75rem;
     &--new {
         background-color: $accent;
     }

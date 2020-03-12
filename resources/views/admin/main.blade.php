@@ -18,17 +18,21 @@
     </li>
     
     @foreach ($orders as $order)
+    <a href="/admin/orders/{{$order->id}}" target="_blank">
       <li class="order__item">
-        <div class="row">
-        <div class="order__field col-2 col-md-1"><strong>{{$order->id}}</strong></div>
-          <div class="order__field col-3 col-md-2 text-center"><span class="order__field status status--new">{{ $order->status}}</span></div>
-          <div class="order__field d-none d-md-block col-3">{{$order->customer->name}}</div>
-        <div class="order__field d-none d-md-block col-2">{{$order->customer->suburb}}, {{$order->customer->state}}</div>
-          <div class="order__field col-3 col-md-1 text-center">{{ date('h:i A', strtotime($order->delivery_time)) }}</div>
-          <div class="order__field col-4 col-md-1 text-right">${{$order->total}}</div>
-          <div class="order__field d-none d-md-block col-2 text-right">{{ date('d/m/y h:i A', strtotime($order->created_at)) }}</div>
-        </div>
+        
+          <div class="row">
+          <div class="order__field col-2 col-md-1"><strong>{{$order->id}}</strong></div>
+            <div class="order__field col-3 col-md-2 text-center"><span class="order__field status status--{{ $order->status}}">{{ $order->status}}</span></div>
+            <div class="order__field d-none d-md-block col-3">{{$order->customer->name}}</div>
+          <div class="order__field d-none d-md-block col-2">{{$order->customer->suburb}}, {{$order->customer->state}}</div>
+            <div class="order__field col-3 col-md-1 text-center">{{ date('h:i A', strtotime($order->delivery_time)) }}</div>
+            <div class="order__field col-4 col-md-1 text-right">${{$order->total}}</div>
+            <div class="order__field d-none d-md-block col-2 text-right">{{ date('d/m/y h:i A', strtotime($order->created_at)) }}</div>
+          </div>
+        
       </li>
+    </a>
     @endforeach
 
     <li class="order__item">

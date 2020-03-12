@@ -95,11 +95,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $totalPrice = 0;
-        foreach ($order->orderItems as $item) {
-            $totalPrice += $item->quantity * $item->item->price;
-        }
-        return view('order.show', compact('order', 'totalPrice'));
+        $items = $order->items;
+        return view('admin.ordershow', compact('order','items'));
     }
 
     /**
