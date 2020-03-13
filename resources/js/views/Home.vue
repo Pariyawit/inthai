@@ -2,7 +2,7 @@
 	<div class="container home">
 		<div class="heading pt-3">
 			<h1 class="font-weight-bold">
-				<img src="img/inthai-logo.gif" class="rounded-circle" /> In Thai Style
+				<img src="img/inthai-logo.svg" class="rounded-circle logo" /> In Thai Style
 				Restaurant
 			</h1>
 		</div>
