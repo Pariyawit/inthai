@@ -6,7 +6,9 @@
 					<h3 class="pb-3">Delivery Time</h3>
 					<form class="create-order-form" @submit.prevent="onSubmit">
 						<div class="form-group row">
-							<label for="time" class="col-md-12 col-form-label">Delivery Time</label>
+							<label for="time" class="col-md-12 col-form-label"
+								>Delivery Time</label
+							>
 							<div class="col-md-12">
 								<select
 									id="time"
@@ -20,24 +22,33 @@
 										v-for="timeOption in timeOptions"
 										:key="timeOption.id"
 										:value="timeOption.value"
-									>{{ timeOption.text }}</option>
+										>{{ timeOption.text }}</option
+									>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row">
 							<div class="col-md-12">
 								<p>
-									<strong>Leave a note</strong> for the
-									restaurant with anything they need to know.
-									Do not include details about any allergies.
+									<strong>Leave a note</strong> for the restaurant with anything
+									we need to know. Do not include details about any allergies.
 								</p>
-								<textarea name="note" id="note" cols="30" rows="10" class="w-100" v-model="note"></textarea>
+								<textarea
+									name="note"
+									id="note"
+									cols="30"
+									rows="10"
+									class="w-100"
+									v-model="note"
+								></textarea>
 							</div>
 						</div>
 
 						<div class="form-group row mb-0">
 							<div class="col-md-12">
-								<button type="submit" class="btn btn-success w-100">Continue</button>
+								<button type="submit" class="btn btn-success w-100">
+									Continue
+								</button>
 							</div>
 						</div>
 					</form>

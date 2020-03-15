@@ -76,9 +76,6 @@ body {
         h1 {
             font-size: 1.75rem;
         }
-        img {
-            max-width: 50px !important;
-        }
     }
 }
 
@@ -225,7 +222,7 @@ textarea {
     }
 }
 
-.order {
+.list {
     padding: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -245,9 +242,6 @@ textarea {
         padding: 0 1rem;
         margin: 0.5rem 0;
         display: block;
-        &:hover {
-            background-color: #dffff3;
-        }
 
         &--head {
             font-weight: bold;
@@ -263,6 +257,56 @@ textarea {
         }
         &:last-of-type {
             padding-right: 0.5rem;
+        }
+    }
+    &__input {
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        padding-left: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: rgba(243, 246, 9, 0.28);
+        height: 2rem;
+        &:disabled {
+            background-color: #fff;
+        }
+        &:hover {
+            overflow: visible;
+        }
+        &[type="checkbox"] {
+            width: auto;
+            transform: scale(2, 2);
+        }
+    }
+    &__button {
+        border: none;
+        background: $primary;
+        padding: 0 0.25rem;
+        border-radius: 5px;
+        height: 2rem;
+        &:focus {
+            outline: none;
+        }
+        &:active {
+            background-color: white;
+            color: $primary;
+            transition: 0.2s;
+        }
+        color: white;
+        &--icon {
+            background: none;
+            margin: 0 0.5rem;
+            color: $black;
+            &:active {
+                color: $primary;
+                transition: 0.2s;
+            }
+        }
+        &--cancel {
+            background-color: white;
+            color: $primary;
         }
     }
 }
