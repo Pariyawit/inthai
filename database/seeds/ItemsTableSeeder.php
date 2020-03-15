@@ -36,6 +36,11 @@ class ItemsTableSeeder extends Seeder
         ]);
         DB::table('items')->insert([
             'category_id' => 1,
+            'title' => "Fish Cake (4 Pieces)",
+            'price' => 8.5,
+        ]);
+        DB::table('items')->insert([
+            'category_id' => 1,
             'title' => "Money Bag",
             'description' => "Chicken, crab meat, peas and coconut wrapped in pastry served with sweet chilli sauce.",
             'price' => 8.5
@@ -61,5 +66,43 @@ class ItemsTableSeeder extends Seeder
             'price' => 16.5,
             'vegetarian' => true
         ]);
+
+        DB::table('items')->insert([
+          'category_id' => 3,
+          'title' => "Panang Curry",
+          'description' => "Thai medium hot curry with carrot and pumpkin.",
+          'price' => 16.5,
+        ]);
+        DB::table('items')->insert([
+          'category_id' => 3,
+        'title' =>	'Red Curry',
+        'description' =>	"Thai red hot curry with sliced bamboo, beans, capsicum and basil.",
+        "price" =>	16.50
+        ]);
+        DB::table('items')->insert([
+          'category_id' => 3,
+          'title' =>	'Green Curry',
+          'description' =>	"Thai hot curry with sliced bamboo, beans, capsicum and basil.",
+          "price" =>	16.50
+        ]);
+        DB::table('items')->insert([
+          'category_id' => 3,
+          'title' =>	'Yellow Curry',
+          'description' =>	"Thai mild curry with potato, onion and carrot.",
+          "price" =>	16.50
+        ]);
+
+        DB::table('items')->insert([
+        'category_id' => 4,
+        'title' =>	'Rice (Small)',
+        "price" =>	4.5
+        ]);
+
+        DB::table('items')->insert([
+          'category_id' => 4,
+        'title' =>	'Rice (Large)',
+        "price" =>	5.5
+        ]);
+
     }
 }

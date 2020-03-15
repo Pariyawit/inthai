@@ -2,8 +2,8 @@
 	<div class="container home">
 		<div class="heading pt-3">
 			<h1 class="font-weight-bold">
-				<img src="img/inthai-logo.svg" class="rounded-circle logo" /> In Thai Style
-				Restaurant
+				<img src="img/inthai-logo.svg" class="rounded-circle logo" /> In Thai
+				Style Restaurant
 			</h1>
 		</div>
 		<div class="row pt-3">
@@ -33,6 +33,9 @@
 							:key="category.id"
 						>
 							<h3 :id="'category' + category.id">{{ category.title }}</h3>
+							<span
+								><em>{{ category.description }}</em></span
+							>
 							<div v-for="item in category.items" :key="item.id">
 								<restaurant-item
 									:item="item"
