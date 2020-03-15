@@ -66,7 +66,10 @@
 							>
 								<i class="fa fa-edit"></i>
 							</button>
-							<button class="list__button list__button--icon">
+							<button
+								class="list__button list__button--icon"
+								@click.prevent="$emit('destroyItem', item, category)"
+							>
 								<i class="fa fa-trash"></i>
 							</button>
 						</div>
@@ -98,7 +101,7 @@ import {
 } from "vee-validate/dist/vee-validate.full";
 
 export default {
-	props: ["item"],
+	props: ["item", "category"],
 	data: function() {
 		return {
 			isEditting: false,
@@ -160,5 +163,7 @@ export default {
 	height: 1.25rem;
 	line-height: 1.25rem;
 }
-</style>>
+.fa-trash {
+	color: #c13838;
+}
 </style>

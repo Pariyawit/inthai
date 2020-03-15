@@ -92,7 +92,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        if($item->destroy()){
+        if($item->delete()){
           return 'success';
         }
         else{

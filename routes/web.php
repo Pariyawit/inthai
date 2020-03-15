@@ -39,6 +39,7 @@ Route::put('/admin/orders/{order}', 'OrderController@update')->middleware('auth'
 
 Route::get('/admin/item', 'AdminController@item')->middleware('auth');
 Route::post('/admin/items/{item}', 'ItemController@update')->middleware('auth');
+Route::delete('/admin/items/{item}', 'ItemController@destroy')->middleware('auth');
 
 Route::get('/{any}', function(){
   return redirect('/');

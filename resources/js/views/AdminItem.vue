@@ -25,7 +25,11 @@
 			<h3>{{ category.title }}</h3>
 			<ul class="list">
 				<div v-for="item in category.items" :key="item.id">
-					<admin-list-item :item="item"></admin-list-item>
+					<admin-list-item
+						:item="item"
+						:category="category"
+						@destroyItem="destroyItem"
+					></admin-list-item>
 				</div>
 			</ul>
 		</div>
@@ -42,6 +46,25 @@ export default {
 		return {
 			categories: []
 		};
+	},
+	methods: {
+		destroyItem: function(item, category) {
+			if (confirm("Delete " + item.title + " ?")) {
+				axios
+					.delete("/admin/items/" + item.id)
+					.then(res => console.log(res))
+					.catch(err => console.log(err));
+
+				console.log(item);
+				let items = category.items;
+				for (let i = 0; i < items.length; i++) {
+					if (items[i].id == item.id) {
+						items = items.splice(i, 1);
+						return;
+					}
+				}
+			}
+		}
 	},
 	created() {
 		sessionStorage.clear();

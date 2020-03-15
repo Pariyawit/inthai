@@ -2033,9 +2033,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["item"],
+  props: ["item", "category"],
   data: function data() {
     return {
       isEditting: false,
@@ -2278,6 +2281,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2287,6 +2294,26 @@ __webpack_require__.r(__webpack_exports__);
     return {
       categories: []
     };
+  },
+  methods: {
+    destroyItem: function destroyItem(item, category) {
+      if (confirm("Delete " + item.title + " ?")) {
+        axios["delete"]("/admin/items/" + item.id).then(function (res) {
+          return console.log(res);
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+        console.log(item);
+        var items = category.items;
+
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].id == item.id) {
+            items = items.splice(i, 1);
+            return;
+          }
+        }
+      }
+    }
   },
   created: function created() {
     var _this = this;
@@ -7822,7 +7849,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".error[data-v-dd717636] {\n  position: absolute;\n  bottom: -1rem;\n  left: 1rem;\n  background: yellow;\n  height: 1.25rem;\n  line-height: 1.25rem;\n}", ""]);
+exports.push([module.i, ".error[data-v-dd717636] {\n  position: absolute;\n  bottom: -1rem;\n  left: 1rem;\n  background: yellow;\n  height: 1.25rem;\n  line-height: 1.25rem;\n}\n.fa-trash[data-v-dd717636] {\n  color: #c13838;\n}", ""]);
 
 // exports
 
@@ -42477,7 +42504,18 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "list__button list__button--icon"
+                                  staticClass:
+                                    "list__button list__button--icon",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.$emit(
+                                        "destroyItem",
+                                        _vm.item,
+                                        _vm.category
+                                      )
+                                    }
+                                  }
                                 },
                                 [_c("i", { staticClass: "fa fa-trash" })]
                               )
@@ -42730,7 +42768,12 @@ var render = function() {
               return _c(
                 "div",
                 { key: item.id },
-                [_c("admin-list-item", { attrs: { item: item } })],
+                [
+                  _c("admin-list-item", {
+                    attrs: { item: item, category: category },
+                    on: { destroyItem: _vm.destroyItem }
+                  })
+                ],
                 1
               )
             }),
