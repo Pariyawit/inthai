@@ -1,74 +1,102 @@
 <template>
 	<li class="list__item">
-		<div class="row">
-			<div class="list__field col-3">
-				<input
-					type="text"
-					v-model="title"
-					:disabled="!isEditting"
-					class="list__input"
-					:class="{ disabled: !isEditting }"
-				/>
-			</div>
-			<div class="list__field col-4">
-				<input
-					type="text"
-					v-model="description"
-					:disabled="!isEditting"
-					class="list__input"
-				/>
-			</div>
-			<div
-				class="list__field col-1 d-flex justify-content-center align-items-center"
-			>
-				<input
-					type="checkbox"
-					v-model="vegetarian"
-					:disabled="!isEditting"
-					class="list__input"
-				/>
-			</div>
-			<div
-				class="list__field col-1 d-flex justify-content-center align-items-center"
-			>
-				<input
-					type="checkbox"
-					v-model="soldout"
-					:disabled="!isEditting"
-					class="list__input"
-				/>
-			</div>
-			<div class="list__field col-1">
-				<input
-					type="text"
-					v-model="price"
-					:disabled="!isEditting"
-					class="list__input text-right pr-1"
-				/>
-			</div>
-			<div class="list__field col-2">
-				<div v-if="!isEditting" class="d-flex justify-content-center">
-					<button class="list__button list__button--icon" @click="edit">
-						<i class="fa fa-edit"></i>
-					</button>
-					<button class="list__button list__button--icon">
-						<i class="fa fa-trash"></i>
-					</button>
+		<ValidationObserver v-slot="{ invalid }">
+			<form action="">
+				<div class="row">
+					<div class="list__field col-3">
+						<ValidationProvider rules="required" v-slot="{ errors }">
+							<input
+								type="text"
+								v-model="title"
+								:disabled="!isEditting"
+								class="list__input"
+								:class="{ disabled: !isEditting }"
+								name="Title"
+							/>
+							<span class="error">{{ errors[0] }}</span>
+						</ValidationProvider>
+					</div>
+					<div class="list__field col-4">
+						<input
+							type="text"
+							v-model="description"
+							:disabled="!isEditting"
+							class="list__input"
+						/>
+					</div>
+					<div
+						class="list__field col-1 d-flex justify-content-center align-items-center"
+					>
+						<input
+							type="checkbox"
+							v-model="vegetarian"
+							:disabled="!isEditting"
+							class="list__input"
+						/>
+					</div>
+					<div
+						class="list__field col-1 d-flex justify-content-center align-items-center"
+					>
+						<input
+							type="checkbox"
+							v-model="soldout"
+							:disabled="!isEditting"
+							class="list__input"
+						/>
+					</div>
+
+					<div class="list__field col-1">
+						<ValidationProvider rules="required" v-slot="{ errors }">
+							<input
+								type="number"
+								min="0"
+								step="0.01"
+								v-model="price"
+								:disabled="!isEditting"
+								class="list__input text-right pr-1"
+							/>
+						</ValidationProvider>
+					</div>
+
+					<div class="list__field col-2">
+						<div v-if="!isEditting" class="d-flex justify-content-center">
+							<button
+								class="list__button list__button--icon"
+								@click.prevent="edit"
+							>
+								<i class="fa fa-edit"></i>
+							</button>
+							<button class="list__button list__button--icon">
+								<i class="fa fa-trash"></i>
+							</button>
+						</div>
+						<div v-else class="d-flex justify-content-around">
+							<button
+								class="list__button list__button--save"
+								@click.prevent="save"
+							>
+								Save
+							</button>
+							<button
+								class="list__button list__button--cancel"
+								@click.prevent="cancel"
+							>
+								Cancel
+							</button>
+						</div>
+					</div>
 				</div>
-				<div v-else class="d-flex justify-content-around">
-					<button class="list__button list__button--save" @click="save">
-						Save
-					</button>
-					<button class="list__button list__button--cancel" @click="cancel">
-						Cancel
-					</button>
-				</div>
-			</div>
-		</div>
+			</form>
+		</ValidationObserver>
 	</li>
 </template>
 
 <script>
+import {
+	ValidationProvider,
+	ValidationObserver
+} from "vee-validate/dist/vee-validate.full";
+
 export default {
 	props: ["item"],
 	data: function() {
@@ -97,9 +125,21 @@ export default {
 			this.isEditting = false;
 		}
 	},
-	created() {}
+	components: {
+		ValidationProvider,
+		ValidationObserver
+	}
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.error {
+	position: absolute;
+	bottom: -1rem;
+	left: 1rem;
+	background: yellow;
+	height: 1.25rem;
+	line-height: 1.25rem;
+}
+</style>>
 </style>
