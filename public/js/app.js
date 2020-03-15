@@ -2253,6 +2253,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
@@ -2905,6 +2913,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -42405,15 +42424,46 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "heading pt-3" }, [
-      _c("h1", { staticClass: "font-weight-bold" }, [
+    return _c(
+      "div",
+      {
+        staticClass:
+          "heading pt-3 d-flex flex-column align-items-center flex-md-row"
+      },
+      [
         _c("img", {
-          staticClass: "rounded-circle logo",
+          staticClass: "rounded-circle logo mr-md-3",
           attrs: { src: "img/inthai-logo.svg" }
         }),
-        _vm._v(" In Thai\n\t\t\tStyle Restaurant\n\t\t")
-      ])
-    ])
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "d-flex flex-column align-items-center align-items-md-start"
+          },
+          [
+            _c("h1", { staticClass: "font-weight-bold" }, [
+              _vm._v("\n\t\t\t\tIn Thai Style Restaurant\n\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("span", [
+              _c(
+                "a",
+                { attrs: { href: "https://goo.gl/maps/5JN47j1xzELjdaRb6" } },
+                [
+                  _c("i", {
+                    staticClass: "fas fa-map-marker-alt",
+                    staticStyle: { "font-size": "1.125rem" }
+                  }),
+                  _vm._v("  778 The Entrance Rd, Wamberal NSW 2260\n\t\t\t\t")
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -42422,7 +42472,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything\n\t\t\t\t\t\t\t\tthey need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
+        " for the restaurant with anything\n\t\t\t\t\t\t\t\twe need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
       )
     ])
   }
@@ -43518,7 +43568,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the\n\t\t\t\t\t\t\t\trestaurant with anything they need to know.\n\t\t\t\t\t\t\t\tDo not include details about any allergies.\n\t\t\t\t\t\t\t"
+        " for the restaurant with anything\n\t\t\t\t\t\t\t\twe need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
       )
     ])
   },
@@ -43531,7 +43581,7 @@ var staticRenderFns = [
         _c(
           "button",
           { staticClass: "btn btn-success w-100", attrs: { type: "submit" } },
-          [_vm._v("Continue")]
+          [_vm._v("\n\t\t\t\t\t\t\t\tContinue\n\t\t\t\t\t\t\t")]
         )
       ])
     ])

@@ -1,10 +1,18 @@
 <template>
 	<div class="container home">
-		<div class="heading pt-3">
-			<h1 class="font-weight-bold">
-				<img src="img/inthai-logo.svg" class="rounded-circle logo" /> In Thai
-				Style Restaurant
-			</h1>
+		<div class="heading pt-3 d-flex flex-column align-items-center flex-md-row">
+			<img src="img/inthai-logo.svg" class="rounded-circle logo mr-md-3" />
+			<div class="d-flex flex-column align-items-center align-items-md-start">
+				<h1 class="font-weight-bold">
+					In Thai Style Restaurant
+				</h1>
+				<span>
+					<a href="https://goo.gl/maps/5JN47j1xzELjdaRb6">
+						<i class="fas fa-map-marker-alt" style="font-size:1.125rem"></i
+						>&nbsp; 778 The Entrance Rd, Wamberal NSW 2260
+					</a>
+				</span>
+			</div>
 		</div>
 		<div class="row pt-3">
 			<div class="col-2 d-none d-xl-block">
@@ -149,7 +157,7 @@
 							<div class="note">
 								<p>
 									<strong>Leave a note</strong> for the restaurant with anything
-									they need to know. Do not include details about any allergies.
+									we need to know. Do not include details about any allergies.
 								</p>
 
 								<textarea
