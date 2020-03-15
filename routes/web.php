@@ -31,9 +31,12 @@ Route::get('/items', 'ItemController@index');
 Route::get('/categories', 'CategoryController@index');
 
 Route::get('/admin', 'AdminController@main')->middleware('auth');
-Route::get('/admin/orders/{order}', 'OrderController@show')->middleware('auth');
-Route::put('/admin/orders/{order}', 'OrderController@update')->middleware('auth');;
 
+Route::get('/admin/orders', 'OrderController@index')->middleware('auth');
+Route::get('/admin/orders/{order}', 'OrderController@show')->middleware('auth');
+Route::put('/admin/orders/{order}', 'OrderController@update')->middleware('auth');
+
+Route::get('/admin/item', 'AdminController@item')->middleware('auth');
 
 Route::get('/{any}', function(){
   return redirect('/');

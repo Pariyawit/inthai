@@ -222,7 +222,7 @@ textarea {
     }
 }
 
-.order {
+.list {
     padding: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -243,7 +243,7 @@ textarea {
         margin: 0.5rem 0;
         display: block;
         &:hover {
-            background-color: #dffff3;
+            // background-color: #dffff3;
         }
 
         &--head {
@@ -261,6 +261,31 @@ textarea {
         &:last-of-type {
             padding-right: 0.5rem;
         }
+    }
+    &__input {
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        padding-left: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: rgba(243, 246, 9, 0.28);
+        &:disabled {
+            background-color: #fff;
+        }
+        &:hover {
+            overflow: visible;
+        }
+        &[type="checkbox"] {
+            width: auto;
+            transform: scale(2, 2);
+        }
+    }
+    &__button {
+        background: none;
+        border: none;
+        margin: 0 0.5rem;
     }
 }
 
