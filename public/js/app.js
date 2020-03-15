@@ -2042,23 +2042,42 @@ __webpack_require__.r(__webpack_exports__);
       title: this.item.title,
       description: this.item.description,
       vegetarian: this.item.vegetarian,
-      soldout: this.item.soldout,
-      price: this.item.price
+      sold_out: this.item.sold_out,
+      price: this.item.price,
+      tmp: []
     };
   },
   methods: {
     edit: function edit() {
       this.isEditting = true;
+      this.tmp.title = this.title;
+      this.tmp.description = this.description;
+      this.tmp.vegetarian = this.vegetarian;
+      this.tmp.sold_out = this.sold_out;
+      this.tmp.price = this.price;
     },
     save: function save() {
-      this.isEditting = false;
+      this.isEditting = false; //to always shows price in 2 decimal
+
+      this.price = parseFloat(this.price).toFixed(2);
+      axios.post("/admin/items/" + this.item.id, {
+        title: this.title,
+        description: this.description,
+        vegetarian: this.vegetarian,
+        sold_out: this.sold_out,
+        price: this.price
+      }).then(function (res) {
+        return console.log(res);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     },
     cancel: function cancel() {
-      this.title = this.item.title;
-      this.description = this.item.description;
-      this.vegetarian = this.item.vegetarian;
-      this.soldout = this.item.soldout;
-      this.price = this.item.price;
+      this.title = this.tmp.title;
+      this.description = this.tmp.description;
+      this.vegetarian = this.tmp.vegetarian;
+      this.sold_out = this.tmp.sold_out;
+      this.price = this.tmp.price;
       this.isEditting = false;
     }
   },
@@ -42343,8 +42362,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.soldout,
-                              expression: "soldout"
+                              value: _vm.sold_out,
+                              expression: "sold_out"
                             }
                           ],
                           staticClass: "list__input",
@@ -42353,28 +42372,28 @@ var render = function() {
                             disabled: !_vm.isEditting
                           },
                           domProps: {
-                            checked: Array.isArray(_vm.soldout)
-                              ? _vm._i(_vm.soldout, null) > -1
-                              : _vm.soldout
+                            checked: Array.isArray(_vm.sold_out)
+                              ? _vm._i(_vm.sold_out, null) > -1
+                              : _vm.sold_out
                           },
                           on: {
                             change: function($event) {
-                              var $$a = _vm.soldout,
+                              var $$a = _vm.sold_out,
                                 $$el = $event.target,
                                 $$c = $$el.checked ? true : false
                               if (Array.isArray($$a)) {
                                 var $$v = null,
                                   $$i = _vm._i($$a, $$v)
                                 if ($$el.checked) {
-                                  $$i < 0 && (_vm.soldout = $$a.concat([$$v]))
+                                  $$i < 0 && (_vm.sold_out = $$a.concat([$$v]))
                                 } else {
                                   $$i > -1 &&
-                                    (_vm.soldout = $$a
+                                    (_vm.sold_out = $$a
                                       .slice(0, $$i)
                                       .concat($$a.slice($$i + 1)))
                                 }
                               } else {
-                                _vm.soldout = $$c
+                                _vm.sold_out = $$c
                               }
                             }
                           }

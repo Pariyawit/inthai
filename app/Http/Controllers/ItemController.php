@@ -67,9 +67,21 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Item $item)
     {
-        //
+        $data = $request->validate([
+          'title' => 'required',
+          'description' => '',
+          'vegetarian'  => '',
+          'sold_out' => '',
+          'price' => 'required|numeric'
+        ]);
+        
+        if($item->update($data)){
+          return 'success';
+        }else{
+          return "fail";
+        }
     }
 
     /**
@@ -78,8 +90,13 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Item $item)
     {
-        //
+        if($item->destroy()){
+          return 'success';
+        }
+        else{
+          return 'fail';
+        }
     }
 }

@@ -39,7 +39,7 @@
 					>
 						<input
 							type="checkbox"
-							v-model="soldout"
+							v-model="sold_out"
 							:disabled="!isEditting"
 							class="list__input"
 						/>
@@ -105,23 +105,42 @@ export default {
 			title: this.item.title,
 			description: this.item.description,
 			vegetarian: this.item.vegetarian,
-			soldout: this.item.soldout,
-			price: this.item.price
+			sold_out: this.item.sold_out,
+			price: this.item.price,
+			tmp: []
 		};
 	},
 	methods: {
 		edit: function() {
 			this.isEditting = true;
+			this.tmp.title = this.title;
+			this.tmp.description = this.description;
+			this.tmp.vegetarian = this.vegetarian;
+			this.tmp.sold_out = this.sold_out;
+			this.tmp.price = this.price;
 		},
 		save: function() {
 			this.isEditting = false;
+
+			//to always shows price in 2 decimal
+			this.price = parseFloat(this.price).toFixed(2);
+			axios
+				.post("/admin/items/" + this.item.id, {
+					title: this.title,
+					description: this.description,
+					vegetarian: this.vegetarian,
+					sold_out: this.sold_out,
+					price: this.price
+				})
+				.then(res => console.log(res))
+				.catch(err => console.log(err));
 		},
 		cancel: function() {
-			this.title = this.item.title;
-			this.description = this.item.description;
-			this.vegetarian = this.item.vegetarian;
-			this.soldout = this.item.soldout;
-			this.price = this.item.price;
+			this.title = this.tmp.title;
+			this.description = this.tmp.description;
+			this.vegetarian = this.tmp.vegetarian;
+			this.sold_out = this.tmp.sold_out;
+			this.price = this.tmp.price;
 			this.isEditting = false;
 		}
 	},
