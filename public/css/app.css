@@ -11156,6 +11156,7 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   background: rgba(243, 246, 9, 0.28);
+  height: 2rem;
 }
 
 .list__input:disabled {
@@ -11172,9 +11173,38 @@ textarea {
 }
 
 .list__button {
-  background: none;
   border: none;
+  background: #189b69;
+  padding: 0 0.25rem;
+  border-radius: 5px;
+  height: 2rem;
+  color: white;
+}
+
+.list__button:focus {
+  outline: none;
+}
+
+.list__button:active {
+  background-color: white;
+  color: #189b69;
+  transition: 0.2s;
+}
+
+.list__button--icon {
+  background: none;
   margin: 0 0.5rem;
+  color: #000;
+}
+
+.list__button--icon:active {
+  color: #189b69;
+  transition: 0.2s;
+}
+
+.list__button--cancel {
+  background-color: white;
+  color: #189b69;
 }
 
 .status {

@@ -242,9 +242,6 @@ textarea {
         padding: 0 1rem;
         margin: 0.5rem 0;
         display: block;
-        &:hover {
-            // background-color: #dffff3;
-        }
 
         &--head {
             font-weight: bold;
@@ -271,6 +268,7 @@ textarea {
         overflow: hidden;
         text-overflow: ellipsis;
         background: rgba(243, 246, 9, 0.28);
+        height: 2rem;
         &:disabled {
             background-color: #fff;
         }
@@ -283,9 +281,33 @@ textarea {
         }
     }
     &__button {
-        background: none;
         border: none;
-        margin: 0 0.5rem;
+        background: $primary;
+        padding: 0 0.25rem;
+        border-radius: 5px;
+        height: 2rem;
+        &:focus {
+            outline: none;
+        }
+        &:active {
+            background-color: white;
+            color: $primary;
+            transition: 0.2s;
+        }
+        color: white;
+        &--icon {
+            background: none;
+            margin: 0 0.5rem;
+            color: $black;
+            &:active {
+                color: $primary;
+                transition: 0.2s;
+            }
+        }
+        &--cancel {
+            background-color: white;
+            color: $primary;
+        }
     }
 }
 

@@ -1994,13 +1994,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["item"],
   data: function data() {
     return {
-      disabled: true
+      isEditting: false,
+      title: this.item.title,
+      description: this.item.description,
+      vegetarian: this.item.vegetarian,
+      soldout: this.item.soldout,
+      price: this.item.price
     };
-  }
+  },
+  methods: {
+    edit: function edit() {
+      this.isEditting = true;
+    },
+    save: function save() {
+      this.isEditting = false;
+    },
+    cancel: function cancel() {
+      this.title = this.item.title;
+      this.description = this.item.description;
+      this.vegetarian = this.item.vegetarian;
+      this.soldout = this.item.soldout;
+      this.price = this.item.price;
+      this.isEditting = false;
+    }
+  },
+  created: function created() {}
 });
 
 /***/ }),
@@ -42081,20 +42117,20 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.item.title,
-              expression: "item.title"
+              value: _vm.title,
+              expression: "title"
             }
           ],
           staticClass: "list__input",
-          class: { disabled: _vm.disabled },
-          attrs: { type: "text", disabled: _vm.disabled },
-          domProps: { value: _vm.item.title },
+          class: { disabled: !_vm.isEditting },
+          attrs: { type: "text", disabled: !_vm.isEditting },
+          domProps: { value: _vm.title },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.item, "title", $event.target.value)
+              _vm.title = $event.target.value
             }
           }
         })
@@ -42106,19 +42142,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.item.description,
-              expression: "item.description"
+              value: _vm.description,
+              expression: "description"
             }
           ],
           staticClass: "list__input",
-          attrs: { type: "text", disabled: _vm.disabled },
-          domProps: { value: _vm.item.description },
+          attrs: { type: "text", disabled: !_vm.isEditting },
+          domProps: { value: _vm.description },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.item, "description", $event.target.value)
+              _vm.description = $event.target.value
             }
           }
         })
@@ -42136,38 +42172,35 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.item.vegetarian,
-                expression: "item.vegetarian"
+                value: _vm.vegetarian,
+                expression: "vegetarian"
               }
             ],
             staticClass: "list__input",
-            attrs: { type: "checkbox", disabled: _vm.disabled },
+            attrs: { type: "checkbox", disabled: !_vm.isEditting },
             domProps: {
-              checked: Array.isArray(_vm.item.vegetarian)
-                ? _vm._i(_vm.item.vegetarian, null) > -1
-                : _vm.item.vegetarian
+              checked: Array.isArray(_vm.vegetarian)
+                ? _vm._i(_vm.vegetarian, null) > -1
+                : _vm.vegetarian
             },
             on: {
               change: function($event) {
-                var $$a = _vm.item.vegetarian,
+                var $$a = _vm.vegetarian,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
                   var $$v = null,
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
-                    $$i < 0 &&
-                      _vm.$set(_vm.item, "vegetarian", $$a.concat([$$v]))
+                    $$i < 0 && (_vm.vegetarian = $$a.concat([$$v]))
                   } else {
                     $$i > -1 &&
-                      _vm.$set(
-                        _vm.item,
-                        "vegetarian",
-                        $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                      )
+                      (_vm.vegetarian = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.$set(_vm.item, "vegetarian", $$c)
+                  _vm.vegetarian = $$c
                 }
               }
             }
@@ -42187,37 +42220,35 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.item.soldout,
-                expression: "item.soldout"
+                value: _vm.soldout,
+                expression: "soldout"
               }
             ],
             staticClass: "list__input",
-            attrs: { type: "checkbox", disabled: _vm.disabled },
+            attrs: { type: "checkbox", disabled: !_vm.isEditting },
             domProps: {
-              checked: Array.isArray(_vm.item.soldout)
-                ? _vm._i(_vm.item.soldout, null) > -1
-                : _vm.item.soldout
+              checked: Array.isArray(_vm.soldout)
+                ? _vm._i(_vm.soldout, null) > -1
+                : _vm.soldout
             },
             on: {
               change: function($event) {
-                var $$a = _vm.item.soldout,
+                var $$a = _vm.soldout,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
                   var $$v = null,
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
-                    $$i < 0 && _vm.$set(_vm.item, "soldout", $$a.concat([$$v]))
+                    $$i < 0 && (_vm.soldout = $$a.concat([$$v]))
                   } else {
                     $$i > -1 &&
-                      _vm.$set(
-                        _vm.item,
-                        "soldout",
-                        $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                      )
+                      (_vm.soldout = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.$set(_vm.item, "soldout", $$c)
+                  _vm.soldout = $$c
                 }
               }
             }
@@ -42231,25 +42262,58 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.item.price,
-              expression: "item.price"
+              value: _vm.price,
+              expression: "price"
             }
           ],
           staticClass: "list__input text-right pr-1",
-          attrs: { type: "text", disabled: _vm.disabled },
-          domProps: { value: _vm.item.price },
+          attrs: { type: "text", disabled: !_vm.isEditting },
+          domProps: { value: _vm.price },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.item, "price", $event.target.value)
+              _vm.price = $event.target.value
             }
           }
         })
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "list__field col-2" }, [
+        !_vm.isEditting
+          ? _c("div", { staticClass: "d-flex justify-content-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--icon",
+                  on: { click: _vm.edit }
+                },
+                [_c("i", { staticClass: "fa fa-edit" })]
+              ),
+              _vm._v(" "),
+              _vm._m(0)
+            ])
+          : _c("div", { staticClass: "d-flex justify-content-around" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--save",
+                  on: { click: _vm.save }
+                },
+                [_vm._v("\n\t\t\t\t\tSave\n\t\t\t\t")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--cancel",
+                  on: { click: _vm.cancel }
+                },
+                [_vm._v("\n\t\t\t\t\tCancel\n\t\t\t\t")]
+              )
+            ])
+      ])
     ])
   ])
 }
@@ -42258,19 +42322,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "list__field col-2 d-flex justify-content-center" },
-      [
-        _c("button", { staticClass: "list__button" }, [
-          _c("i", { staticClass: "fa fa-edit" })
-        ]),
-        _vm._v(" "),
-        _c("button", { staticClass: "list__button" }, [
-          _c("i", { staticClass: "fa fa-trash" })
-        ])
-      ]
-    )
+    return _c("button", { staticClass: "list__button list__button--icon" }, [
+      _c("i", { staticClass: "fa fa-trash" })
+    ])
   }
 ]
 render._withStripped = true
