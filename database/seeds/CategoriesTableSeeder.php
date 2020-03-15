@@ -18,16 +18,17 @@ class CategoriesTableSeeder extends Seeder
             'title' => "In Thai House"
         ]);
         DB::table('categories')->insert([
-            'title' => "Curries"
+            'title' => "Curries",
+            'description' => "A choice of vegetable, tofu, chicken, beef, pork, barramundi fillet, duck or prawns."
         ]);
         DB::table('categories')->insert([
             'title' => "Rice"
         ]);
-        DB::table('categories')->insert([
-            'title' => "Friend Rice"
-        ]);
-        DB::table('categories')->insert([
-            'title' => "Stir Fried"
-        ]);
+        // DB::table('categories')->insert([
+        //     'title' => "Friend Rice"
+        // ]);
+        // DB::table('categories')->insert([
+        //     'title' => "Stir Fried"
+        // ]);
     }
 }
