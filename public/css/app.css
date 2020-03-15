@@ -11105,19 +11105,19 @@ textarea {
   text-decoration: underline;
 }
 
-.order {
+.list {
   padding: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.order a {
+.list a {
   text-decoration: none;
   color: black;
 }
 
-.order__item {
+.list__item {
   background-color: #fff;
   border-radius: 5px;
   min-height: 2rem;
@@ -11127,28 +11127,84 @@ textarea {
   display: block;
 }
 
-.order__item:hover {
-  background-color: #dffff3;
-}
-
-.order__item--head {
+.list__item--head {
   font-weight: bold;
 }
 
-.order__item--head:hover {
+.list__item--head:hover {
   background-color: #fff;
 }
 
-.order__field {
+.list__field {
   padding: 0.25rem;
 }
 
-.order__field:first-of-type {
+.list__field:first-of-type {
   padding-left: 0.5rem;
 }
 
-.order__field:last-of-type {
+.list__field:last-of-type {
   padding-right: 0.5rem;
+}
+
+.list__input {
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding-left: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(243, 246, 9, 0.28);
+  height: 2rem;
+}
+
+.list__input:disabled {
+  background-color: #fff;
+}
+
+.list__input:hover {
+  overflow: visible;
+}
+
+.list__input[type=checkbox] {
+  width: auto;
+  transform: scale(2, 2);
+}
+
+.list__button {
+  border: none;
+  background: #189b69;
+  padding: 0 0.25rem;
+  border-radius: 5px;
+  height: 2rem;
+  color: white;
+}
+
+.list__button:focus {
+  outline: none;
+}
+
+.list__button:active {
+  background-color: white;
+  color: #189b69;
+  transition: 0.2s;
+}
+
+.list__button--icon {
+  background: none;
+  margin: 0 0.5rem;
+  color: #000;
+}
+
+.list__button--icon:active {
+  color: #189b69;
+  transition: 0.2s;
+}
+
+.list__button--cancel {
+  background-color: white;
+  color: #189b69;
 }
 
 .status {
