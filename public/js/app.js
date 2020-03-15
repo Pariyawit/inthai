@@ -2250,6 +2250,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['categories','items'],
   data: function data() {
@@ -42116,6 +42119,10 @@ var render = function() {
                       _vm._v(_vm._s(category.title))
                     ]),
                     _vm._v(" "),
+                    _c("span", [
+                      _c("em", [_vm._v(_vm._s(category.description))])
+                    ]),
+                    _vm._v(" "),
                     _vm._l(category.items, function(item) {
                       return _c(
                         "div",
@@ -42404,7 +42411,7 @@ var staticRenderFns = [
           staticClass: "rounded-circle logo",
           attrs: { src: "img/inthai-logo.svg" }
         }),
-        _vm._v(" In Thai Style\n\t\t\tRestaurant\n\t\t")
+        _vm._v(" In Thai\n\t\t\tStyle Restaurant\n\t\t")
       ])
     ])
   },
