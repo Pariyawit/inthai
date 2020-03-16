@@ -249,6 +249,19 @@ textarea {
                 background-color: #fff;
             }
         }
+
+        &--add {
+            font-weight: bold;
+            border: dashed 2px #ddd;
+            color: #ddd;
+            text-align: center;
+            background: none;
+            &:hover {
+                color: $black;
+                border-color: $primary;
+                cursor: pointer;
+            }
+        }
     }
     &__field {
         padding: 0.25rem;

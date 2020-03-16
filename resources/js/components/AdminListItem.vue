@@ -12,6 +12,7 @@
 								class="list__input"
 								:class="{ disabled: !isEditting }"
 								name="Title"
+								autofocus
 							/>
 							<span class="error">{{ errors[0] }}</span>
 						</ValidationProvider>
@@ -101,10 +102,10 @@ import {
 } from "vee-validate/dist/vee-validate.full";
 
 export default {
-	props: ["item", "category"],
+	props: ["item", "category", "newItem"],
 	data: function() {
 		return {
-			isEditting: false,
+			isEditting: this.newItem,
 			title: this.item.title,
 			description: this.item.description,
 			vegetarian: this.item.vegetarian,
@@ -145,6 +146,9 @@ export default {
 			this.sold_out = this.tmp.sold_out;
 			this.price = this.tmp.price;
 			this.isEditting = false;
+			if (this.newItem) {
+				this.$emit("cancel", this.category);
+			}
 		}
 	},
 	components: {

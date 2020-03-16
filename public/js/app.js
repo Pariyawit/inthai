@@ -2036,12 +2036,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["item", "category"],
+  props: ["item", "category", "newItem"],
   data: function data() {
     return {
-      isEditting: false,
+      isEditting: this.newItem,
       title: this.item.title,
       description: this.item.description,
       vegetarian: this.item.vegetarian,
@@ -2082,6 +2083,10 @@ __webpack_require__.r(__webpack_exports__);
       this.sold_out = this.tmp.sold_out;
       this.price = this.tmp.price;
       this.isEditting = false;
+
+      if (this.newItem) {
+        this.$emit("cancel", this.category);
+      }
     }
   },
   components: {
@@ -2285,6 +2290,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2296,6 +2320,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    addItem: function addItem(category) {
+      category.addingItem = true;
+    },
+    cancel: function cancel(category) {
+      category.addingItem = false;
+    },
     destroyItem: function destroyItem(item, category) {
       if (confirm("Delete " + item.title + " ?")) {
         axios["delete"]("/admin/items/" + item.id).then(function (res) {
@@ -2316,11 +2346,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this = this;
-
     sessionStorage.clear();
-    axios.get("/categories").then(function (res) {
-      return _this.categories = res.data;
+    var vm = this;
+    axios.get("/categories").then(function (response) {
+      vm.categories = response.data;
+      vm.categories.forEach(function (category) {
+        vm.$set(category, "addingItem", false);
+      });
     })["catch"](function (err) {
       return console.log(err);
     });
@@ -42273,7 +42305,8 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         disabled: !_vm.isEditting,
-                                        name: "Title"
+                                        name: "Title",
+                                        autofocus: ""
                                       },
                                       domProps: { value: _vm.title },
                                       on: {
@@ -42757,27 +42790,58 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _vm._l(_vm.categories, function(category) {
+      _vm._l(_vm.categories, function(category, index) {
         return _c("div", { key: category.id }, [
           _c("h3", [_vm._v(_vm._s(category.title))]),
           _vm._v(" "),
           _c(
             "ul",
             { staticClass: "list" },
-            _vm._l(category.items, function(item) {
-              return _c(
-                "div",
-                { key: item.id },
-                [
-                  _c("admin-list-item", {
-                    attrs: { item: item, category: category },
-                    on: { destroyItem: _vm.destroyItem }
-                  })
-                ],
-                1
-              )
-            }),
-            0
+            [
+              _vm._l(category.items, function(item) {
+                return _c(
+                  "div",
+                  { key: item.id },
+                  [
+                    _c("admin-list-item", {
+                      key: item.id,
+                      attrs: { item: item, category: category, newItem: false },
+                      on: { destroyItem: _vm.destroyItem }
+                    })
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              !category.addingItem
+                ? _c(
+                    "li",
+                    {
+                      staticClass: "list__item list__item--add",
+                      on: {
+                        click: function($event) {
+                          return _vm.addItem(category)
+                        }
+                      }
+                    },
+                    [_vm._v("\n\t\t\t\t+ New Item\n\t\t\t")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              category.addingItem
+                ? _c(
+                    "div",
+                    [
+                      _c("admin-list-item", {
+                        attrs: { item: [], category: category, newItem: true },
+                        on: { destroyItem: _vm.destroyItem, cancel: _vm.cancel }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            2
           )
         ])
       })
