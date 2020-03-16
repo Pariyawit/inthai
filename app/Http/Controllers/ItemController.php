@@ -35,7 +35,17 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $data = $request->validate([
+        'category_id' => 'required|numeric',
+        'title' => 'required',
+        'description' => '',
+        'vegetarian'  => '',
+        'sold_out' => '',
+        'price' => 'required|numeric'
+      ]);
+
+      $item = Item::create($data);
+      return $item;
     }
 
     /**
