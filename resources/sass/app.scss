@@ -245,8 +245,20 @@ textarea {
 
         &--head {
             font-weight: bold;
+            color: white;
+            background-color: $primary;
+        }
+
+        &--add {
+            font-weight: bold;
+            border: dashed 2px #ddd;
+            color: #ddd;
+            text-align: center;
+            background: none;
             &:hover {
-                background-color: #fff;
+                color: $black;
+                border-color: $primary;
+                cursor: pointer;
             }
         }
     }
@@ -294,6 +306,9 @@ textarea {
             color: $primary;
             transition: 0.2s;
         }
+        &:disabled {
+            background-color: #ddd;
+        }
         color: white;
         &--icon {
             background: none;
@@ -330,4 +345,8 @@ textarea {
     &--done {
         background-color: gray;
     }
+}
+
+.fa-trash {
+    color: #c13838;
 }

@@ -2036,12 +2036,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["item", "category"],
+  props: ["item", "category", "newItem"],
   data: function data() {
     return {
-      isEditting: false,
+      isEditting: this.newItem,
       title: this.item.title,
       description: this.item.description,
       vegetarian: this.item.vegetarian,
@@ -2060,20 +2062,47 @@ __webpack_require__.r(__webpack_exports__);
       this.tmp.price = this.price;
     },
     save: function save() {
-      this.isEditting = false; //to always shows price in 2 decimal
+      this.isEditting = false;
+      var vm = this; //to always shows price in 2 decimal
 
       this.price = parseFloat(this.price).toFixed(2);
-      axios.post("/admin/items/" + this.item.id, {
-        title: this.title,
-        description: this.description,
-        vegetarian: this.vegetarian,
-        sold_out: this.sold_out,
-        price: this.price
-      }).then(function (res) {
-        return console.log(res);
-      })["catch"](function (err) {
-        return console.log(err);
-      });
+
+      if (this.newItem) {
+        //create item
+        axios.post("/admin/items", {
+          category_id: this.category.id,
+          title: this.title,
+          description: this.description,
+          vegetarian: this.vegetarian,
+          sold_out: this.sold_out,
+          price: this.price
+        }).then(function (response) {
+          var item = response.data;
+          vm.category.items.push(item);
+          console.log(item);
+          vm.title = "";
+          vm.description = "";
+          vm.vegetarian = "";
+          vm.sold_out = "";
+          vm.price = "";
+          vm.$emit("saved", vm.category);
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      } else {
+        // update item
+        axios.post("/admin/items/" + this.item.id, {
+          title: this.title,
+          description: this.description,
+          vegetarian: this.vegetarian,
+          sold_out: this.sold_out,
+          price: this.price
+        }).then(function (res) {
+          return console.log(res);
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
     },
     cancel: function cancel() {
       this.title = this.tmp.title;
@@ -2082,6 +2111,10 @@ __webpack_require__.r(__webpack_exports__);
       this.sold_out = this.tmp.sold_out;
       this.price = this.tmp.price;
       this.isEditting = false;
+
+      if (this.newItem) {
+        this.$emit("cancel", this.category);
+      }
     }
   },
   components: {
@@ -2285,6 +2318,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2296,6 +2365,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    addItem: function addItem(category) {
+      category.addingItem = true;
+    },
+    saved: function saved(category) {
+      category.addingItem = false;
+    },
+    cancel: function cancel(category) {
+      category.addingItem = false;
+    },
     destroyItem: function destroyItem(item, category) {
       if (confirm("Delete " + item.title + " ?")) {
         axios["delete"]("/admin/items/" + item.id).then(function (res) {
@@ -2316,11 +2394,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this = this;
-
     sessionStorage.clear();
-    axios.get("/categories").then(function (res) {
-      return _this.categories = res.data;
+    var vm = this;
+    axios.get("/categories").then(function (response) {
+      vm.categories = response.data;
+      vm.categories.forEach(function (category) {
+        vm.$set(category, "addingItem", false);
+      });
     })["catch"](function (err) {
       return console.log(err);
     });
@@ -7849,7 +7929,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".error[data-v-dd717636] {\n  position: absolute;\n  bottom: -1rem;\n  left: 1rem;\n  background: yellow;\n  height: 1.25rem;\n  line-height: 1.25rem;\n}\n.fa-trash[data-v-dd717636] {\n  color: #c13838;\n}", ""]);
+exports.push([module.i, ".error[data-v-dd717636] {\n  position: absolute;\n  bottom: -1rem;\n  left: 1rem;\n  background: yellow;\n  height: 1.25rem;\n  line-height: 1.25rem;\n}", ""]);
 
 // exports
 
@@ -42273,7 +42353,8 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         disabled: !_vm.isEditting,
-                                        name: "Title"
+                                        name: "Title",
+                                        autofocus: ""
                                       },
                                       domProps: { value: _vm.title },
                                       on: {
@@ -42530,6 +42611,7 @@ var render = function() {
                                 {
                                   staticClass:
                                     "list__button list__button--save",
+                                  attrs: { disabled: invalid },
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
@@ -42757,27 +42839,94 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _vm._l(_vm.categories, function(category) {
+      _vm._l(_vm.categories, function(category, index) {
         return _c("div", { key: category.id }, [
-          _c("h3", [_vm._v(_vm._s(category.title))]),
+          _c("div", { staticClass: "d-flex" }, [
+            _c("h3", [_vm._v(_vm._s(category.title))]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mx-3" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--icon mx-1",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.editCategory(category)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-edit" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--icon mx-1",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.destroyCategory(category)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-trash" })]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "ul",
             { staticClass: "list" },
-            _vm._l(category.items, function(item) {
-              return _c(
-                "div",
-                { key: item.id },
-                [
-                  _c("admin-list-item", {
-                    attrs: { item: item, category: category },
-                    on: { destroyItem: _vm.destroyItem }
-                  })
-                ],
-                1
-              )
-            }),
-            0
+            [
+              _vm._l(category.items, function(item) {
+                return _c(
+                  "div",
+                  { key: item.id },
+                  [
+                    _c("admin-list-item", {
+                      key: item.id,
+                      attrs: { item: item, category: category, newItem: false },
+                      on: { destroyItem: _vm.destroyItem }
+                    })
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              !category.addingItem
+                ? _c(
+                    "li",
+                    {
+                      staticClass: "list__item list__item--add",
+                      on: {
+                        click: function($event) {
+                          return _vm.addItem(category)
+                        }
+                      }
+                    },
+                    [_vm._v("\n\t\t\t\t+ New Item\n\t\t\t")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              category.addingItem
+                ? _c(
+                    "div",
+                    [
+                      _c("admin-list-item", {
+                        attrs: { item: [], category: category, newItem: true },
+                        on: {
+                          destroyItem: _vm.destroyItem,
+                          cancel: _vm.cancel,
+                          saved: _vm.saved
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            2
           )
         ])
       })
