@@ -2338,6 +2338,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -7913,7 +7929,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".error[data-v-dd717636] {\n  position: absolute;\n  bottom: -1rem;\n  left: 1rem;\n  background: yellow;\n  height: 1.25rem;\n  line-height: 1.25rem;\n}\n.fa-trash[data-v-dd717636] {\n  color: #c13838;\n}", ""]);
+exports.push([module.i, ".error[data-v-dd717636] {\n  position: absolute;\n  bottom: -1rem;\n  left: 1rem;\n  background: yellow;\n  height: 1.25rem;\n  line-height: 1.25rem;\n}", ""]);
 
 // exports
 
@@ -42825,7 +42841,39 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.categories, function(category, index) {
         return _c("div", { key: category.id }, [
-          _c("h3", [_vm._v(_vm._s(category.title))]),
+          _c("div", { staticClass: "d-flex" }, [
+            _c("h3", [_vm._v(_vm._s(category.title))]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mx-3" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--icon mx-1",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.editCategory(category)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-edit" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "list__button list__button--icon mx-1",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.destroyCategory(category)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-trash" })]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "ul",

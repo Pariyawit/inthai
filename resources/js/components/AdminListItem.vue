@@ -145,6 +145,7 @@ export default {
 						let item = response.data;
 						vm.category.items.push(item);
 						console.log(item);
+
 						vm.title = "";
 						vm.description = "";
 						vm.vegetarian = "";
@@ -194,8 +195,5 @@ export default {
 	background: yellow;
 	height: 1.25rem;
 	line-height: 1.25rem;
-}
-.fa-trash {
-	color: #c13838;
 }
 </style>

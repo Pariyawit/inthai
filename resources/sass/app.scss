@@ -245,9 +245,8 @@ textarea {
 
         &--head {
             font-weight: bold;
-            &:hover {
-                background-color: #fff;
-            }
+            color: white;
+            background-color: $primary;
         }
 
         &--add {
@@ -346,4 +345,8 @@ textarea {
     &--done {
         background-color: gray;
     }
+}
+
+.fa-trash {
+    color: #c13838;
 }

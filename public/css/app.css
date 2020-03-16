@@ -11129,10 +11129,8 @@ textarea {
 
 .list__item--head {
   font-weight: bold;
-}
-
-.list__item--head:hover {
-  background-color: #fff;
+  color: white;
+  background-color: #189b69;
 }
 
 .list__item--add {
@@ -11244,5 +11242,9 @@ textarea {
 
 .status--done {
   background-color: gray;
+}
+
+.fa-trash {
+  color: #c13838;
 }
 

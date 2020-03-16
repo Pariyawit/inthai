@@ -22,7 +22,23 @@
 			</div>
 		</li>
 		<div v-for="(category, index) in categories" :key="category.id">
-			<h3>{{ category.title }}</h3>
+			<div class="d-flex">
+				<h3>{{ category.title }}</h3>
+				<div class="mx-3">
+					<button
+						class="list__button list__button--icon mx-1"
+						@click.prevent="editCategory(category)"
+					>
+						<i class="fa fa-edit"></i>
+					</button>
+					<button
+						class="list__button list__button--icon mx-1"
+						@click.prevent="destroyCategory(category)"
+					>
+						<i class="fa fa-trash"></i>
+					</button>
+				</div>
+			</div>
 			<ul class="list">
 				<div v-for="item in category.items" :key="item.id">
 					<admin-list-item
