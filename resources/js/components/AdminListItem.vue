@@ -78,6 +78,7 @@
 							<button
 								class="list__button list__button--save"
 								@click.prevent="save"
+								:disabled="invalid"
 							>
 								Save
 							</button>
@@ -125,19 +126,46 @@ export default {
 		},
 		save: function() {
 			this.isEditting = false;
-
+			let vm = this;
 			//to always shows price in 2 decimal
 			this.price = parseFloat(this.price).toFixed(2);
-			axios
-				.post("/admin/items/" + this.item.id, {
-					title: this.title,
-					description: this.description,
-					vegetarian: this.vegetarian,
-					sold_out: this.sold_out,
-					price: this.price
-				})
-				.then(res => console.log(res))
-				.catch(err => console.log(err));
+
+			if (this.newItem) {
+				//create item
+				axios
+					.post("/admin/items", {
+						category_id: this.category.id,
+						title: this.title,
+						description: this.description,
+						vegetarian: this.vegetarian,
+						sold_out: this.sold_out,
+						price: this.price
+					})
+					.then(function(response) {
+						let item = response.data;
+						vm.category.items.push(item);
+						console.log(item);
+						vm.title = "";
+						vm.description = "";
+						vm.vegetarian = "";
+						vm.sold_out = "";
+						vm.price = "";
+						vm.$emit("saved", vm.category);
+					})
+					.catch(err => console.log(err));
+			} else {
+				// update item
+				axios
+					.post("/admin/items/" + this.item.id, {
+						title: this.title,
+						description: this.description,
+						vegetarian: this.vegetarian,
+						sold_out: this.sold_out,
+						price: this.price
+					})
+					.then(res => console.log(res))
+					.catch(err => console.log(err));
+			}
 		},
 		cancel: function() {
 			this.title = this.tmp.title;

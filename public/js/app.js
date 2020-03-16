@@ -2037,6 +2037,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["item", "category", "newItem"],
@@ -2061,20 +2062,47 @@ __webpack_require__.r(__webpack_exports__);
       this.tmp.price = this.price;
     },
     save: function save() {
-      this.isEditting = false; //to always shows price in 2 decimal
+      this.isEditting = false;
+      var vm = this; //to always shows price in 2 decimal
 
       this.price = parseFloat(this.price).toFixed(2);
-      axios.post("/admin/items/" + this.item.id, {
-        title: this.title,
-        description: this.description,
-        vegetarian: this.vegetarian,
-        sold_out: this.sold_out,
-        price: this.price
-      }).then(function (res) {
-        return console.log(res);
-      })["catch"](function (err) {
-        return console.log(err);
-      });
+
+      if (this.newItem) {
+        //create item
+        axios.post("/admin/items", {
+          category_id: this.category.id,
+          title: this.title,
+          description: this.description,
+          vegetarian: this.vegetarian,
+          sold_out: this.sold_out,
+          price: this.price
+        }).then(function (response) {
+          var item = response.data;
+          vm.category.items.push(item);
+          console.log(item);
+          vm.title = "";
+          vm.description = "";
+          vm.vegetarian = "";
+          vm.sold_out = "";
+          vm.price = "";
+          vm.$emit("saved", vm.category);
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      } else {
+        // update item
+        axios.post("/admin/items/" + this.item.id, {
+          title: this.title,
+          description: this.description,
+          vegetarian: this.vegetarian,
+          sold_out: this.sold_out,
+          price: this.price
+        }).then(function (res) {
+          return console.log(res);
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
     },
     cancel: function cancel() {
       this.title = this.tmp.title;
@@ -2309,6 +2337,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2322,6 +2351,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addItem: function addItem(category) {
       category.addingItem = true;
+    },
+    saved: function saved(category) {
+      category.addingItem = false;
     },
     cancel: function cancel(category) {
       category.addingItem = false;
@@ -42563,6 +42595,7 @@ var render = function() {
                                 {
                                   staticClass:
                                     "list__button list__button--save",
+                                  attrs: { disabled: invalid },
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
@@ -42834,7 +42867,11 @@ var render = function() {
                     [
                       _c("admin-list-item", {
                         attrs: { item: [], category: category, newItem: true },
-                        on: { destroyItem: _vm.destroyItem, cancel: _vm.cancel }
+                        on: {
+                          destroyItem: _vm.destroyItem,
+                          cancel: _vm.cancel,
+                          saved: _vm.saved
+                        }
                       })
                     ],
                     1

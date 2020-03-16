@@ -48,6 +48,7 @@
 						:newItem="true"
 						@destroyItem="destroyItem"
 						@cancel="cancel"
+						@saved="saved"
 					></admin-list-item>
 				</div>
 			</ul>
@@ -69,6 +70,9 @@ export default {
 	methods: {
 		addItem: function(category) {
 			category.addingItem = true;
+		},
+		saved: function(category) {
+			category.addingItem = false;
 		},
 		cancel: function(category) {
 			category.addingItem = false;

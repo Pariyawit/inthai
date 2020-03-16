@@ -11205,6 +11205,10 @@ textarea {
   transition: 0.2s;
 }
 
+.list__button:disabled {
+  background-color: #ddd;
+}
+
 .list__button--icon {
   background: none;
   margin: 0 0.5rem;
