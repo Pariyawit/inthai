@@ -2354,6 +2354,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2391,15 +2430,22 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+    },
+    editCategory: function editCategory(category) {
+      category.editting = true;
+      console.log(this.categories);
     }
   },
   created: function created() {
     sessionStorage.clear();
     var vm = this;
     axios.get("/categories").then(function (response) {
-      vm.categories = response.data;
-      vm.categories.forEach(function (category) {
-        vm.$set(category, "addingItem", false);
+      // vm.categories = response.data;
+      var categories = response.data;
+      categories.forEach(function (category) {
+        category.addingItem = false;
+        category.editting = false;
+        vm.categories.push(category);
       });
     })["catch"](function (err) {
       return console.log(err);
@@ -42841,38 +42887,131 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.categories, function(category, index) {
         return _c("div", { key: category.id }, [
-          _c("div", { staticClass: "d-flex" }, [
-            _c("h3", [_vm._v(_vm._s(category.title))]),
-            _vm._v(" "),
-            _c("div", { staticClass: "mx-3" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "list__button list__button--icon mx-1",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.editCategory(category)
+          _c("div", { staticClass: "category" }, [
+            !category.editting
+              ? _c(
+                  "div",
+                  { staticClass: "d-flex flex-column category__head" },
+                  [
+                    _c("div", { staticClass: "d-flex" }, [
+                      _c("h3", [_vm._v(_vm._s(category.title))]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mx-3" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "list__button list__button--icon mx-1",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.editCategory(category)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-edit" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "list__button list__button--icon mx-1",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.destroyCategory(category)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash" })]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        "\n\t\t\t\t\t" +
+                          _vm._s(category.description) +
+                          "\n\t\t\t\t"
+                      )
+                    ])
+                  ]
+                )
+              : _c("div", { staticClass: "category__head--editting" }, [
+                  _c("div", { staticClass: "d-flex mb-1" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: category.title,
+                          expression: "category.title"
+                        }
+                      ],
+                      staticClass: "category__input",
+                      attrs: { type: "text" },
+                      domProps: { value: category.title },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(category, "title", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "list__button list__button--save mx-1",
+                        attrs: { disabled: _vm.invalid },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.save($event)
+                          }
+                        }
+                      },
+                      [_vm._v("\n\t\t\t\t\t\tSave\n\t\t\t\t\t")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "list__button list__button--cancel mx-1",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.cancel($event)
+                          }
+                        }
+                      },
+                      [_vm._v("\n\t\t\t\t\t\tCancel\n\t\t\t\t\t")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: category.description,
+                        expression: "category.description"
+                      }
+                    ],
+                    staticClass: "w-100",
+                    attrs: { name: "", id: "", rows: "2" },
+                    domProps: { value: category.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(category, "description", $event.target.value)
+                      }
                     }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-edit" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "list__button list__button--icon mx-1",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.destroyCategory(category)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-trash" })]
-              )
-            ])
+                  })
+                ])
           ]),
           _vm._v(" "),
           _c(

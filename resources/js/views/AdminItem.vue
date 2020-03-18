@@ -22,21 +22,60 @@
 			</div>
 		</li>
 		<div v-for="(category, index) in categories" :key="category.id">
-			<div class="d-flex">
-				<h3>{{ category.title }}</h3>
-				<div class="mx-3">
-					<button
-						class="list__button list__button--icon mx-1"
-						@click.prevent="editCategory(category)"
-					>
-						<i class="fa fa-edit"></i>
-					</button>
-					<button
-						class="list__button list__button--icon mx-1"
-						@click.prevent="destroyCategory(category)"
-					>
-						<i class="fa fa-trash"></i>
-					</button>
+			<div class="category">
+				<div
+					class="d-flex flex-column category__head"
+					v-if="!category.editting"
+				>
+					<div class="d-flex">
+						<h3>{{ category.title }}</h3>
+						<div class="mx-3">
+							<button
+								class="list__button list__button--icon mx-1"
+								@click.prevent="editCategory(category)"
+							>
+								<i class="fa fa-edit"></i>
+							</button>
+							<button
+								class="list__button list__button--icon mx-1"
+								@click.prevent="destroyCategory(category)"
+							>
+								<i class="fa fa-trash"></i>
+							</button>
+						</div>
+					</div>
+					<p>
+						{{ category.description }}
+					</p>
+				</div>
+				<div v-else="category.editting" class="category__head--editting">
+					<div class="d-flex mb-1">
+						<input
+							type="text"
+							v-model="category.title"
+							class="category__input"
+						/>
+						<button
+							class="list__button list__button--save mx-1"
+							@click.prevent="save"
+							:disabled="invalid"
+						>
+							Save
+						</button>
+						<button
+							class="list__button list__button--cancel mx-1"
+							@click.prevent="cancel"
+						>
+							Cancel
+						</button>
+					</div>
+					<textarea
+						name=""
+						v-model="category.description"
+						id=""
+						rows="2"
+						class="w-100"
+					></textarea>
 				</div>
 			</div>
 			<ul class="list">
@@ -109,6 +148,10 @@ export default {
 					}
 				}
 			}
+		},
+		editCategory: function(category) {
+			category.editting = true;
+			console.log(this.categories);
 		}
 	},
 	created() {
@@ -117,9 +160,12 @@ export default {
 		axios
 			.get("/categories")
 			.then(function(response) {
-				vm.categories = response.data;
-				vm.categories.forEach(category => {
-					vm.$set(category, "addingItem", false);
+				// vm.categories = response.data;
+				let categories = response.data;
+				categories.forEach(category => {
+					category.addingItem = false;
+					category.editting = false;
+					vm.categories.push(category);
 				});
 			})
 			.catch(err => console.log(err));
