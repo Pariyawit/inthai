@@ -22,21 +22,67 @@
 			</div>
 		</li>
 		<div v-for="(category, index) in categories" :key="category.id">
-			<div class="d-flex">
-				<h3>{{ category.title }}</h3>
-				<div class="mx-3">
-					<button
-						class="list__button list__button--icon mx-1"
-						@click.prevent="editCategory(category)"
-					>
-						<i class="fa fa-edit"></i>
-					</button>
-					<button
-						class="list__button list__button--icon mx-1"
-						@click.prevent="destroyCategory(category)"
-					>
-						<i class="fa fa-trash"></i>
-					</button>
+			<div class="category">
+				<div
+					class="d-flex flex-column category__head"
+					v-if="!category.editting"
+				>
+					<div class="d-flex">
+						<h3>{{ category.title }}</h3>
+						<div class="mx-3">
+							<button
+								class="list__button list__button--icon mx-1"
+								@click.prevent="editCategory(category)"
+							>
+								<i class="fa fa-edit"></i>
+							</button>
+							<button
+								class="list__button list__button--icon mx-1"
+								@click.prevent="destroyCategory(category)"
+							>
+								<i class="fa fa-trash"></i>
+							</button>
+						</div>
+					</div>
+					<p>
+						{{ category.description }}
+					</p>
+				</div>
+				<div v-else="category.editting" class="category__head--editting">
+					<div class="d-flex mb-1">
+						<ValidationObserver v-slot="{ invalid }">
+							<form action="">
+								<ValidationProvider rules="required" v-slot="{ errors }">
+									<input
+										type="text"
+										v-model="category.title"
+										class="category__input"
+									/>
+									<span class="error">{{ errors[0] }}</span>
+								</ValidationProvider>
+								<button
+									class="list__button list__button--save mx-1"
+									@click.prevent="savedCategory(category)"
+									:disabled="invalid"
+								>
+									Save
+								</button>
+								<button
+									class="list__button list__button--cancel mx-1"
+									@click.prevent="cancelCategory(category)"
+								>
+									Cancel
+								</button>
+							</form>
+						</ValidationObserver>
+					</div>
+					<textarea
+						name=""
+						v-model="category.description"
+						id=""
+						rows="2"
+						class="w-100"
+					></textarea>
 				</div>
 			</div>
 			<ul class="list">
@@ -69,18 +115,76 @@
 				</div>
 			</ul>
 		</div>
+		<div class="category">
+			<div
+				class="d-flex flex-column category--add"
+				v-if="!addingCategory"
+				@click="addCategory"
+			>
+				+ New Category
+			</div>
+			<div v-else class="category__head--editting">
+				<div class="d-flex mb-1">
+					<ValidationObserver v-slot="{ invalid }">
+						<form action="">
+							<ValidationProvider rules="required" v-slot="{ errors }">
+								<input
+									type="text"
+									v-model="newCategory.title"
+									class="category__input"
+								/>
+								<span class="error">{{ errors[0] }}</span>
+							</ValidationProvider>
+							<button
+								class="list__button list__button--save mx-1"
+								@click.prevent="storeCategory()"
+								:disabled="invalid"
+							>
+								Save
+							</button>
+							<button
+								class="list__button list__button--cancel mx-1"
+								@click.prevent="cancelNewCategory()"
+							>
+								Cancel
+							</button>
+						</form>
+					</ValidationObserver>
+				</div>
+				<textarea
+					name=""
+					v-model="newCategory.description"
+					id=""
+					rows="2"
+					class="w-100"
+				></textarea>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 import AdminListItem from "../components/AdminListItem.vue";
+import {
+	ValidationProvider,
+	ValidationObserver
+} from "vee-validate/dist/vee-validate.full";
 export default {
 	components: {
-		AdminListItem
+		AdminListItem,
+		ValidationProvider,
+		ValidationObserver
 	},
 	data: function() {
 		return {
-			categories: []
+			categories: [],
+			title: "",
+			description: "",
+			newCategory: {
+				title: "",
+				description: ""
+			},
+			addingCategory: false
 		};
 	},
 	methods: {
@@ -109,6 +213,64 @@ export default {
 					}
 				}
 			}
+		},
+		addCategory: function() {
+			this.addingCategory = true;
+		},
+		cancelNewCategory: function() {
+			this.addingCategory = false;
+			this.newCategory = {
+				title: "",
+				description: ""
+			};
+		},
+		storeCategory: function() {
+			this.addingCategory = false;
+			axios
+				.post("/admin/categories", this.newCategory)
+				.then(res => {
+					console.log(res.data);
+					const tmp = {
+						...res.data,
+						addingItem: false,
+						editting: false,
+						items: []
+					};
+					this.categories.push(tmp);
+				})
+				.catch(err => console.log(err));
+		},
+		editCategory: function(category) {
+			category.editting = true;
+			this.title = category.title;
+			this.description = category.description;
+			console.log(this.categories);
+		},
+		savedCategory: function(category) {
+			category.editting = false;
+			axios
+				.post("/admin/categories/" + category.id, category)
+				.then(res => {
+					console.log(res.data);
+				})
+				.catch(err => console.log(err));
+		},
+		cancelCategory: function(category) {
+			category.editting = false;
+			category.title = this.title;
+			category.description = this.description;
+			console.log(this.categories);
+		},
+		destroyCategory: function(category) {
+			if (confirm("Delete '" + category.title + "' and all of its items?")) {
+				axios
+					.delete("/admin/categories/" + category.id)
+					.then(res => {
+						console.log(res.data);
+					})
+					.catch(err => console.log(err));
+				this.categories = this.categories.filter(cat => cat.id != category.id);
+			}
 		}
 	},
 	created() {
@@ -117,9 +279,12 @@ export default {
 		axios
 			.get("/categories")
 			.then(function(response) {
-				vm.categories = response.data;
-				vm.categories.forEach(category => {
-					vm.$set(category, "addingItem", false);
+				// vm.categories = response.data;
+				let categories = response.data;
+				categories.forEach(category => {
+					category.addingItem = false;
+					category.editting = false;
+					vm.categories.push(category);
 				});
 			})
 			.catch(err => console.log(err));
@@ -127,5 +292,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.error {
+	position: absolute;
+	bottom: -1rem;
+	left: 1rem;
+	background: yellow;
+	height: 1.25rem;
+	line-height: 1.25rem;
+}
 </style>

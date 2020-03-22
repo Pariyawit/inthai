@@ -132,6 +132,7 @@ export default {
 
 			if (this.newItem) {
 				//create item
+				console.log(this.newItem);
 				axios
 					.post("/admin/items", {
 						category_id: this.category.id,
