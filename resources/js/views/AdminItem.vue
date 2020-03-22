@@ -1,5 +1,11 @@
 <template>
-    <div class="container">
+    <div class="container" :class="{ isSorting: !disableDraggable }">
+        <div class="d-flex flex-row-reverse">
+            <button class="btn btn-success" @click.prevent="sort">Sort</button>
+            <button class="btn btn-success" @click.prevent="cancelSort">
+                Cancel
+            </button>
+        </div>
         <li class="list__item list__item--head mb-3">
             <div class="row">
                 <div class="list__field col-3 pl-3">
@@ -100,6 +106,7 @@
                     @end="onEnd"
                     ghost-class="ghost"
                     :data-category-id="category.id"
+                    :options="{ disabled: disableDraggable }"
                 >
                     <div
                         v-for="item in category.items"
@@ -213,7 +220,8 @@ export default {
             },
             addingCategory: false,
             oldItemIndex: "",
-            newItemIndex: ""
+            newItemIndex: "",
+            disableDraggable: true
         };
     },
     methods: {
@@ -306,16 +314,24 @@ export default {
             }
         },
         onEnd: function(event) {
+            console.log(event);
             const from = {
-                category: event.from.dataset.categoryId,
+                categoryId: parseInt(event.from.dataset.categoryId),
                 index: event.oldIndex
             };
             const to = {
-                category: event.to.dataset.categoryId,
+                categoryId: parseInt(event.to.dataset.categoryId),
                 index: event.newIndex
             };
             console.log(from);
             console.log(to);
+        },
+        sort: function() {
+            this.disableDraggable = false;
+            console.log(this.disableDraggable);
+        },
+        cancelSort: function() {
+            this.disableDraggable = true;
         }
     },
     created() {
@@ -345,5 +361,7 @@ export default {
     background: yellow;
     height: 1.25rem;
     line-height: 1.25rem;
+}
+.isSorting {
 }
 </style>

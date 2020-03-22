@@ -2481,6 +2481,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2502,7 +2509,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       },
       addingCategory: false,
       oldItemIndex: "",
-      newItemIndex: ""
+      newItemIndex: "",
+      disableDraggable: true
     };
   },
   methods: {
@@ -2594,16 +2602,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     onEnd: function onEnd(event) {
+      console.log(event);
       var from = {
-        category: event.from.dataset.categoryId,
+        categoryId: parseInt(event.from.dataset.categoryId),
         index: event.oldIndex
       };
       var to = {
-        category: event.to.dataset.categoryId,
+        categoryId: parseInt(event.to.dataset.categoryId),
         index: event.newIndex
       };
       console.log(from);
       console.log(to);
+    },
+    sort: function sort() {
+      this.disableDraggable = false;
+      console.log(this.disableDraggable);
+    },
+    cancelSort: function cancelSort() {
+      this.disableDraggable = true;
     }
   },
   created: function created() {
@@ -46815,8 +46831,38 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
+    { staticClass: "container", class: { isSorting: !_vm.disableDraggable } },
     [
+      _c("div", { staticClass: "d-flex flex-row-reverse" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.sort($event)
+              }
+            }
+          },
+          [_vm._v("Sort")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.cancelSort($event)
+              }
+            }
+          },
+          [_vm._v("\n            Cancel\n        ")]
+        )
+      ]),
+      _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
       _vm._l(_vm.categories, function(category, index) {
@@ -47033,7 +47079,8 @@ var render = function() {
                     group: "items",
                     draggable: ".draggable-item",
                     "ghost-class": "ghost",
-                    "data-category-id": category.id
+                    "data-category-id": category.id,
+                    options: { disabled: _vm.disableDraggable }
                   },
                   on: {
                     start: function($event) {

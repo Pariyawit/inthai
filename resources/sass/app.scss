@@ -346,6 +346,44 @@ textarea {
     }
 }
 
+.category {
+    &__input {
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 1.5rem;
+        @media (min-width: $md) {
+            width: 50%;
+        }
+        padding-left: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: rgba(243, 246, 9, 0.28);
+        height: 2.5rem;
+    }
+    textarea {
+        background: rgba(243, 246, 9, 0.28);
+        border: none;
+    }
+    &--add {
+        font-weight: bold;
+        border: dashed 2px #ddd;
+        border-radius: 5px;
+        color: #ddd;
+        text-align: center;
+        background: none;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        &:hover {
+            color: $black;
+            border-color: $primary;
+            background: $accent;
+            cursor: pointer;
+        }
+    }
+}
+
 .fa-trash {
     color: #c13838;
 }
@@ -357,7 +395,7 @@ textarea {
 .sortable-chosen {
     box-shadow: 12px 12px 5px #ccc;
     .list__item {
-        border-left: 3px solid $primary;
+        border-left: 5px solid $primary !important;
         background: rgba(243, 246, 9, 0.28);
     }
 }
@@ -367,6 +405,34 @@ textarea {
     .list__item {
         opacity: 0.7;
         background: rgba(243, 246, 9, 0.28);
+    }
+}
+
+.isSorting {
+    .category__head {
+        // border-left: 0.5rem solid $accent;
+        box-shadow: inset 5px 0px 0px 0px $accent;
+        padding-left: 0.5rem;
+        transition: transform 0.5s;
+    }
+    .list__item {
+        // border-left: 3px solid $accent;
+        box-shadow: inset 5px 0px 0px 0px $accent;
+        transition: transform 0.5s;
+        &--head {
+            box-shadow: none;
+        }
+    }
+    .list__item--add,
+    .list__button {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+    .category--add {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
     }
 }
 // ===============END Draggable
