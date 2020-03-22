@@ -39,7 +39,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+          'title' => 'required',
+          'description' => ''
+        ]);
+        $category = Category::create($data);
+        return $category;
     }
 
     /**
@@ -71,9 +76,18 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+          'title' => 'required',
+          'description' => ''
+        ]);
+        if($category->update($data)){
+          return 'success';
+        }
+        else{
+          return 'error';
+        }
     }
 
     /**
@@ -82,8 +96,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+      if($category->delete()){
+        return 'success';
+      }
+      else{
+        return 'fail';
+      }
     }
 }

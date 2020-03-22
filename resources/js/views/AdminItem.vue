@@ -50,24 +50,31 @@
 				</div>
 				<div v-else="category.editting" class="category__head--editting">
 					<div class="d-flex mb-1">
-						<input
-							type="text"
-							v-model="category.title"
-							class="category__input"
-						/>
-						<button
-							class="list__button list__button--save mx-1"
-							@click.prevent="save"
-							:disabled="invalid"
-						>
-							Save
-						</button>
-						<button
-							class="list__button list__button--cancel mx-1"
-							@click.prevent="cancel"
-						>
-							Cancel
-						</button>
+						<ValidationObserver v-slot="{ invalid }">
+							<form action="">
+								<ValidationProvider rules="required" v-slot="{ errors }">
+									<input
+										type="text"
+										v-model="category.title"
+										class="category__input"
+									/>
+									<span class="error">{{ errors[0] }}</span>
+								</ValidationProvider>
+								<button
+									class="list__button list__button--save mx-1"
+									@click.prevent="savedCategory(category)"
+									:disabled="invalid"
+								>
+									Save
+								</button>
+								<button
+									class="list__button list__button--cancel mx-1"
+									@click.prevent="cancelCategory(category)"
+								>
+									Cancel
+								</button>
+							</form>
+						</ValidationObserver>
 					</div>
 					<textarea
 						name=""
@@ -113,13 +120,21 @@
 
 <script>
 import AdminListItem from "../components/AdminListItem.vue";
+import {
+	ValidationProvider,
+	ValidationObserver
+} from "vee-validate/dist/vee-validate.full";
 export default {
 	components: {
-		AdminListItem
+		AdminListItem,
+		ValidationProvider,
+		ValidationObserver
 	},
 	data: function() {
 		return {
-			categories: []
+			categories: [],
+			title: "",
+			description: ""
 		};
 	},
 	methods: {
@@ -128,6 +143,13 @@ export default {
 		},
 		saved: function(category) {
 			category.addingItem = false;
+			axios
+				.post("/categories", {
+					title: category.title,
+					description: category.description
+				})
+				.then(res => console.log(res))
+				.catch(err => consol.log(err));
 		},
 		cancel: function(category) {
 			category.addingItem = false;
@@ -151,6 +173,23 @@ export default {
 		},
 		editCategory: function(category) {
 			category.editting = true;
+			this.title = category.title;
+			this.description = category.description;
+			console.log(this.categories);
+		},
+		savedCategory: function(category) {
+			category.editting = false;
+			axios
+				.post("/admin/categories/" + category.id, category)
+				.then(res => {
+					console.log(res.data);
+				})
+				.catch(err => console.log(err));
+		},
+		cancelCategory: function(category) {
+			category.editting = false;
+			category.title = this.title;
+			category.description = this.description;
 			console.log(this.categories);
 		}
 	},
@@ -173,5 +212,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.error {
+	position: absolute;
+	bottom: -1rem;
+	left: 1rem;
+	background: yellow;
+	height: 1.25rem;
+	line-height: 1.25rem;
+}
 </style>

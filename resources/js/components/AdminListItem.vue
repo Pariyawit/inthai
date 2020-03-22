@@ -55,7 +55,7 @@
 								v-model="price"
 								:disabled="!isEditting"
 								class="list__input text-right pr-1"
-							/>
+							/>s
 						</ValidationProvider>
 					</div>
 
