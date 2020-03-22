@@ -42,6 +42,10 @@ Route::post('/admin/items', 'ItemController@store')->middleware('auth');
 Route::post('/admin/items/{item}', 'ItemController@update')->middleware('auth');
 Route::delete('/admin/items/{item}', 'ItemController@destroy')->middleware('auth');
 
+Route::post('/admin/categories', 'CategoryController@store')->middleware('auth');
+Route::post('/admin/categories/{category}', 'CategoryController@update')->middleware('auth');
+Route::delete('/admin/categories/{category}', 'CategoryController@destroy')->middleware('auth');
+
 Route::get('/{any}', function(){
   return redirect('/');
 });
