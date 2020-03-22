@@ -191,6 +191,17 @@ export default {
 			category.title = this.title;
 			category.description = this.description;
 			console.log(this.categories);
+		},
+		destroyCategory: function(category) {
+			if (confirm("Delete '" + category.title + "' and all of its items?")) {
+				axios
+					.delete("/admin/categories/" + category.id)
+					.then(res => {
+						console.log(res.data);
+					})
+					.catch(err => console.log(err));
+				this.categories = this.categories.filter(cat => cat.id != category.id);
+			}
 		}
 	},
 	created() {

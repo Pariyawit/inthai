@@ -2472,6 +2472,18 @@ __webpack_require__.r(__webpack_exports__);
       category.title = this.title;
       category.description = this.description;
       console.log(this.categories);
+    },
+    destroyCategory: function destroyCategory(category) {
+      if (confirm("Delete '" + category.title + "' and all of its items?")) {
+        axios["delete"]("/admin/categories/" + category.id).then(function (res) {
+          console.log(res.data);
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+        this.categories = this.categories.filter(function (cat) {
+          return cat.id != category.id;
+        });
+      }
     }
   },
   created: function created() {
