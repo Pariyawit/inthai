@@ -11264,6 +11264,24 @@ textarea {
   border: none;
 }
 
+.category--add {
+  font-weight: bold;
+  border: dashed 2px #ddd;
+  border-radius: 5px;
+  color: #ddd;
+  text-align: center;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.category--add:hover {
+  color: #212529;
+  border-color: #189b69;
+  background: #f3f609;
+  cursor: pointer;
+}
+
 .fa-trash {
   color: #c13838;
 }

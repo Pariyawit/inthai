@@ -115,6 +115,51 @@
 				</div>
 			</ul>
 		</div>
+		<div class="category">
+			<div
+				class="d-flex flex-column category--add"
+				v-if="!addingCategory"
+				@click="addCategory"
+			>
+				+ New Category
+			</div>
+			<div v-else class="category__head--editting">
+				<div class="d-flex mb-1">
+					<ValidationObserver v-slot="{ invalid }">
+						<form action="">
+							<ValidationProvider rules="required" v-slot="{ errors }">
+								<input
+									type="text"
+									v-model="newCategory.title"
+									class="category__input"
+								/>
+								<span class="error">{{ errors[0] }}</span>
+							</ValidationProvider>
+							<button
+								class="list__button list__button--save mx-1"
+								@click.prevent="storeCategory()"
+								:disabled="invalid"
+							>
+								Save
+							</button>
+							<button
+								class="list__button list__button--cancel mx-1"
+								@click.prevent="cancelNewCategory()"
+							>
+								Cancel
+							</button>
+						</form>
+					</ValidationObserver>
+				</div>
+				<textarea
+					name=""
+					v-model="newCategory.description"
+					id=""
+					rows="2"
+					class="w-100"
+				></textarea>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -134,7 +179,12 @@ export default {
 		return {
 			categories: [],
 			title: "",
-			description: ""
+			description: "",
+			newCategory: {
+				title: "",
+				description: ""
+			},
+			addingCategory: false
 		};
 	},
 	methods: {
@@ -143,13 +193,6 @@ export default {
 		},
 		saved: function(category) {
 			category.addingItem = false;
-			axios
-				.post("/categories", {
-					title: category.title,
-					description: category.description
-				})
-				.then(res => console.log(res))
-				.catch(err => consol.log(err));
 		},
 		cancel: function(category) {
 			category.addingItem = false;
@@ -170,6 +213,32 @@ export default {
 					}
 				}
 			}
+		},
+		addCategory: function() {
+			this.addingCategory = true;
+		},
+		cancelNewCategory: function() {
+			this.addingCategory = false;
+			this.newCategory = {
+				title: "",
+				description: ""
+			};
+		},
+		storeCategory: function() {
+			this.addingCategory = false;
+			axios
+				.post("/admin/categories", this.newCategory)
+				.then(res => {
+					console.log(res.data);
+					const tmp = {
+						...res.data,
+						addingItem: false,
+						editting: false,
+						items: []
+					};
+					this.categories.push(tmp);
+				})
+				.catch(err => console.log(err));
 		},
 		editCategory: function(category) {
 			category.editting = true;

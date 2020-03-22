@@ -366,6 +366,22 @@ textarea {
         background: rgba(243, 246, 9, 0.28);
         border: none;
     }
+    &--add {
+        font-weight: bold;
+        border: dashed 2px #ddd;
+        border-radius: 5px;
+        color: #ddd;
+        text-align: center;
+        background: none;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        &:hover {
+            color: $black;
+            border-color: $primary;
+            background: $accent;
+            cursor: pointer;
+        }
+    }
 }
 
 .fa-trash {

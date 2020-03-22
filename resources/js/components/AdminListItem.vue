@@ -55,7 +55,7 @@
 								v-model="price"
 								:disabled="!isEditting"
 								class="list__input text-right pr-1"
-							/>s
+							/>
 						</ValidationProvider>
 					</div>
 
@@ -132,6 +132,7 @@ export default {
 
 			if (this.newItem) {
 				//create item
+				console.log(this.newItem);
 				axios
 					.post("/admin/items", {
 						category_id: this.category.id,
