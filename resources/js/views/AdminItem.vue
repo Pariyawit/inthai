@@ -1,8 +1,28 @@
 <template>
-    <div class="container" :class="{ isSorting: !disableDraggable }">
+    <div
+        class="container"
+        :class="{ sortingItem: sortingItem, sortingCategory: sortingCategory }"
+    >
         <div class="d-flex flex-row-reverse">
-            <button class="btn btn-success" @click.prevent="sort">Sort</button>
-            <button class="btn btn-success" @click.prevent="cancelSort">
+            <button
+                class="btn btn-success"
+                @click.prevent="sortItem"
+                v-show="!sortingItem && !sortingCategory"
+            >
+                Sort Item
+            </button>
+            <button
+                class="btn btn-success"
+                @click.prevent="sortCategory"
+                v-show="!sortingItem && !sortingCategory"
+            >
+                Sort Category
+            </button>
+            <button
+                class="btn btn-success"
+                @click.prevent="cancelSort"
+                v-show="sortingItem || sortingCategory"
+            >
                 Cancel
             </button>
         </div>
@@ -27,123 +47,141 @@
                 <div class="list__field col-1 text-right pr-1">Price ($)</div>
             </div>
         </li>
-        <div v-for="(category, index) in categories" :key="category.id">
-            <div class="category">
-                <div
-                    class="d-flex flex-column category__head"
-                    v-if="!category.editting"
-                >
-                    <div class="d-flex">
-                        <h3>{{ category.title }}</h3>
-                        <div class="mx-3">
-                            <button
-                                class="list__button list__button--icon mx-1"
-                                @click.prevent="editCategory(category)"
-                            >
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button
-                                class="list__button list__button--icon mx-1"
-                                @click.prevent="destroyCategory(category)"
-                            >
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <p>
-                        {{ category.description }}
-                    </p>
-                </div>
-                <div
-                    v-else="category.editting"
-                    class="category__head--editting"
-                >
-                    <div class="d-flex mb-1">
-                        <ValidationObserver v-slot="{ invalid }">
-                            <form action="">
-                                <ValidationProvider
-                                    rules="required"
-                                    v-slot="{ errors }"
-                                >
-                                    <input
-                                        type="text"
-                                        v-model="category.title"
-                                        class="category__input"
-                                    />
-                                    <span class="error">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                                <button
-                                    class="list__button list__button--save mx-1"
-                                    @click.prevent="savedCategory(category)"
-                                    :disabled="invalid"
-                                >
-                                    Save
-                                </button>
-                                <button
-                                    class="list__button list__button--cancel mx-1"
-                                    @click.prevent="cancelCategory(category)"
-                                >
-                                    Cancel
-                                </button>
-                            </form>
-                        </ValidationObserver>
-                    </div>
-                    <textarea
-                        name=""
-                        v-model="category.description"
-                        id=""
-                        rows="2"
-                        class="w-100"
-                    ></textarea>
-                </div>
-            </div>
-            <ul class="list">
-                <draggable
-                    v-model="category.items"
-                    group="items"
-                    draggable=".draggable-item"
-                    @start="drag = true"
-                    @end="onEnd"
-                    ghost-class="ghost"
-                    :data-category-id="category.id"
-                    :options="{ disabled: disableDraggable }"
-                >
+        <draggable
+            v-model="categories"
+            group="categories"
+            draggable=".draggable-category"
+            @start="drag = true"
+            @end="onEndCategory"
+            ghost-class="ghost"
+            :options="{ disabled: !sortingCategory }"
+        >
+            <div
+                v-for="(category, index) in categories"
+                :key="category.id"
+                class="draggable-category"
+            >
+                <div class="category">
                     <div
-                        v-for="item in category.items"
-                        :key="item.id"
-                        class="draggable-item"
+                        class="d-flex flex-column category__head"
+                        v-if="!category.editting"
                     >
-                        <admin-list-item
-                            :item="item"
-                            :category="category"
-                            :newItem="false"
-                            :key="item.id"
-                            @destroyItem="destroyItem"
-                        ></admin-list-item>
+                        <div class="d-flex">
+                            <h3>{{ category.title }}</h3>
+                            <div class="mx-3">
+                                <button
+                                    class="list__button list__button--icon mx-1"
+                                    @click.prevent="editCategory(category)"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button
+                                    class="list__button list__button--icon mx-1"
+                                    @click.prevent="destroyCategory(category)"
+                                >
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p>
+                            {{ category.description }}
+                        </p>
                     </div>
-                    <div slot="footer">
-                        <li
-                            class="list__item list__item--add"
-                            v-if="!category.addingItem"
-                            @click="addItem(category)"
+                    <div
+                        v-else="category.editting"
+                        class="category__head--editting"
+                    >
+                        <div class="d-flex mb-1">
+                            <ValidationObserver v-slot="{ invalid }">
+                                <form action="">
+                                    <ValidationProvider
+                                        rules="required"
+                                        v-slot="{ errors }"
+                                    >
+                                        <input
+                                            type="text"
+                                            v-model="category.title"
+                                            class="category__input"
+                                        />
+                                        <span class="error">{{
+                                            errors[0]
+                                        }}</span>
+                                    </ValidationProvider>
+                                    <button
+                                        class="list__button list__button--save mx-1"
+                                        @click.prevent="savedCategory(category)"
+                                        :disabled="invalid"
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        class="list__button list__button--cancel mx-1"
+                                        @click.prevent="
+                                            cancelCategory(category)
+                                        "
+                                    >
+                                        Cancel
+                                    </button>
+                                </form>
+                            </ValidationObserver>
+                        </div>
+                        <textarea
+                            name=""
+                            v-model="category.description"
+                            id=""
+                            rows="2"
+                            class="w-100"
+                        ></textarea>
+                    </div>
+                </div>
+                <ul class="list">
+                    <draggable
+                        v-model="category.items"
+                        group="items"
+                        draggable=".draggable-item"
+                        @start="drag = true"
+                        @end="onEndItem"
+                        ghost-class="ghost"
+                        :data-category-id="category.id"
+                        :options="{ disabled: !sortingItem }"
+                    >
+                        <div
+                            v-for="item in category.items"
+                            :key="item.id"
+                            class="draggable-item"
                         >
-                            + New Item
-                        </li>
-
-                        <div v-if="category.addingItem">
                             <admin-list-item
-                                :item="[]"
+                                :item="item"
                                 :category="category"
-                                :newItem="true"
+                                :newItem="false"
+                                :key="item.id"
                                 @destroyItem="destroyItem"
-                                @cancel="cancel"
-                                @saved="saved"
                             ></admin-list-item>
                         </div>
-                    </div>
-                </draggable>
-            </ul>
-        </div>
+                        <div slot="footer">
+                            <li
+                                class="list__item list__item--add"
+                                v-if="!category.addingItem"
+                                @click="addItem(category)"
+                            >
+                                + New Item
+                            </li>
+
+                            <div v-if="category.addingItem">
+                                <admin-list-item
+                                    :item="[]"
+                                    :category="category"
+                                    :newItem="true"
+                                    @destroyItem="destroyItem"
+                                    @cancel="cancel"
+                                    @saved="saved"
+                                ></admin-list-item>
+                            </div>
+                        </div>
+                    </draggable>
+                </ul>
+            </div>
+        </draggable>
         <div class="category">
             <div
                 class="d-flex flex-column category--add"
@@ -221,7 +259,8 @@ export default {
             addingCategory: false,
             oldItemIndex: "",
             newItemIndex: "",
-            disableDraggable: true
+            sortingItem: false,
+            sortingCategory: false
         };
     },
     methods: {
@@ -313,7 +352,7 @@ export default {
                 );
             }
         },
-        onEnd: function(event) {
+        onEndItem: function(event) {
             console.log(event);
             const from = {
                 categoryId: parseInt(event.from.dataset.categoryId),
@@ -326,12 +365,28 @@ export default {
             console.log(from);
             console.log(to);
         },
-        sort: function() {
-            this.disableDraggable = false;
-            console.log(this.disableDraggable);
+        onEndCategory: function(event) {
+            console.log(event);
+            const from = {
+                index: event.oldIndex
+            };
+            const to = {
+                index: event.newIndex
+            };
+            console.log(from);
+            console.log(to);
+        },
+        sortItem: function() {
+            this.sortingItem = true;
+            console.log(this.sortingItem);
+        },
+        sortCategory: function() {
+            this.sortingCategory = true;
+            console.log(this.sortingCategory);
         },
         cancelSort: function() {
-            this.disableDraggable = true;
+            this.sortingCategory = false;
+            this.sortingItem = false;
         }
     },
     created() {
@@ -361,7 +416,5 @@ export default {
     background: yellow;
     height: 1.25rem;
     line-height: 1.25rem;
-}
-.isSorting {
 }
 </style>

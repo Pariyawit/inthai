@@ -11291,7 +11291,7 @@ textarea {
 }
 
 .sortable-drag {
-  opacity: 0;
+  opacity: 1;
 }
 
 .sortable-chosen {
@@ -11312,29 +11312,47 @@ textarea {
   background: rgba(243, 246, 9, 0.28);
 }
 
-.isSorting .category__head {
+.sortingCategory .category__head {
   box-shadow: inset 5px 0px 0px 0px #f3f609;
   padding-left: 0.5rem;
   transition: transform 0.5s;
+  background: white;
+  border-radius: 5px;
 }
 
-.isSorting .list__item {
-  box-shadow: inset 5px 0px 0px 0px #f3f609;
-  transition: transform 0.5s;
-}
-
-.isSorting .list__item--head {
-  box-shadow: none;
-}
-
-.isSorting .list__item--add,
-.isSorting .list__button {
+.sortingCategory .list__button {
   opacity: 0;
   pointer-events: none;
   transition: transform 1s;
 }
 
-.isSorting .category--add {
+.sortingCategory .list__item {
+  display: none;
+}
+
+.sortingCategory .category--add {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.sortingItem .list__item {
+  box-shadow: inset 5px 0px 0px 0px #f3f609;
+  transition: transform 0.5s;
+}
+
+.sortingItem .list__item--head {
+  box-shadow: none;
+}
+
+.sortingItem .list__item--add,
+.sortingItem .list__button {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.sortingItem .category--add {
   opacity: 0;
   pointer-events: none;
   transition: transform 1s;

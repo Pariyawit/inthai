@@ -389,7 +389,7 @@ textarea {
 }
 // ===============Start Draggable
 .sortable-drag {
-    opacity: 0;
+    opacity: 1;
 }
 
 .sortable-chosen {
@@ -408,13 +408,31 @@ textarea {
     }
 }
 
-.isSorting {
+.sortingCategory {
     .category__head {
         // border-left: 0.5rem solid $accent;
         box-shadow: inset 5px 0px 0px 0px $accent;
         padding-left: 0.5rem;
         transition: transform 0.5s;
+        background: white;
+        border-radius: 5px;
     }
+    .list__button {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+    .list__item {
+        display: none;
+    }
+    .category--add {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+}
+
+.sortingItem {
     .list__item {
         // border-left: 3px solid $accent;
         box-shadow: inset 5px 0px 0px 0px $accent;

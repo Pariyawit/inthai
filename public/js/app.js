@@ -2488,6 +2488,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2510,7 +2548,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       addingCategory: false,
       oldItemIndex: "",
       newItemIndex: "",
-      disableDraggable: true
+      sortingItem: false,
+      sortingCategory: false
     };
   },
   methods: {
@@ -2601,7 +2640,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
-    onEnd: function onEnd(event) {
+    onEndItem: function onEndItem(event) {
       console.log(event);
       var from = {
         categoryId: parseInt(event.from.dataset.categoryId),
@@ -2614,12 +2653,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log(from);
       console.log(to);
     },
-    sort: function sort() {
-      this.disableDraggable = false;
-      console.log(this.disableDraggable);
+    onEndCategory: function onEndCategory(event) {
+      console.log(event);
+      var from = {
+        index: event.oldIndex
+      };
+      var to = {
+        index: event.newIndex
+      };
+      console.log(from);
+      console.log(to);
+    },
+    sortItem: function sortItem() {
+      this.sortingItem = true;
+      console.log(this.sortingItem);
+    },
+    sortCategory: function sortCategory() {
+      this.sortingCategory = true;
+      console.log(this.sortingCategory);
     },
     cancelSort: function cancelSort() {
-      this.disableDraggable = true;
+      this.sortingCategory = false;
+      this.sortingItem = false;
     }
   },
   created: function created() {
@@ -46831,26 +46886,70 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container", class: { isSorting: !_vm.disableDraggable } },
+    {
+      staticClass: "container",
+      class: {
+        sortingItem: _vm.sortingItem,
+        sortingCategory: _vm.sortingCategory
+      }
+    },
     [
       _c("div", { staticClass: "d-flex flex-row-reverse" }, [
         _c(
           "button",
           {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.sortingItem && !_vm.sortingCategory,
+                expression: "!sortingItem && !sortingCategory"
+              }
+            ],
             staticClass: "btn btn-success",
             on: {
               click: function($event) {
                 $event.preventDefault()
-                return _vm.sort($event)
+                return _vm.sortItem($event)
               }
             }
           },
-          [_vm._v("Sort")]
+          [_vm._v("\n            Sort Item\n        ")]
         ),
         _vm._v(" "),
         _c(
           "button",
           {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.sortingItem && !_vm.sortingCategory,
+                expression: "!sortingItem && !sortingCategory"
+              }
+            ],
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.sortCategory($event)
+              }
+            }
+          },
+          [_vm._v("\n            Sort Category\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.sortingItem || _vm.sortingCategory,
+                expression: "sortingItem || sortingCategory"
+              }
+            ],
             staticClass: "btn btn-success",
             on: {
               click: function($event) {
@@ -46865,306 +46964,353 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _vm._l(_vm.categories, function(category, index) {
-        return _c("div", { key: category.id }, [
-          _c("div", { staticClass: "category" }, [
-            !category.editting
-              ? _c(
-                  "div",
-                  { staticClass: "d-flex flex-column category__head" },
-                  [
-                    _c("div", { staticClass: "d-flex" }, [
-                      _c("h3", [_vm._v(_vm._s(category.title))]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "mx-3" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "list__button list__button--icon mx-1",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.editCategory(category)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-edit" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "list__button list__button--icon mx-1",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.destroyCategory(category)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-trash" })]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(category.description) +
-                          "\n                "
-                      )
-                    ])
-                  ]
-                )
-              : _c("div", { staticClass: "category__head--editting" }, [
-                  _c(
-                    "div",
-                    { staticClass: "d-flex mb-1" },
-                    [
-                      _c("ValidationObserver", {
-                        scopedSlots: _vm._u(
-                          [
-                            {
-                              key: "default",
-                              fn: function(ref) {
-                                var invalid = ref.invalid
-                                return [
-                                  _c(
-                                    "form",
-                                    { attrs: { action: "" } },
-                                    [
-                                      _c("ValidationProvider", {
-                                        attrs: { rules: "required" },
-                                        scopedSlots: _vm._u(
-                                          [
-                                            {
-                                              key: "default",
-                                              fn: function(ref) {
-                                                var errors = ref.errors
-                                                return [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: category.title,
-                                                        expression:
-                                                          "category.title"
-                                                      }
-                                                    ],
-                                                    staticClass:
-                                                      "category__input",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value: category.title
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          category,
-                                                          "title",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "span",
-                                                    { staticClass: "error" },
-                                                    [_vm._v(_vm._s(errors[0]))]
-                                                  )
-                                                ]
-                                              }
-                                            }
-                                          ],
-                                          null,
-                                          true
-                                        )
-                                      }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "list__button list__button--save mx-1",
-                                          attrs: { disabled: invalid },
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.savedCategory(category)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Save\n                            "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "list__button list__button--cancel mx-1",
-                                          on: {
-                                            click: function($event) {
-                                              $event.preventDefault()
-                                              return _vm.cancelCategory(
-                                                category
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Cancel\n                            "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ]
-                              }
-                            }
-                          ],
-                          null,
-                          true
-                        )
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: category.description,
-                        expression: "category.description"
-                      }
-                    ],
-                    staticClass: "w-100",
-                    attrs: { name: "", id: "", rows: "2" },
-                    domProps: { value: category.description },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(category, "description", $event.target.value)
-                      }
-                    }
-                  })
-                ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            { staticClass: "list" },
+      _c(
+        "draggable",
+        {
+          attrs: {
+            group: "categories",
+            draggable: ".draggable-category",
+            "ghost-class": "ghost",
+            options: { disabled: !_vm.sortingCategory }
+          },
+          on: {
+            start: function($event) {
+              _vm.drag = true
+            },
+            end: _vm.onEndCategory
+          },
+          model: {
+            value: _vm.categories,
+            callback: function($$v) {
+              _vm.categories = $$v
+            },
+            expression: "categories"
+          }
+        },
+        _vm._l(_vm.categories, function(category, index) {
+          return _c(
+            "div",
+            { key: category.id, staticClass: "draggable-category" },
             [
-              _c(
-                "draggable",
-                {
-                  attrs: {
-                    group: "items",
-                    draggable: ".draggable-item",
-                    "ghost-class": "ghost",
-                    "data-category-id": category.id,
-                    options: { disabled: _vm.disableDraggable }
-                  },
-                  on: {
-                    start: function($event) {
-                      _vm.drag = true
-                    },
-                    end: _vm.onEnd
-                  },
-                  model: {
-                    value: category.items,
-                    callback: function($$v) {
-                      _vm.$set(category, "items", $$v)
-                    },
-                    expression: "category.items"
-                  }
-                },
-                [
-                  _vm._l(category.items, function(item) {
-                    return _c(
+              _c("div", { staticClass: "category" }, [
+                !category.editting
+                  ? _c(
                       "div",
-                      { key: item.id, staticClass: "draggable-item" },
+                      { staticClass: "d-flex flex-column category__head" },
                       [
-                        _c("admin-list-item", {
-                          key: item.id,
-                          attrs: {
-                            item: item,
-                            category: category,
-                            newItem: false
-                          },
-                          on: { destroyItem: _vm.destroyItem }
-                        })
-                      ],
-                      1
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
-                    !category.addingItem
-                      ? _c(
-                          "li",
-                          {
-                            staticClass: "list__item list__item--add",
-                            on: {
-                              click: function($event) {
-                                return _vm.addItem(category)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        + New Item\n                    "
+                        _c("div", { staticClass: "d-flex" }, [
+                          _c("h3", [_vm._v(_vm._s(category.title))]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mx-3" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "list__button list__button--icon mx-1",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.editCategory(category)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "list__button list__button--icon mx-1",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.destroyCategory(category)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
                             )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    category.addingItem
-                      ? _c(
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(category.description) +
+                              "\n                    "
+                          )
+                        ])
+                      ]
+                    )
+                  : _c("div", { staticClass: "category__head--editting" }, [
+                      _c(
+                        "div",
+                        { staticClass: "d-flex mb-1" },
+                        [
+                          _c("ValidationObserver", {
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "default",
+                                  fn: function(ref) {
+                                    var invalid = ref.invalid
+                                    return [
+                                      _c(
+                                        "form",
+                                        { attrs: { action: "" } },
+                                        [
+                                          _c("ValidationProvider", {
+                                            attrs: { rules: "required" },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "default",
+                                                  fn: function(ref) {
+                                                    var errors = ref.errors
+                                                    return [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              category.title,
+                                                            expression:
+                                                              "category.title"
+                                                          }
+                                                        ],
+                                                        staticClass:
+                                                          "category__input",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value: category.title
+                                                        },
+                                                        on: {
+                                                          input: function(
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              category,
+                                                              "title",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          }
+                                                        }
+                                                      }),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass: "error"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(errors[0])
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              true
+                                            )
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "list__button list__button--save mx-1",
+                                              attrs: { disabled: invalid },
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  return _vm.savedCategory(
+                                                    category
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    Save\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "list__button list__button--cancel mx-1",
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  return _vm.cancelCategory(
+                                                    category
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    Cancel\n                                "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              true
+                            )
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: category.description,
+                            expression: "category.description"
+                          }
+                        ],
+                        staticClass: "w-100",
+                        attrs: { name: "", id: "", rows: "2" },
+                        domProps: { value: category.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              category,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "ul",
+                { staticClass: "list" },
+                [
+                  _c(
+                    "draggable",
+                    {
+                      attrs: {
+                        group: "items",
+                        draggable: ".draggable-item",
+                        "ghost-class": "ghost",
+                        "data-category-id": category.id,
+                        options: { disabled: !_vm.sortingItem }
+                      },
+                      on: {
+                        start: function($event) {
+                          _vm.drag = true
+                        },
+                        end: _vm.onEndItem
+                      },
+                      model: {
+                        value: category.items,
+                        callback: function($$v) {
+                          _vm.$set(category, "items", $$v)
+                        },
+                        expression: "category.items"
+                      }
+                    },
+                    [
+                      _vm._l(category.items, function(item) {
+                        return _c(
                           "div",
+                          { key: item.id, staticClass: "draggable-item" },
                           [
                             _c("admin-list-item", {
+                              key: item.id,
                               attrs: {
-                                item: [],
+                                item: item,
                                 category: category,
-                                newItem: true
+                                newItem: false
                               },
-                              on: {
-                                destroyItem: _vm.destroyItem,
-                                cancel: _vm.cancel,
-                                saved: _vm.saved
-                              }
+                              on: { destroyItem: _vm.destroyItem }
                             })
                           ],
                           1
                         )
-                      : _vm._e()
-                  ])
+                      }),
+                      _vm._v(" "),
+                      _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
+                        !category.addingItem
+                          ? _c(
+                              "li",
+                              {
+                                staticClass: "list__item list__item--add",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.addItem(category)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            + New Item\n                        "
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        category.addingItem
+                          ? _c(
+                              "div",
+                              [
+                                _c("admin-list-item", {
+                                  attrs: {
+                                    item: [],
+                                    category: category,
+                                    newItem: true
+                                  },
+                                  on: {
+                                    destroyItem: _vm.destroyItem,
+                                    cancel: _vm.cancel,
+                                    saved: _vm.saved
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          : _vm._e()
+                      ])
+                    ],
+                    2
+                  )
                 ],
-                2
+                1
               )
-            ],
-            1
+            ]
           )
-        ])
-      }),
+        }),
+        0
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "category" }, [
         !_vm.addingCategory
@@ -47322,7 +47468,7 @@ var render = function() {
             ])
       ])
     ],
-    2
+    1
   )
 }
 var staticRenderFns = [
