@@ -11172,7 +11172,7 @@ textarea {
 }
 
 .list__input:disabled {
-  background-color: #fff;
+  background: inherit;
 }
 
 .list__input:hover {
@@ -11187,10 +11187,14 @@ textarea {
 .list__button {
   border: none;
   background: #189b69;
-  padding: 0 0.5rem;
+  padding: 0 0.25rem;
   border-radius: 5px;
   height: 2rem;
   color: white;
+}
+
+.list__button:focus {
+  outline: none;
 }
 
 .list__button:active {
@@ -11215,7 +11219,7 @@ textarea {
 }
 
 .list__button--cancel {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: white;
   color: #189b69;
 }
 
@@ -11240,49 +11244,29 @@ textarea {
   background-color: gray;
 }
 
-.category__input {
-  border: none;
-  border-radius: 5px;
-  width: 100%;
-  font-size: 1.5rem;
-  padding-left: 0.5rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  background: rgba(243, 246, 9, 0.28);
-  height: 2.5rem;
-}
-
-@media (min-width: 768px) {
-  .category__input {
-    width: 50%;
-  }
-}
-
-.category textarea {
-  background: rgba(243, 246, 9, 0.28);
-  border: none;
-}
-
-.category--add {
-  font-weight: bold;
-  border: dashed 2px #ddd;
-  border-radius: 5px;
-  color: #ddd;
-  text-align: center;
-  background: none;
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
-.category--add:hover {
-  color: #212529;
-  border-color: #189b69;
-  background: #f3f609;
-  cursor: pointer;
-}
-
 .fa-trash {
   color: #c13838;
+}
+
+.sortable-drag {
+  opacity: 0;
+}
+
+.sortable-chosen {
+  box-shadow: 12px 12px 5px #ccc;
+}
+
+.sortable-chosen .list__item {
+  border-left: 3px solid #189b69;
+  background: rgba(243, 246, 9, 0.28);
+}
+
+.ghost {
+  box-shadow: 12px 12px 5px #ccc;
+}
+
+.ghost .list__item {
+  opacity: 0.7;
+  background: rgba(243, 246, 9, 0.28);
 }
 
