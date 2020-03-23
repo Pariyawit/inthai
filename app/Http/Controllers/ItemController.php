@@ -44,6 +44,8 @@ class ItemController extends Controller
         'price' => 'required|numeric'
       ]);
 
+      $data['sort'] = Item::All()->count();
+
       $item = Item::create($data);
       return $item;
     }

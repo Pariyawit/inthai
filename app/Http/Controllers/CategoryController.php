@@ -43,6 +43,7 @@ class CategoryController extends Controller
           'title' => 'required',
           'description' => ''
         ]);
+        $data['sort'] = Category::All()->count();
         $category = Category::create($data);
         return $category;
     }

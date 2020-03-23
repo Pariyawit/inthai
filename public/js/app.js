@@ -2038,6 +2038,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["item", "category", "newItem"],
@@ -2526,6 +2538,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2641,20 +2657,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     onEndItem: function onEndItem(event) {
-      console.log(event);
-      var from = {
-        categoryId: parseInt(event.from.dataset.categoryId),
-        index: event.oldIndex
-      };
-      var to = {
-        categoryId: parseInt(event.to.dataset.categoryId),
-        index: event.newIndex
-      };
-      console.log(from);
-      console.log(to);
+      console.log(event); // const item = event.item;
+
+      var categoryFrom = this.categories.find(function (category) {
+        return category.id == event.from.dataset.categoryId;
+      });
+      var categoryTo = this.categories.find(function (category) {
+        return category.id == event.to.dataset.categoryId;
+      });
+      var newIndex = event.newIndex;
+      var newSort = categoryTo.items[event.newIndex].sort;
+
+      if (newIndex - 1 >= 0 && newIndex + 1 < categoryTo.items.length) {
+        newSort = (categoryTo.items[newIndex + 1].sort + categoryTo.items[newIndex - 1].sort) / 2;
+      } else if (newIndex + 1 < categoryTo.items.length) {
+        newSort = categoryTo.items[newIndex + 1].sort - 1;
+      } else {
+        newSort = categoryTo.items[newIndex - 1].sort + 1;
+      }
+
+      categoryTo.items[event.newIndex].sort = newSort;
+      categoryTo.items[event.newIndex].category_id = categoryTo.id;
+      console.log(categoryTo.items[event.newIndex]);
     },
     onEndCategory: function onEndCategory(event) {
-      console.log(event);
+      // this.item.sort = event.item;
       var from = {
         index: event.oldIndex
       };
@@ -46390,6 +46417,11 @@ var render = function() {
                                 fn: function(ref) {
                                   var errors = ref.errors
                                   return [
+                                    _vm._v(
+                                      "\n                        " +
+                                        _vm._s(_vm.item.sort) +
+                                        "\n                        "
+                                    ),
                                     _c("input", {
                                       directives: [
                                         {
@@ -46670,7 +46702,11 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("\n\t\t\t\t\t\t\tSave\n\t\t\t\t\t\t")]
+                                [
+                                  _vm._v(
+                                    "\n                            Save\n                        "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -46685,7 +46721,11 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("\n\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t")]
+                                [
+                                  _vm._v(
+                                    "\n                            Cancel\n                        "
+                                  )
+                                ]
                               )
                             ]
                           )
@@ -46891,7 +46931,8 @@ var render = function() {
       class: {
         sortingItem: _vm.sortingItem,
         sortingCategory: _vm.sortingCategory
-      }
+      },
+      staticStyle: { "padding-bottom": "4rem" }
     },
     [
       _c("div", { staticClass: "d-flex flex-row-reverse" }, [
@@ -46916,7 +46957,7 @@ var render = function() {
           },
           [_vm._v("\n            Sort Item\n        ")]
         ),
-        _vm._v(" "),
+        _vm._v("\n         \n        "),
         _c(
           "button",
           {
@@ -46950,7 +46991,7 @@ var render = function() {
                 expression: "sortingItem || sortingCategory"
               }
             ],
-            staticClass: "btn btn-success",
+            staticClass: "btn btn-accent",
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -46958,7 +46999,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n            Cancel\n        ")]
+          [_vm._v("\n            Save\n        ")]
         )
       ]),
       _vm._v(" "),
@@ -47243,7 +47284,14 @@ var render = function() {
                       _vm._l(category.items, function(item) {
                         return _c(
                           "div",
-                          { key: item.id, staticClass: "draggable-item" },
+                          {
+                            key: item.id,
+                            staticClass: "draggable-item",
+                            attrs: {
+                              "data-sort": item.sort,
+                              "data-item-id": item.id
+                            }
+                          },
                           [
                             _c("admin-list-item", {
                               key: item.id,

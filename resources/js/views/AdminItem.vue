@@ -1,6 +1,7 @@
 <template>
     <div
         class="container"
+        style="padding-bottom:4rem"
         :class="{ sortingItem: sortingItem, sortingCategory: sortingCategory }"
     >
         <div class="d-flex flex-row-reverse">
@@ -11,6 +12,7 @@
             >
                 Sort Item
             </button>
+            &nbsp;
             <button
                 class="btn btn-success"
                 @click.prevent="sortCategory"
@@ -19,11 +21,11 @@
                 Sort Category
             </button>
             <button
-                class="btn btn-success"
+                class="btn btn-accent"
                 @click.prevent="saveSort"
                 v-show="sortingItem || sortingCategory"
             >
-                Cancel
+                Save
             </button>
         </div>
         <li class="list__item list__item--head mb-3">
@@ -149,6 +151,8 @@
                             v-for="item in category.items"
                             :key="item.id"
                             class="draggable-item"
+                            :data-sort="item.sort"
+                            :data-item-id="item.id"
                         >
                             <admin-list-item
                                 :item="item"
@@ -354,19 +358,35 @@ export default {
         },
         onEndItem: function(event) {
             console.log(event);
-            const from = {
-                categoryId: parseInt(event.from.dataset.categoryId),
-                index: event.oldIndex
-            };
-            const to = {
-                categoryId: parseInt(event.to.dataset.categoryId),
-                index: event.newIndex
-            };
-            console.log(from);
-            console.log(to);
+            // const item = event.item;
+
+            const categoryFrom = this.categories.find(
+                category => category.id == event.from.dataset.categoryId
+            );
+
+            const categoryTo = this.categories.find(
+                category => category.id == event.to.dataset.categoryId
+            );
+
+            let newIndex = event.newIndex;
+            let newSort = categoryTo.items[event.newIndex].sort;
+
+            if (newIndex - 1 >= 0 && newIndex + 1 < categoryTo.items.length) {
+                newSort =
+                    (categoryTo.items[newIndex + 1].sort +
+                        categoryTo.items[newIndex - 1].sort) /
+                    2;
+            } else if (newIndex + 1 < categoryTo.items.length) {
+                newSort = categoryTo.items[newIndex + 1].sort - 1;
+            } else {
+                newSort = categoryTo.items[newIndex - 1].sort + 1;
+            }
+            categoryTo.items[event.newIndex].sort = newSort;
+            categoryTo.items[event.newIndex].category_id = categoryTo.id;
+            console.log(categoryTo.items[event.newIndex]);
         },
         onEndCategory: function(event) {
-            console.log(event);
+            // this.item.sort = event.item;
             const from = {
                 index: event.oldIndex
             };
