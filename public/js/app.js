@@ -2679,29 +2679,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       categoryTo.items[event.newIndex].category_id = categoryTo.id;
     },
     onEndCategory: function onEndCategory(event) {
-      // this.item.sort = event.item;
-      var from = {
-        index: event.oldIndex
-      };
-      var to = {
-        index: event.newIndex
-      };
-      console.log(from);
-      console.log(to);
+      var item = event.item;
+      console.log(item);
     },
     sortItem: function sortItem() {
       this.sortingItem = true;
     },
     sortCategory: function sortCategory() {
       this.sortingCategory = true;
-      console.log(this.sortingCategory);
     },
     saveSort: function saveSort() {
       this.sortingCategory = false;
-      this.sortingItem = false; // console.log(this.categories);
-
+      this.sortingItem = false;
       axios.post("/admin/categories/sort", {
-        categories: this.categories
+        categories: this.categories.map(function (category) {
+          return {
+            id: category.id,
+            sort: category.sort,
+            items: category.items.map(function (item) {
+              return {
+                id: item.id,
+                category_id: item.category_id,
+                sort: item.sort
+              };
+            })
+          };
+        })
       }).then(function (res) {
         return console.log(res.data);
       })["catch"](function (err) {
@@ -2719,6 +2722,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         category.addingItem = false;
         category.editting = false;
         vm.categories.push(category);
+      });
+      vm.categories.sort(function (a, b) {
+        if (a.sort > b.sort) return 1;
+        if (a.sort < b.sort) return -1;
+        return 0;
       });
     })["catch"](function (err) {
       return console.log(err);

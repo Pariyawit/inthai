@@ -389,30 +389,33 @@ export default {
             categoryTo.items[event.newIndex].category_id = categoryTo.id;
         },
         onEndCategory: function(event) {
-            // this.item.sort = event.item;
-            const from = {
-                index: event.oldIndex
-            };
-            const to = {
-                index: event.newIndex
-            };
-            console.log(from);
-            console.log(to);
+            const item = event.item;
+            console.log(item);
         },
         sortItem: function() {
             this.sortingItem = true;
         },
         sortCategory: function() {
             this.sortingCategory = true;
-            console.log(this.sortingCategory);
         },
         saveSort: function() {
             this.sortingCategory = false;
             this.sortingItem = false;
-            // console.log(this.categories);
             axios
                 .post("/admin/categories/sort", {
-                    categories: this.categories
+                    categories: this.categories.map(category => {
+                        return {
+                            id: category.id,
+                            sort: category.sort,
+                            items: category.items.map(item => {
+                                return {
+                                    id: item.id,
+                                    category_id: item.category_id,
+                                    sort: item.sort
+                                };
+                            })
+                        };
+                    })
                 })
                 .then(res => console.log(res.data))
                 .catch(err => console.log(err));
@@ -430,6 +433,11 @@ export default {
                     category.addingItem = false;
                     category.editting = false;
                     vm.categories.push(category);
+                });
+                vm.categories.sort((a, b) => {
+                    if (a.sort > b.sort) return 1;
+                    if (a.sort < b.sort) return -1;
+                    return 0;
                 });
             })
             .catch(err => console.log(err));

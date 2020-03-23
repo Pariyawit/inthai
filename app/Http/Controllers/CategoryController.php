@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::All();
+        $categories = Category::orderBy('sort')->get();
         foreach ($categories as $category) {
             $category["items"] = $category->items;
         }
@@ -116,12 +116,12 @@ class CategoryController extends Controller
           'categories' => 'required'
         ]);
         $categories = $data['categories'];
-        usort(
-          $categories, 
-          function($a, $b) {
-            return $a['sort'] > $b['sort'];
-          }
-        );
+        // usort(
+        //   $categories, 
+        //   function($a, $b) {
+        //     return $a['sort'] > $b['sort'];
+        //   }
+        // );
 
         foreach ($categories as $key => $value) {
           $category = $value;
@@ -131,12 +131,12 @@ class CategoryController extends Controller
           $cat->save();
 
           $items = $category['items'];
-          usort(
-            $items, 
-            function($a, $b) {
-              return $a['sort'] > $b['sort'];
-            }
-          );
+          // usort(
+          //   $items, 
+          //   function($a, $b) {
+          //     return $a['sort'] > $b['sort'];
+          //   }
+          // );
 
           foreach($items as $key => $value){
             $item = $value;
