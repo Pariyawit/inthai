@@ -8,7 +8,6 @@
                             rules="required"
                             v-slot="{ errors }"
                         >
-                            {{ item.sort }}
                             <input
                                 type="text"
                                 v-model="title"

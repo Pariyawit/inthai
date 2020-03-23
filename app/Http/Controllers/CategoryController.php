@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Item;
 
 class CategoryController extends Controller
 {
@@ -105,5 +106,52 @@ class CategoryController extends Controller
       else{
         return 'fail';
       }
+    }
+
+    public function updateSort(Request $request)
+    {
+      
+      try{
+        $data = $request->validate([
+          'categories' => 'required'
+        ]);
+        $categories = $data['categories'];
+        usort(
+          $categories, 
+          function($a, $b) {
+            return $a['sort'] > $b['sort'];
+          }
+        );
+
+        foreach ($categories as $key => $value) {
+          $category = $value;
+          
+          $cat = Category::find($category['id']);
+          $cat->sort = $key;
+          $cat->save();
+
+          $items = $category['items'];
+          usort(
+            $items, 
+            function($a, $b) {
+              return $a['sort'] > $b['sort'];
+            }
+          );
+
+          foreach($items as $key => $value){
+            $item = $value;
+            $it = Item::find($item['id']);
+            $it->sort = $key;
+            $it->category_id = $item['category_id'];
+            $it->save();
+          }
+
+        }
+        return 'success';
+      }
+      catch(Exception $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+      }
+
     }
 }

@@ -2049,7 +2049,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["item", "category", "newItem"],
@@ -2657,28 +2656,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     onEndItem: function onEndItem(event) {
-      console.log(event); // const item = event.item;
-
       var categoryFrom = this.categories.find(function (category) {
         return category.id == event.from.dataset.categoryId;
       });
       var categoryTo = this.categories.find(function (category) {
         return category.id == event.to.dataset.categoryId;
       });
-      var newIndex = event.newIndex;
-      var newSort = categoryTo.items[event.newIndex].sort;
+      console.log(categoryTo.items.length);
+      var newIndex = categoryTo.items.length == event.newIndex ? event.newIndex - 1 : event.newIndex;
+      console.log(newIndex);
+      var newSort = categoryTo.items[newIndex].sort;
 
       if (newIndex - 1 >= 0 && newIndex + 1 < categoryTo.items.length) {
         newSort = (categoryTo.items[newIndex + 1].sort + categoryTo.items[newIndex - 1].sort) / 2;
       } else if (newIndex + 1 < categoryTo.items.length) {
         newSort = categoryTo.items[newIndex + 1].sort - 1;
-      } else {
+      } else if (newIndex - 1 >= 0) {
         newSort = categoryTo.items[newIndex - 1].sort + 1;
       }
 
       categoryTo.items[event.newIndex].sort = newSort;
       categoryTo.items[event.newIndex].category_id = categoryTo.id;
-      console.log(categoryTo.items[event.newIndex]);
     },
     onEndCategory: function onEndCategory(event) {
       // this.item.sort = event.item;
@@ -2693,7 +2691,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     sortItem: function sortItem() {
       this.sortingItem = true;
-      console.log(this.sortingItem);
     },
     sortCategory: function sortCategory() {
       this.sortingCategory = true;
@@ -2701,7 +2698,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     saveSort: function saveSort() {
       this.sortingCategory = false;
-      this.sortingItem = false;
+      this.sortingItem = false; // console.log(this.categories);
+
+      axios.post("/admin/categories/sort", {
+        categories: this.categories
+      }).then(function (res) {
+        return console.log(res.data);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     }
   },
   created: function created() {
@@ -46417,11 +46422,6 @@ var render = function() {
                                 fn: function(ref) {
                                   var errors = ref.errors
                                   return [
-                                    _vm._v(
-                                      "\n                        " +
-                                        _vm._s(_vm.item.sort) +
-                                        "\n                        "
-                                    ),
                                     _c("input", {
                                       directives: [
                                         {
@@ -47280,77 +47280,75 @@ var render = function() {
                         expression: "category.items"
                       }
                     },
-                    [
-                      _vm._l(category.items, function(item) {
-                        return _c(
-                          "div",
-                          {
+                    _vm._l(category.items, function(item) {
+                      return _c(
+                        "div",
+                        {
+                          key: item.id,
+                          staticClass: "draggable-item",
+                          attrs: {
+                            "data-sort": item.sort,
+                            "data-item-id": item.id
+                          }
+                        },
+                        [
+                          _c("admin-list-item", {
                             key: item.id,
-                            staticClass: "draggable-item",
                             attrs: {
-                              "data-sort": item.sort,
-                              "data-item-id": item.id
+                              item: item,
+                              category: category,
+                              newItem: false
+                            },
+                            on: { destroyItem: _vm.destroyItem }
+                          })
+                        ],
+                        1
+                      )
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
+                    !category.addingItem
+                      ? _c(
+                          "li",
+                          {
+                            staticClass: "list__item list__item--add",
+                            on: {
+                              click: function($event) {
+                                return _vm.addItem(category)
+                              }
                             }
                           },
                           [
+                            _vm._v(
+                              "\n                        + New Item\n                    "
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    category.addingItem
+                      ? _c(
+                          "div",
+                          [
                             _c("admin-list-item", {
-                              key: item.id,
                               attrs: {
-                                item: item,
+                                item: [],
                                 category: category,
-                                newItem: false
+                                newItem: true
                               },
-                              on: { destroyItem: _vm.destroyItem }
+                              on: {
+                                destroyItem: _vm.destroyItem,
+                                cancel: _vm.cancel,
+                                saved: _vm.saved
+                              }
                             })
                           ],
                           1
                         )
-                      }),
-                      _vm._v(" "),
-                      _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
-                        !category.addingItem
-                          ? _c(
-                              "li",
-                              {
-                                staticClass: "list__item list__item--add",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.addItem(category)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            + New Item\n                        "
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        category.addingItem
-                          ? _c(
-                              "div",
-                              [
-                                _c("admin-list-item", {
-                                  attrs: {
-                                    item: [],
-                                    category: category,
-                                    newItem: true
-                                  },
-                                  on: {
-                                    destroyItem: _vm.destroyItem,
-                                    cancel: _vm.cancel,
-                                    saved: _vm.saved
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          : _vm._e()
-                      ])
-                    ],
-                    2
-                  )
+                      : _vm._e()
+                  ])
                 ],
                 1
               )

@@ -162,27 +162,27 @@
                                 @destroyItem="destroyItem"
                             ></admin-list-item>
                         </div>
-                        <div slot="footer">
-                            <li
-                                class="list__item list__item--add"
-                                v-if="!category.addingItem"
-                                @click="addItem(category)"
-                            >
-                                + New Item
-                            </li>
-
-                            <div v-if="category.addingItem">
-                                <admin-list-item
-                                    :item="[]"
-                                    :category="category"
-                                    :newItem="true"
-                                    @destroyItem="destroyItem"
-                                    @cancel="cancel"
-                                    @saved="saved"
-                                ></admin-list-item>
-                            </div>
-                        </div>
                     </draggable>
+                    <div slot="footer">
+                        <li
+                            class="list__item list__item--add"
+                            v-if="!category.addingItem"
+                            @click="addItem(category)"
+                        >
+                            + New Item
+                        </li>
+
+                        <div v-if="category.addingItem">
+                            <admin-list-item
+                                :item="[]"
+                                :category="category"
+                                :newItem="true"
+                                @destroyItem="destroyItem"
+                                @cancel="cancel"
+                                @saved="saved"
+                            ></admin-list-item>
+                        </div>
+                    </div>
                 </ul>
             </div>
         </draggable>
@@ -357,9 +357,6 @@ export default {
             }
         },
         onEndItem: function(event) {
-            console.log(event);
-            // const item = event.item;
-
             const categoryFrom = this.categories.find(
                 category => category.id == event.from.dataset.categoryId
             );
@@ -367,9 +364,15 @@ export default {
             const categoryTo = this.categories.find(
                 category => category.id == event.to.dataset.categoryId
             );
+            console.log(categoryTo.items.length);
+            let newIndex =
+                categoryTo.items.length == event.newIndex
+                    ? event.newIndex - 1
+                    : event.newIndex;
 
-            let newIndex = event.newIndex;
-            let newSort = categoryTo.items[event.newIndex].sort;
+            console.log(newIndex);
+
+            let newSort = categoryTo.items[newIndex].sort;
 
             if (newIndex - 1 >= 0 && newIndex + 1 < categoryTo.items.length) {
                 newSort =
@@ -378,12 +381,12 @@ export default {
                     2;
             } else if (newIndex + 1 < categoryTo.items.length) {
                 newSort = categoryTo.items[newIndex + 1].sort - 1;
-            } else {
+            } else if (newIndex - 1 >= 0) {
                 newSort = categoryTo.items[newIndex - 1].sort + 1;
             }
+
             categoryTo.items[event.newIndex].sort = newSort;
             categoryTo.items[event.newIndex].category_id = categoryTo.id;
-            console.log(categoryTo.items[event.newIndex]);
         },
         onEndCategory: function(event) {
             // this.item.sort = event.item;
@@ -398,7 +401,6 @@ export default {
         },
         sortItem: function() {
             this.sortingItem = true;
-            console.log(this.sortingItem);
         },
         sortCategory: function() {
             this.sortingCategory = true;
@@ -407,6 +409,13 @@ export default {
         saveSort: function() {
             this.sortingCategory = false;
             this.sortingItem = false;
+            // console.log(this.categories);
+            axios
+                .post("/admin/categories/sort", {
+                    categories: this.categories
+                })
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err));
         }
     },
     created() {
