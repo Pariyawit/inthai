@@ -11172,7 +11172,7 @@ textarea {
 }
 
 .list__input:disabled {
-  background-color: #fff;
+  background: inherit;
 }
 
 .list__input:hover {
@@ -11187,10 +11187,14 @@ textarea {
 .list__button {
   border: none;
   background: #189b69;
-  padding: 0 0.5rem;
+  padding: 0 0.25rem;
   border-radius: 5px;
   height: 2rem;
   color: white;
+}
+
+.list__button:focus {
+  outline: none;
 }
 
 .list__button:active {
@@ -11215,7 +11219,7 @@ textarea {
 }
 
 .list__button--cancel {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: white;
   color: #189b69;
 }
 
@@ -11284,5 +11288,78 @@ textarea {
 
 .fa-trash {
   color: #c13838;
+}
+
+.sortable-drag {
+  opacity: 1;
+}
+
+.sortable-chosen {
+  box-shadow: 12px 12px 5px #ccc;
+}
+
+.sortable-chosen .list__item {
+  border-left: 5px solid #189b69 !important;
+  background: rgba(243, 246, 9, 0.28);
+}
+
+.sortable-chosen .category__head {
+  border-left: 5px solid #189b69 !important;
+  background: rgba(243, 246, 9, 0.28) !important;
+}
+
+.ghost {
+  box-shadow: 12px 12px 5px #ccc;
+}
+
+.ghost .list__item {
+  opacity: 0.7;
+  background: rgba(243, 246, 9, 0.28);
+}
+
+.sortingCategory .category__head {
+  box-shadow: inset 5px 0px 0px 0px #f3f609;
+  padding-left: 0.5rem;
+  transition: transform 0.5s;
+  background: white;
+  border-radius: 5px;
+}
+
+.sortingCategory .list__button {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.sortingCategory .list__item {
+  display: none;
+}
+
+.sortingCategory .category--add {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.sortingItem .list__item {
+  box-shadow: inset 5px 0px 0px 0px #f3f609;
+  transition: transform 0.5s;
+}
+
+.sortingItem .list__item--head {
+  box-shadow: none;
+}
+
+.sortingItem .list__item--add,
+.sortingItem .list__button {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.sortingItem .category--add {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s;
 }
 

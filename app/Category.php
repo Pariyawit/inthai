@@ -13,7 +13,7 @@ class Category extends Model
     }
 
     public function items(){
-   		return $this->hasMany(Item::class)->orderBy('id');
+   		return $this->hasMany(Item::class)->orderBy('sort');
      }
   public static function boot() {
     parent::boot();

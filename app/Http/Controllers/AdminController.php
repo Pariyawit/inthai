@@ -17,7 +17,7 @@ class AdminController extends Controller
     public function item(){
       $page = 'item';
       
-      $categories = Category::All();
+      $categories = Category::orderBy('sort')->get();
       foreach ($categories as $category) {
           $category["items"] = $category->items;
       }

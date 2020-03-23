@@ -1,304 +1,457 @@
 <template>
-	<div class="container">
-		<li class="list__item list__item--head mb-3">
-			<div class="row">
-				<div class="list__field col-3 pl-3">
-					Item
-				</div>
-				<div class="list__field col-4 pl-1">
-					Description
-				</div>
-				<div
-					class="list__field col-1 d-flex justify-content-center align-items-center"
-				>
-					Veg
-				</div>
-				<div
-					class="list__field col-1 d-flex justify-content-center align-items-center"
-				>
-					Sold out
-				</div>
-				<div class="list__field col-1 text-right pr-1">Price ($)</div>
-			</div>
-		</li>
-		<div v-for="(category, index) in categories" :key="category.id">
-			<div class="category">
-				<div
-					class="d-flex flex-column category__head"
-					v-if="!category.editting"
-				>
-					<div class="d-flex">
-						<h3>{{ category.title }}</h3>
-						<div class="mx-3">
-							<button
-								class="list__button list__button--icon mx-1"
-								@click.prevent="editCategory(category)"
-							>
-								<i class="fa fa-edit"></i>
-							</button>
-							<button
-								class="list__button list__button--icon mx-1"
-								@click.prevent="destroyCategory(category)"
-							>
-								<i class="fa fa-trash"></i>
-							</button>
-						</div>
-					</div>
-					<p>
-						{{ category.description }}
-					</p>
-				</div>
-				<div v-else="category.editting" class="category__head--editting">
-					<div class="d-flex mb-1">
-						<ValidationObserver v-slot="{ invalid }">
-							<form action="">
-								<ValidationProvider rules="required" v-slot="{ errors }">
-									<input
-										type="text"
-										v-model="category.title"
-										class="category__input"
-									/>
-									<span class="error">{{ errors[0] }}</span>
-								</ValidationProvider>
-								<button
-									class="list__button list__button--save mx-1"
-									@click.prevent="savedCategory(category)"
-									:disabled="invalid"
-								>
-									Save
-								</button>
-								<button
-									class="list__button list__button--cancel mx-1"
-									@click.prevent="cancelCategory(category)"
-								>
-									Cancel
-								</button>
-							</form>
-						</ValidationObserver>
-					</div>
-					<textarea
-						name=""
-						v-model="category.description"
-						id=""
-						rows="2"
-						class="w-100"
-					></textarea>
-				</div>
-			</div>
-			<ul class="list">
-				<div v-for="item in category.items" :key="item.id">
-					<admin-list-item
-						:item="item"
-						:category="category"
-						:newItem="false"
-						:key="item.id"
-						@destroyItem="destroyItem"
-					></admin-list-item>
-				</div>
-				<li
-					class="list__item list__item--add"
-					v-if="!category.addingItem"
-					@click="addItem(category)"
-				>
-					+ New Item
-				</li>
+    <div
+        class="container"
+        style="padding-bottom:4rem"
+        :class="{ sortingItem: sortingItem, sortingCategory: sortingCategory }"
+    >
+        <div class="d-flex flex-row-reverse">
+            <button
+                class="btn btn-success"
+                @click.prevent="sortItem"
+                v-show="!sortingItem && !sortingCategory"
+            >
+                Sort Item
+            </button>
+            &nbsp;
+            <button
+                class="btn btn-success"
+                @click.prevent="sortCategory"
+                v-show="!sortingItem && !sortingCategory"
+            >
+                Sort Category
+            </button>
+            <button
+                class="btn btn-accent"
+                @click.prevent="saveSort"
+                v-show="sortingItem || sortingCategory"
+            >
+                Save
+            </button>
+        </div>
+        <li class="list__item list__item--head mb-3">
+            <div class="row">
+                <div class="list__field col-3 pl-3">
+                    Item
+                </div>
+                <div class="list__field col-4 pl-1">
+                    Description
+                </div>
+                <div
+                    class="list__field col-1 d-flex justify-content-center align-items-center"
+                >
+                    Veg
+                </div>
+                <div
+                    class="list__field col-1 d-flex justify-content-center align-items-center"
+                >
+                    Sold out
+                </div>
+                <div class="list__field col-1 text-right pr-1">Price ($)</div>
+            </div>
+        </li>
+        <draggable
+            v-model="categories"
+            group="categories"
+            draggable=".draggable-category"
+            @start="drag = true"
+            @end="onEndCategory"
+            ghost-class="ghost"
+            :options="{ disabled: !sortingCategory }"
+        >
+            <div
+                v-for="(category, index) in categories"
+                :key="category.id"
+                class="draggable-category"
+            >
+                <div class="category">
+                    <div
+                        class="d-flex flex-column category__head"
+                        v-if="!category.editting"
+                    >
+                        <div class="d-flex">
+                            <h3>{{ category.title }}</h3>
+                            <div class="mx-3">
+                                <button
+                                    class="list__button list__button--icon mx-1"
+                                    @click.prevent="editCategory(category)"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button
+                                    class="list__button list__button--icon mx-1"
+                                    @click.prevent="destroyCategory(category)"
+                                >
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p>
+                            {{ category.description }}
+                        </p>
+                    </div>
+                    <div
+                        v-else="category.editting"
+                        class="category__head--editting"
+                    >
+                        <div class="d-flex mb-1">
+                            <ValidationObserver v-slot="{ invalid }">
+                                <form action="">
+                                    <ValidationProvider
+                                        rules="required"
+                                        v-slot="{ errors }"
+                                    >
+                                        <input
+                                            type="text"
+                                            v-model="category.title"
+                                            class="category__input"
+                                        />
+                                        <span class="error">{{
+                                            errors[0]
+                                        }}</span>
+                                    </ValidationProvider>
+                                    <button
+                                        class="list__button list__button--save mx-1"
+                                        @click.prevent="savedCategory(category)"
+                                        :disabled="invalid"
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        class="list__button list__button--cancel mx-1"
+                                        @click.prevent="
+                                            cancelCategory(category)
+                                        "
+                                    >
+                                        Cancel
+                                    </button>
+                                </form>
+                            </ValidationObserver>
+                        </div>
+                        <textarea
+                            name=""
+                            v-model="category.description"
+                            id=""
+                            rows="2"
+                            class="w-100"
+                        ></textarea>
+                    </div>
+                </div>
+                <ul class="list">
+                    <draggable
+                        v-model="category.items"
+                        group="items"
+                        draggable=".draggable-item"
+                        @start="drag = true"
+                        @end="onEndItem"
+                        ghost-class="ghost"
+                        :data-category-id="category.id"
+                        :options="{ disabled: !sortingItem }"
+                    >
+                        <div
+                            v-for="item in category.items"
+                            :key="item.id"
+                            class="draggable-item"
+                            :data-sort="item.sort"
+                            :data-item-id="item.id"
+                        >
+                            <admin-list-item
+                                :item="item"
+                                :category="category"
+                                :newItem="false"
+                                :key="item.id"
+                                @destroyItem="destroyItem"
+                            ></admin-list-item>
+                        </div>
+                    </draggable>
+                    <div slot="footer">
+                        <li
+                            class="list__item list__item--add"
+                            v-if="!category.addingItem"
+                            @click="addItem(category)"
+                        >
+                            + New Item
+                        </li>
 
-				<div v-if="category.addingItem">
-					<admin-list-item
-						:item="[]"
-						:category="category"
-						:newItem="true"
-						@destroyItem="destroyItem"
-						@cancel="cancel"
-						@saved="saved"
-					></admin-list-item>
-				</div>
-			</ul>
-		</div>
-		<div class="category">
-			<div
-				class="d-flex flex-column category--add"
-				v-if="!addingCategory"
-				@click="addCategory"
-			>
-				+ New Category
-			</div>
-			<div v-else class="category__head--editting">
-				<div class="d-flex mb-1">
-					<ValidationObserver v-slot="{ invalid }">
-						<form action="">
-							<ValidationProvider rules="required" v-slot="{ errors }">
-								<input
-									type="text"
-									v-model="newCategory.title"
-									class="category__input"
-								/>
-								<span class="error">{{ errors[0] }}</span>
-							</ValidationProvider>
-							<button
-								class="list__button list__button--save mx-1"
-								@click.prevent="storeCategory()"
-								:disabled="invalid"
-							>
-								Save
-							</button>
-							<button
-								class="list__button list__button--cancel mx-1"
-								@click.prevent="cancelNewCategory()"
-							>
-								Cancel
-							</button>
-						</form>
-					</ValidationObserver>
-				</div>
-				<textarea
-					name=""
-					v-model="newCategory.description"
-					id=""
-					rows="2"
-					class="w-100"
-				></textarea>
-			</div>
-		</div>
-	</div>
+                        <div v-if="category.addingItem">
+                            <admin-list-item
+                                :item="[]"
+                                :category="category"
+                                :newItem="true"
+                                @destroyItem="destroyItem"
+                                @cancel="cancel"
+                                @saved="saved"
+                            ></admin-list-item>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </draggable>
+        <div class="category">
+            <div
+                class="d-flex flex-column category--add"
+                v-if="!addingCategory"
+                @click="addCategory"
+            >
+                + New Category
+            </div>
+            <div v-else class="category__head--editting">
+                <div class="d-flex mb-1">
+                    <ValidationObserver v-slot="{ invalid }">
+                        <form action="">
+                            <ValidationProvider
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
+                                <input
+                                    type="text"
+                                    v-model="newCategory.title"
+                                    class="category__input"
+                                />
+                                <span class="error">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                            <button
+                                class="list__button list__button--save mx-1"
+                                @click.prevent="storeCategory()"
+                                :disabled="invalid"
+                            >
+                                Save
+                            </button>
+                            <button
+                                class="list__button list__button--cancel mx-1"
+                                @click.prevent="cancelNewCategory()"
+                            >
+                                Cancel
+                            </button>
+                        </form>
+                    </ValidationObserver>
+                </div>
+                <textarea
+                    name=""
+                    v-model="newCategory.description"
+                    id=""
+                    rows="2"
+                    class="w-100"
+                ></textarea>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 import AdminListItem from "../components/AdminListItem.vue";
 import {
-	ValidationProvider,
-	ValidationObserver
+    ValidationProvider,
+    ValidationObserver
 } from "vee-validate/dist/vee-validate.full";
+import draggable from "vuedraggable";
 export default {
-	components: {
-		AdminListItem,
-		ValidationProvider,
-		ValidationObserver
-	},
-	data: function() {
-		return {
-			categories: [],
-			title: "",
-			description: "",
-			newCategory: {
-				title: "",
-				description: ""
-			},
-			addingCategory: false
-		};
-	},
-	methods: {
-		addItem: function(category) {
-			category.addingItem = true;
-		},
-		saved: function(category) {
-			category.addingItem = false;
-		},
-		cancel: function(category) {
-			category.addingItem = false;
-		},
-		destroyItem: function(item, category) {
-			if (confirm("Delete " + item.title + " ?")) {
-				axios
-					.delete("/admin/items/" + item.id)
-					.then(res => console.log(res))
-					.catch(err => console.log(err));
+    components: {
+        AdminListItem,
+        ValidationProvider,
+        ValidationObserver,
+        draggable
+    },
+    data: function() {
+        return {
+            categories: [],
+            title: "",
+            description: "",
+            newCategory: {
+                title: "",
+                description: ""
+            },
+            addingCategory: false,
+            oldItemIndex: "",
+            newItemIndex: "",
+            sortingItem: false,
+            sortingCategory: false
+        };
+    },
+    methods: {
+        addItem: function(category) {
+            category.addingItem = true;
+        },
+        saved: function(category) {
+            category.addingItem = false;
+        },
+        cancel: function(category) {
+            category.addingItem = false;
+        },
+        destroyItem: function(item, category) {
+            if (confirm("Delete " + item.title + " ?")) {
+                axios
+                    .delete("/admin/items/" + item.id)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
 
-				console.log(item);
-				let items = category.items;
-				for (let i = 0; i < items.length; i++) {
-					if (items[i].id == item.id) {
-						items = items.splice(i, 1);
-						return;
-					}
-				}
-			}
-		},
-		addCategory: function() {
-			this.addingCategory = true;
-		},
-		cancelNewCategory: function() {
-			this.addingCategory = false;
-			this.newCategory = {
-				title: "",
-				description: ""
-			};
-		},
-		storeCategory: function() {
-			this.addingCategory = false;
-			axios
-				.post("/admin/categories", this.newCategory)
-				.then(res => {
-					console.log(res.data);
-					const tmp = {
-						...res.data,
-						addingItem: false,
-						editting: false,
-						items: []
-					};
-					this.categories.push(tmp);
-				})
-				.catch(err => console.log(err));
-		},
-		editCategory: function(category) {
-			category.editting = true;
-			this.title = category.title;
-			this.description = category.description;
-			console.log(this.categories);
-		},
-		savedCategory: function(category) {
-			category.editting = false;
-			axios
-				.post("/admin/categories/" + category.id, category)
-				.then(res => {
-					console.log(res.data);
-				})
-				.catch(err => console.log(err));
-		},
-		cancelCategory: function(category) {
-			category.editting = false;
-			category.title = this.title;
-			category.description = this.description;
-			console.log(this.categories);
-		},
-		destroyCategory: function(category) {
-			if (confirm("Delete '" + category.title + "' and all of its items?")) {
-				axios
-					.delete("/admin/categories/" + category.id)
-					.then(res => {
-						console.log(res.data);
-					})
-					.catch(err => console.log(err));
-				this.categories = this.categories.filter(cat => cat.id != category.id);
-			}
-		}
-	},
-	created() {
-		sessionStorage.clear();
-		let vm = this;
-		axios
-			.get("/categories")
-			.then(function(response) {
-				// vm.categories = response.data;
-				let categories = response.data;
-				categories.forEach(category => {
-					category.addingItem = false;
-					category.editting = false;
-					vm.categories.push(category);
-				});
-			})
-			.catch(err => console.log(err));
-	}
+                console.log(item);
+                let items = category.items;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].id == item.id) {
+                        items = items.splice(i, 1);
+                        return;
+                    }
+                }
+            }
+        },
+        addCategory: function() {
+            this.addingCategory = true;
+        },
+        cancelNewCategory: function() {
+            this.addingCategory = false;
+            this.newCategory = {
+                title: "",
+                description: ""
+            };
+        },
+        storeCategory: function() {
+            this.addingCategory = false;
+            axios
+                .post("/admin/categories", this.newCategory)
+                .then(res => {
+                    console.log(res.data);
+                    const tmp = {
+                        ...res.data,
+                        addingItem: false,
+                        editting: false,
+                        items: []
+                    };
+                    this.categories.push(tmp);
+                })
+                .catch(err => console.log(err));
+        },
+        editCategory: function(category) {
+            category.editting = true;
+            this.title = category.title;
+            this.description = category.description;
+            console.log(this.categories);
+        },
+        savedCategory: function(category) {
+            category.editting = false;
+            axios
+                .post("/admin/categories/" + category.id, category)
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => console.log(err));
+        },
+        cancelCategory: function(category) {
+            category.editting = false;
+            category.title = this.title;
+            category.description = this.description;
+            console.log(this.categories);
+        },
+        destroyCategory: function(category) {
+            if (
+                confirm("Delete '" + category.title + "' and all of its items?")
+            ) {
+                axios
+                    .delete("/admin/categories/" + category.id)
+                    .then(res => {
+                        console.log(res.data);
+                    })
+                    .catch(err => console.log(err));
+                this.categories = this.categories.filter(
+                    cat => cat.id != category.id
+                );
+            }
+        },
+        onEndItem: function(event) {
+            const categoryFrom = this.categories.find(
+                category => category.id == event.from.dataset.categoryId
+            );
+
+            const categoryTo = this.categories.find(
+                category => category.id == event.to.dataset.categoryId
+            );
+            console.log(categoryTo.items.length);
+            let newIndex =
+                categoryTo.items.length == event.newIndex
+                    ? event.newIndex - 1
+                    : event.newIndex;
+
+            console.log(newIndex);
+
+            let newSort = categoryTo.items[newIndex].sort;
+
+            if (newIndex - 1 >= 0 && newIndex + 1 < categoryTo.items.length) {
+                newSort =
+                    (categoryTo.items[newIndex + 1].sort +
+                        categoryTo.items[newIndex - 1].sort) /
+                    2;
+            } else if (newIndex + 1 < categoryTo.items.length) {
+                newSort = categoryTo.items[newIndex + 1].sort - 1;
+            } else if (newIndex - 1 >= 0) {
+                newSort = categoryTo.items[newIndex - 1].sort + 1;
+            }
+
+            categoryTo.items[event.newIndex].sort = newSort;
+            categoryTo.items[event.newIndex].category_id = categoryTo.id;
+        },
+        onEndCategory: function(event) {
+            const item = event.item;
+            console.log(item);
+        },
+        sortItem: function() {
+            this.sortingItem = true;
+        },
+        sortCategory: function() {
+            this.sortingCategory = true;
+        },
+        saveSort: function() {
+            this.sortingCategory = false;
+            this.sortingItem = false;
+            axios
+                .post("/admin/categories/sort", {
+                    categories: this.categories.map(category => {
+                        return {
+                            id: category.id,
+                            sort: category.sort,
+                            items: category.items.map(item => {
+                                return {
+                                    id: item.id,
+                                    category_id: item.category_id,
+                                    sort: item.sort
+                                };
+                            })
+                        };
+                    })
+                })
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err));
+        }
+    },
+    created() {
+        sessionStorage.clear();
+        let vm = this;
+        axios
+            .get("/categories")
+            .then(function(response) {
+                // vm.categories = response.data;
+                let categories = response.data;
+                categories.forEach(category => {
+                    category.addingItem = false;
+                    category.editting = false;
+                    vm.categories.push(category);
+                });
+                vm.categories.sort((a, b) => {
+                    if (a.sort > b.sort) return 1;
+                    if (a.sort < b.sort) return -1;
+                    return 0;
+                });
+            })
+            .catch(err => console.log(err));
+    }
 };
 </script>
 
 <style lang="scss" scoped>
 .error {
-	position: absolute;
-	bottom: -1rem;
-	left: 1rem;
-	background: yellow;
-	height: 1.25rem;
-	line-height: 1.25rem;
+    position: absolute;
+    bottom: -1rem;
+    left: 1rem;
+    background: yellow;
+    height: 1.25rem;
+    line-height: 1.25rem;
 }
 </style>
