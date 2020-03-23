@@ -364,13 +364,10 @@ export default {
             const categoryTo = this.categories.find(
                 category => category.id == event.to.dataset.categoryId
             );
-            console.log(categoryTo.items.length);
             let newIndex =
                 categoryTo.items.length == event.newIndex
                     ? event.newIndex - 1
                     : event.newIndex;
-
-            console.log(newIndex);
 
             let newSort = categoryTo.items[newIndex].sort;
 
@@ -390,7 +387,6 @@ export default {
         },
         onEndCategory: function(event) {
             const item = event.item;
-            console.log(item);
         },
         sortItem: function() {
             this.sortingItem = true;
