@@ -2662,9 +2662,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var categoryTo = this.categories.find(function (category) {
         return category.id == event.to.dataset.categoryId;
       });
-      console.log(categoryTo.items.length);
       var newIndex = categoryTo.items.length == event.newIndex ? event.newIndex - 1 : event.newIndex;
-      console.log(newIndex);
       var newSort = categoryTo.items[newIndex].sort;
 
       if (newIndex - 1 >= 0 && newIndex + 1 < categoryTo.items.length) {
@@ -2680,7 +2678,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     onEndCategory: function onEndCategory(event) {
       var item = event.item;
-      console.log(item);
     },
     sortItem: function sortItem() {
       this.sortingItem = true;
@@ -2745,6 +2742,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3125,6 +3163,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3401,6 +3450,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8332,7 +8392,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.order-item-list {\n\ttransition: height 0.5s;\n}\n.order-item-list .price {\n\tmin-width: 50px;\n\ttext-align: right;\n}\nbutton.order-now:disabled {\n\tbackground: lightgray;\n\tborder: none;\n}\nbutton.order-now {\n\tfont-size: 1.25rem;\n\theight: 3rem;\n}\n.home .order-item {\n\tfont-size: 0.8rem;\n}\n.order-item .quantity {\n\tmin-width: 20px;\n}\n.basket-total {\n\tposition: -webkit-sticky;\n\tposition: sticky;\n\ttop: 25px;\n\tcolor: white;\n\tz-index: 2;\n}\n", ""]);
+exports.push([module.i, "\n.order-item-list {\n    transition: height 0.5s;\n}\n.order-item-list .price {\n    min-width: 50px;\n    text-align: right;\n}\nbutton.order-now:disabled {\n    background: lightgray;\n    border: none;\n}\nbutton.order-now {\n    font-size: 1.25rem;\n    height: 3rem;\n}\n.home .order-item {\n    font-size: 0.8rem;\n}\n.order-item .quantity {\n    min-width: 20px;\n}\n.basket-total {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 25px;\n    color: white;\n    z-index: 2;\n}\n", ""]);
 
 // exports
 
@@ -8370,7 +8430,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.place-order .btn-accent {\n\theight: 3rem;\n\tfont-size: 1.25rem;\n}\n.place-order .submitting {\n\tfont-weight: 400;\n\tfont-size: 0.9rem;\n\tcolor: black;\n}\n", ""]);
+exports.push([module.i, "\n.place-order .btn-accent {\n    height: 3rem;\n    font-size: 1.25rem;\n}\n.place-order .submitting {\n    font-weight: 400;\n    font-size: 0.9rem;\n    color: black;\n}\n", ""]);
 
 // exports
 
@@ -47631,7 +47691,11 @@ var render = function() {
                   { key: category.id, staticClass: "category pb-5" },
                   [
                     _c("h3", { attrs: { id: "category" + category.id } }, [
-                      _vm._v(_vm._s(category.title))
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(category.title) +
+                          "\n                        "
+                      )
                     ]),
                     _vm._v(" "),
                     _c("span", [
@@ -47678,7 +47742,9 @@ var render = function() {
                     "h5",
                     { staticClass: "card-title" },
                     [
-                      _vm._v("\n\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t"),
+                      _vm._v(
+                        "\n                            Total\n                            "
+                      ),
                       _c(
                         "transition",
                         {
@@ -47691,7 +47757,12 @@ var render = function() {
                           _c(
                             "span",
                             { key: _vm.total, staticClass: "float-right" },
-                            [_vm._v(" $" + _vm._s(_vm.total))]
+                            [
+                              _vm._v(
+                                "\n                                    $" +
+                                  _vm._s(_vm.total.toFixed(2))
+                              )
+                            ]
                           )
                         ]
                       )
@@ -47718,7 +47789,9 @@ var render = function() {
                 "h5",
                 { staticClass: "card-title" },
                 [
-                  _vm._v("\n\t\t\t\t\t\tTotal\n\t\t\t\t\t\t"),
+                  _vm._v(
+                    "\n                        Total\n                        "
+                  ),
                   _c(
                     "transition",
                     {
@@ -47731,7 +47804,7 @@ var render = function() {
                       _c(
                         "span",
                         { key: _vm.total, staticClass: "float-right" },
-                        [_vm._v("$" + _vm._s(_vm.total))]
+                        [_vm._v("$" + _vm._s(_vm.total.toFixed(2)))]
                       )
                     ]
                   )
@@ -47756,9 +47829,9 @@ var render = function() {
                       35 - _vm.total > 0
                         ? _c("div", { staticClass: "pb-1" }, [
                             _vm._v(
-                              "\n\t\t\t\t\t\t\t\tSpend $" +
-                                _vm._s(35 - _vm.total) +
-                                " more for delivery\n\t\t\t\t\t\t\t"
+                              "\n                                Spend $" +
+                                _vm._s((35 - _vm.total).toFixed(2)) +
+                                " more\n                                for delivery\n                            "
                             )
                           ])
                         : _vm._e()
@@ -47772,7 +47845,11 @@ var render = function() {
                       attrs: { disabled: _vm.total >= 35 ? false : true },
                       on: { click: _vm.createOrder }
                     },
-                    [_vm._v("\n\t\t\t\t\t\t\tOrder Now\n\t\t\t\t\t\t")]
+                    [
+                      _vm._v(
+                        "\n                            Order Now\n                        "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -47814,7 +47891,11 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "mr-1 quantity" }, [
-                              _vm._v(_vm._s(order.quantity) + "x")
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(order.quantity) +
+                                  "x\n                                    "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
@@ -47836,9 +47917,13 @@ var render = function() {
                                   [
                                     _c("span", { key: order.quantity }, [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t$ " +
-                                          _vm._s(order.price * order.quantity) +
-                                          "\n\t\t\t\t\t\t\t\t\t\t\t"
+                                        "\n                                                $\n                                                " +
+                                          _vm._s(
+                                            (
+                                              order.price * order.quantity
+                                            ).toFixed(2)
+                                          ) +
+                                          "\n                                            "
                                       )
                                     ])
                                   ]
@@ -47868,9 +47953,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", [
                     _c("strong", [
-                      _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
+                      _vm._v(
+                        "\n                                    Total\n                                    "
+                      ),
                       _c("span", { staticClass: "float-right" }, [
-                        _vm._v("$" + _vm._s(_vm.total))
+                        _vm._v("$" + _vm._s(_vm.total.toFixed(2)))
                       ])
                     ])
                   ])
@@ -47940,7 +48027,7 @@ var staticRenderFns = [
           },
           [
             _c("h1", { staticClass: "font-weight-bold" }, [
-              _vm._v("\n\t\t\t\tIn Thai Style Restaurant\n\t\t\t")
+              _vm._v("\n                In Thai Style Restaurant\n            ")
             ]),
             _vm._v(" "),
             _c("span", [
@@ -47952,7 +48039,9 @@ var staticRenderFns = [
                     staticClass: "fas fa-map-marker-alt",
                     staticStyle: { "font-size": "1.125rem" }
                   }),
-                  _vm._v("  778 The Entrance Rd, Wamberal NSW 2260\n\t\t\t\t")
+                  _vm._v(
+                    "  778 The Entrance Rd, Wamberal NSW 2260\n                "
+                  )
                 ]
               )
             ])
@@ -47968,7 +48057,7 @@ var staticRenderFns = [
     return _c("p", [
       _c("strong", [_vm._v("Leave a note")]),
       _vm._v(
-        " for the restaurant with anything\n\t\t\t\t\t\t\t\twe need to know. Do not include details about any allergies.\n\t\t\t\t\t\t\t"
+        " for the\n                                restaurant with anything we need to know. Do\n                                not include details about any allergies.\n                            "
       )
     ])
   }
@@ -48019,15 +48108,15 @@ var render = function() {
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                "\n\t\t\t\t\t\t" +
+                "\n                        " +
                   _vm._s(_vm.deliveryRequest.address) +
-                  "\n\t\t\t\t\t\t"
+                  "\n                        "
               ),
               _c("br"),
               _vm._v(
-                "\n\t\t\t\t\t\t" +
+                "\n                        " +
                   _vm._s(_vm.deliveryRequest.address2) +
-                  "\n\t\t\t\t\t"
+                  "\n                    "
               )
             ]),
             _vm._v(" "),
@@ -48069,7 +48158,11 @@ var render = function() {
                   [
                     _c("div", { staticClass: "d-flex" }, [
                       _c("div", { staticClass: "mr-1 quantity" }, [
-                        _vm._v(_vm._s(order.quantity) + "x")
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(order.quantity) +
+                            "x\n                                "
+                        )
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
@@ -48078,9 +48171,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "ml-auto price" }, [
                         _vm._v(
-                          "\n\t\t\t\t\t\t\t\t\t$ " +
-                            _vm._s(order.price * order.quantity) +
-                            "\n\t\t\t\t\t\t\t\t"
+                          "\n                                    $\n                                    " +
+                            _vm._s((order.price * order.quantity).toFixed(2)) +
+                            "\n                                "
                         )
                       ])
                     ])
@@ -48102,9 +48195,11 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _c("strong", [
-                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
+                    _vm._v(
+                      "\n                                    Total\n                                    "
+                    ),
                     _c("span", { staticClass: "float-right" }, [
-                      _vm._v("$" + _vm._s(_vm.orderRequest.total))
+                      _vm._v("$" + _vm._s(_vm.orderRequest.total.toFixed(2)))
                     ])
                   ])
                 ])
@@ -48758,15 +48853,15 @@ var render = function() {
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                "\n\t\t\t\t\t\t" +
+                "\n                        " +
                   _vm._s(_vm.deliveryRequest.address) +
-                  "\n\t\t\t\t\t\t"
+                  "\n                        "
               ),
               _c("br"),
               _vm._v(
-                "\n\t\t\t\t\t\t" +
+                "\n                        " +
                   _vm._s(_vm.deliveryRequest.address2) +
-                  "\n\t\t\t\t\t"
+                  "\n                    "
               )
             ]),
             _vm._v(" "),
@@ -48808,7 +48903,11 @@ var render = function() {
                   [
                     _c("div", { staticClass: "d-flex" }, [
                       _c("div", { staticClass: "mr-1 quantity" }, [
-                        _vm._v(_vm._s(order.quantity) + "x")
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(order.quantity) +
+                            "x\n                                "
+                        )
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "mr-1 flex-shrink-1" }, [
@@ -48817,9 +48916,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "ml-auto price" }, [
                         _vm._v(
-                          "\n\t\t\t\t\t\t\t\t\t$ " +
-                            _vm._s(order.price * order.quantity) +
-                            "\n\t\t\t\t\t\t\t\t"
+                          "\n                                    $\n                                    " +
+                            _vm._s((order.price * order.quantity).toFixed(2)) +
+                            "\n                                "
                         )
                       ])
                     ])
@@ -48841,9 +48940,11 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", [
                   _c("strong", [
-                    _vm._v("\n\t\t\t\t\t\t\t\t\tTotal\n\t\t\t\t\t\t\t\t\t"),
+                    _vm._v(
+                      "\n                                    Total\n                                    "
+                    ),
                     _c("span", { staticClass: "float-right" }, [
-                      _vm._v("$" + _vm._s(_vm.orderRequest.total))
+                      _vm._v("$" + _vm._s(_vm.orderRequest.total.toFixed(2)))
                     ])
                   ])
                 ])
@@ -48893,7 +48994,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n\t\t\t\t\t\t\tPLACE MY ORDER\n\t\t\t\t\t\t")]
+                    [
+                      _vm._v(
+                        "\n                            PLACE MY ORDER\n                        "
+                      )
+                    ]
                   )
                 : _c(
                     "button",
@@ -48907,7 +49012,7 @@ var render = function() {
                         { staticClass: "animated flash infinite slow" },
                         [
                           _vm._v(
-                            "\n\t\t\t\t\t\t\t\t...Submitting your order...\n\t\t\t\t\t\t\t"
+                            "\n                                ...Submitting your order...\n                            "
                           )
                         ]
                       )
