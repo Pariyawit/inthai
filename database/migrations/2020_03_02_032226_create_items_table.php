@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->decimal('price',8,2);
             $table->boolean('vegetarian')->default(false);
             $table->boolean('sold_out')->default(false);
+            $table->integer('sort');
 
             $table->index('category_id');
 

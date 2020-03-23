@@ -282,7 +282,8 @@ textarea {
         background: rgba(243, 246, 9, 0.28);
         height: 2rem;
         &:disabled {
-            background-color: #fff;
+            // background-color: #fff;
+            background: inherit;
         }
         &:hover {
             overflow: visible;
@@ -295,10 +296,12 @@ textarea {
     &__button {
         border: none;
         background: $primary;
-        padding: 0 0.5rem;
+        padding: 0 0.25rem;
         border-radius: 5px;
         height: 2rem;
-
+        &:focus {
+            outline: none;
+        }
         &:active {
             background-color: white;
             color: $primary;
@@ -318,8 +321,7 @@ textarea {
             }
         }
         &--cancel {
-            // background-color: white;
-            background-color: rgba(255, 255, 255, 0);
+            background-color: white;
             color: $primary;
         }
     }
@@ -328,8 +330,6 @@ textarea {
 .status {
     border-radius: 5px;
     padding: 0.25rem 1rem;
-    // width: 100%;
-    // max-width: 50px;
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
@@ -387,3 +387,74 @@ textarea {
 .fa-trash {
     color: #c13838;
 }
+// ===============Start Draggable
+.sortable-drag {
+    opacity: 1;
+}
+
+.sortable-chosen {
+    box-shadow: 12px 12px 5px #ccc;
+    .list__item {
+        border-left: 5px solid $primary !important;
+        background: rgba(243, 246, 9, 0.28);
+    }
+    .category__head {
+        border-left: 5px solid $primary !important;
+        background: rgba(243, 246, 9, 0.28) !important;
+    }
+}
+
+.ghost {
+    box-shadow: 12px 12px 5px #ccc;
+    .list__item {
+        opacity: 0.7;
+        background: rgba(243, 246, 9, 0.28);
+    }
+}
+
+.sortingCategory {
+    .category__head {
+        // border-left: 0.5rem solid $accent;
+        box-shadow: inset 5px 0px 0px 0px $accent;
+        padding-left: 0.5rem;
+        transition: transform 0.5s;
+        background: white;
+        border-radius: 5px;
+    }
+    .list__button {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+    .list__item {
+        display: none;
+    }
+    .category--add {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+}
+
+.sortingItem {
+    .list__item {
+        // border-left: 3px solid $accent;
+        box-shadow: inset 5px 0px 0px 0px $accent;
+        transition: transform 0.5s;
+        &--head {
+            box-shadow: none;
+        }
+    }
+    .list__item--add,
+    .list__button {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+    .category--add {
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 1s;
+    }
+}
+// ===============END Draggable

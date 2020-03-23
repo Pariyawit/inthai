@@ -15,7 +15,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        $categories = Category::All();
+        $categories = Category::orderBy('sort')->get();
         foreach ($categories as $category) {
             $category["items"] = $category->items;
         }
