@@ -2672,7 +2672,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.sortingCategory = true;
       console.log(this.sortingCategory);
     },
-    cancelSort: function cancelSort() {
+    saveSort: function saveSort() {
       this.sortingCategory = false;
       this.sortingItem = false;
     }
@@ -46954,7 +46954,7 @@ var render = function() {
             on: {
               click: function($event) {
                 $event.preventDefault()
-                return _vm.cancelSort($event)
+                return _vm.saveSort($event)
               }
             }
           },

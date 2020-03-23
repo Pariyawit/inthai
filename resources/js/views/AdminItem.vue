@@ -20,7 +20,7 @@
             </button>
             <button
                 class="btn btn-success"
-                @click.prevent="cancelSort"
+                @click.prevent="saveSort"
                 v-show="sortingItem || sortingCategory"
             >
                 Cancel
@@ -384,7 +384,7 @@ export default {
             this.sortingCategory = true;
             console.log(this.sortingCategory);
         },
-        cancelSort: function() {
+        saveSort: function() {
             this.sortingCategory = false;
             this.sortingItem = false;
         }

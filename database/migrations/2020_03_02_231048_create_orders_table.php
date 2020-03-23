@@ -19,7 +19,6 @@ class CreateOrdersTable extends Migration
             $table->decimal('total',8,2);
             $table->string('status');
             $table->dateTime('delivery_time');
-            $table->integer('sort');
             $table->timestamps();
         });
     }

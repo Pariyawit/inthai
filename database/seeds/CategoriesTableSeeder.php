@@ -12,17 +12,21 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
-            'title' => "Entrée"
+            'title' => "Entrée",
+            'sort'=>0
         ]);
         DB::table('categories')->insert([
-            'title' => "In Thai House"
+            'title' => "In Thai House",
+            'sort'=>1
         ]);
         DB::table('categories')->insert([
             'title' => "Curries",
-            'description' => "A choice of vegetable, tofu, chicken, beef, pork, barramundi fillet, duck or prawns."
+            'description' => "A choice of vegetable, tofu, chicken, beef, pork, barramundi fillet, duck or prawns.",
+            'sort'=>2
         ]);
         DB::table('categories')->insert([
-            'title' => "Rice"
+            'title' => "Rice",
+            'sort'=>3
         ]);
         // DB::table('categories')->insert([
         //     'title' => "Friend Rice"
