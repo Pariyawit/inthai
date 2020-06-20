@@ -2541,6 +2541,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2564,18 +2578,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       oldItemIndex: "",
       newItemIndex: "",
       sortingItem: false,
-      sortingCategory: false
+      sortingCategory: false,
+      addingItem: false // editingContent: false
+
     };
   },
   methods: {
     addItem: function addItem(category) {
       category.addingItem = true;
+      this.addingItem = true;
     },
     saved: function saved(category) {
       category.addingItem = false;
+      this.addingItem = false;
     },
     cancel: function cancel(category) {
       category.addingItem = false;
+      this.addingItem = false;
     },
     destroyItem: function destroyItem(item, category) {
       if (confirm("Delete " + item.title + " ?")) {
@@ -47011,8 +47030,13 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: !_vm.sortingItem && !_vm.sortingCategory,
-                expression: "!sortingItem && !sortingCategory"
+                value:
+                  !_vm.sortingItem &&
+                  !_vm.sortingCategory &&
+                  !_vm.addingCategory &&
+                  !_vm.addingItem,
+                expression:
+                  "\n                !sortingItem &&\n                    !sortingCategory &&\n                    !addingCategory &&\n                    !addingItem\n            "
               }
             ],
             staticClass: "btn btn-success",
@@ -47033,8 +47057,13 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: !_vm.sortingItem && !_vm.sortingCategory,
-                expression: "!sortingItem && !sortingCategory"
+                value:
+                  !_vm.sortingItem &&
+                  !_vm.sortingCategory &&
+                  !_vm.addingCategory &&
+                  !_vm.addingItem,
+                expression:
+                  "\n                !sortingItem &&\n                    !sortingCategory &&\n                    !addingCategory &&\n                    !addingItem\n            "
               }
             ],
             staticClass: "btn btn-success",
@@ -47382,6 +47411,9 @@ var render = function() {
                           "li",
                           {
                             staticClass: "list__item list__item--add",
+                            style: [
+                              _vm.addingItem ? { visibility: "hidden" } : {}
+                            ],
                             on: {
                               click: function($event) {
                                 return _vm.addItem(category)
@@ -47432,6 +47464,7 @@ var render = function() {
               "div",
               {
                 staticClass: "d-flex flex-column category--add",
+                style: _vm.addingItem ? { visibility: "hidden" } : {},
                 on: { click: _vm.addCategory }
               },
               [_vm._v("\n            + New Category\n        ")]

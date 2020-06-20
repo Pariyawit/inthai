@@ -8,7 +8,12 @@
             <button
                 class="btn btn-success"
                 @click.prevent="sortItem"
-                v-show="!sortingItem && !sortingCategory"
+                v-show="
+                    !sortingItem &&
+                        !sortingCategory &&
+                        !addingCategory &&
+                        !addingItem
+                "
             >
                 Sort Item
             </button>
@@ -16,7 +21,12 @@
             <button
                 class="btn btn-success"
                 @click.prevent="sortCategory"
-                v-show="!sortingItem && !sortingCategory"
+                v-show="
+                    !sortingItem &&
+                        !sortingCategory &&
+                        !addingCategory &&
+                        !addingItem
+                "
             >
                 Sort Category
             </button>
@@ -167,6 +177,9 @@
                         <li
                             class="list__item list__item--add"
                             v-if="!category.addingItem"
+                            :style="[
+                                addingItem ? { visibility: 'hidden' } : {}
+                            ]"
                             @click="addItem(category)"
                         >
                             + New Item
@@ -190,6 +203,7 @@
             <div
                 class="d-flex flex-column category--add"
                 v-if="!addingCategory"
+                :style="addingItem ? { visibility: 'hidden' } : {}"
                 @click="addCategory"
             >
                 + New Category
@@ -264,18 +278,23 @@ export default {
             oldItemIndex: "",
             newItemIndex: "",
             sortingItem: false,
-            sortingCategory: false
+            sortingCategory: false,
+            addingItem: false
+            // editingContent: false
         };
     },
     methods: {
         addItem: function(category) {
             category.addingItem = true;
+            this.addingItem = true;
         },
         saved: function(category) {
             category.addingItem = false;
+            this.addingItem = false;
         },
         cancel: function(category) {
             category.addingItem = false;
+            this.addingItem = false;
         },
         destroyItem: function(item, category) {
             if (confirm("Delete " + item.title + " ?")) {
